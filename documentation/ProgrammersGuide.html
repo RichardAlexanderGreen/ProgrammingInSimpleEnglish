@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Hum - Programmers' Guide</title>
-  <link href="styleV2.css" rel=STYLESHEET type="text/css">
+  <link href="styles.css" rel=STYLESHEET type="text/css">
 </head>
 <body>
 <!--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
@@ -24,7 +24,7 @@
 <b style="font-size:16">Programming in Hum</b> <a href="#ProgrammingInHum">_</a>
 
 <b>. Tutorial 1 - Making A Plan</b>                   
-. . Task Frames          <a href="#TaskFrames">_</a>
+. . Goal Frames          <a href="#GoalFrames">_</a>
 . . Plan Tree            <a href="#PlanTree">_</a>
 . . Ontology             <a href="#Ontology">_</a>
 . . Executing The Plan   <a href="#ExecutingThePlan">_</a>
@@ -46,7 +46,7 @@
 . . Speech-Based Dialogs  <a href="#SpeechBasedDialogs">_</a>
 . . Talking Heads         <a href="#TalkingHeads">_</a>
 
-<b>. Tutorial 5 - Handling Task Exceptions</b>
+<b>. Tutorial 5 - Handling Run-Time Exceptions</b>
 . . When things go wrong   <a href="#WhenThingsGoWrong">_</a>
 . . Stock Out              <a href="#StockOut">_</a>
 . . No Bid                 <a href="#NoBid">_</a>
@@ -103,7 +103,7 @@
   The notations shown here are for the English-language version of Hum
   which we refer to as "Hum English". 
   The concepts of Hum are the same from language to language.
-  Basic concepts such as entities, attributes, tasks, procedures
+  Basic concepts such as entities, attributes, goals, procedures
     are present in all written languages.
   But the notation may vary to accommodate the conventions
     and keyboards associated with different languages.
@@ -144,7 +144,7 @@
 <a name="WhatIsHum"></a>
 <h3>What is Hum? What is Rube?</h3>  <ul>    <li>Hum is a programming framework.
         A programming framework consists of a set of notations, 
-        a translater which produces a ready-to-run form from the notations, 
+        a translator which produces a ready-to-run "executable" form from the notations, 
         and a run-time system where we can run the executable form.
         Hum English is the English version of Hum based on written English.
         <br />Rube is the <i>run-time system</i> that executes programs written in Hum.
@@ -162,7 +162,7 @@
             <br/>or, to actually
             <br /><i>operate a business process</i>.</li>      </ul>
     </li>    <li>The Hum language includes <b>notations</b> representing ...      <ul>        <li>Process knowledge - 
-            <a href="FrameTypes.html#TaskFrame">Task Frames</a>
+            <a href="FrameTypes.html#GoalFrame">Goal Frames</a>
             and 
             <a href="FrameTypes.html#RoleFrame">Role Frames</a>
             </li>        <li>Ontology - 
@@ -202,7 +202,7 @@
               and entity-attribute values when they are changed.
           </li>             </ul>
     </li>  </ul><!-- ......................................................................... -->
-<a name="HowDoesHumWork"></a>    <h3>How does Hum work?</h3>    <ul>      <li><i>Plans</i> contain <i>tasks</i> 
+<a name="HowDoesHumWork"></a>    <h3>How does Hum work?</h3>    <ul>      <li><i>Plans</i> contain <i>goals</i> 
           with <i>actions</i> 
           that are assigned to <i>roles</i>.
       <li><i>Resource Managerss</i> assign the actions to <i>actors</i>              who know the <i>roles</i>.</li>      <li>The <i>actors</i> consume <i>resources</i> that are allocated          and assigned from various resource <i>pools</i>.</li>      <li><i>Resource</i> utilization is tracked by the <i>Bookkeeper.</i></li>      <li>In <i>simulation</i> mode, 
@@ -211,7 +211,7 @@
 <!-- ......................................................................... -->
 <a name="WhatMightHumBeUsedFor"></a>
 <h3>What might Hum be used for?</h3>    <ul>      <li>Operating a business</li>      <li>Simulating a situation (business operation, ecology)</li>      <li>Gaming 
-          (You would use Task Frames
+          (You would use Goal Frames
           to describe the moves of the opposition actors.
           The Bookkeeper would track energy and damage levels.
           The Resource Managers would operate in Simulator mode.
@@ -222,10 +222,10 @@
 <a name="ProgrammingInHum"></a><h2>Programming in Hum </h2>
 
 <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% --><a name="TutorialOne"></a><h3>Tutorial One - Making A Plan</h3>  <blockquote><!-- ......................................................................... -->
-  <a name="TaskFrames"></a>  <h4>Task Frames</h4>
+  <a name="GoalFrames"></a>  <h4>Goal Frames</h4>
       <p class="advice">
          Before starting this section read: 
-         <a href="FrameTypes.html#TaskFrame">Task Frames</a>.           
+         <a href="FrameTypes.html#GoalFrame">Goal Frames</a>.           
       </p>
       <p>
          <b>Scenario: </b>
@@ -233,79 +233,72 @@
          To define our business processes, 
          we will start at an important end-goal
          and work backwards from there
-         to identify different tasks
+         to identify different goals
          required to satisfy the final goal.
       </p>
 <pre class="example">
 ---
-Task: Deliver order to customer.
-Post: Order delivered to customer.
-Pre:
-. Customer has paid for order.
-. Order is ready for delivery.
-Actions:
-. Cashier: Give order package to customer.
-. Bookkeeper: Account for order revenue and taxes.
+<k>Goal:</k> <n>Order</n> delivered to <n>customer</n>.
+<k>Pre:</k>
+. <n>Customer</n> has paid for <n>order</n>.
+. <n>Order</n> is ready for delivery.
+<k><k>Actions:</k></k>
+. Cashier: Give <n>order</n> package to <n>customer</n>.
+. Bookkeeper: Calculate for <n>order</n> revenue and taxes.
 ---
 </pre>
 <p>
-   The task frame above defines two pre-conditions 
-   which must be satisfied before work can start on the task actions.
-   The Planner will need task frames for those pre-conditions.
-   So, now we write task frames for those <i>sub-tasks</i>.
+   The goal frame above defines two pre-conditions 
+   which must be satisfied before work can start on the goal actions.
+   The Planner will need goal frames for those pre-conditions.
+   So, now we write goal frames for those <i>sub-goals</i>.
 </p>
 <pre class="example">
 ---
-Task: Ask customer to pay for order.
-Post: Customer has paid for order.
-Pre:
+<k>Goal:</k> <n>Customer</n> has paid for <n>order</n>.
+<k>Pre:</k>
 . Order is completely defined.    (new)
 . Customer has confirmed order.   (new)
-Actions:
+<k>Actions</k>
 . Cashier: Ask customer for payment on order.
 . Cashier: Advise customer that order is in progress.
 ---
-Task: Assemble order.
-Post: Order is ready for delivery.
-Pre:
+<k>Goal:</k> Order is ready for delivery.
+<k>Pre:</k>
 . Customer has paid for order.    (defined above)
 . Coffee items are all assembled. (new)
 . Donut items are all packed.     (new)
-Actions:
+<k>Actions:</k>
 . Cashier: Assemble order and give to customer.
 ---
 </pre>
-<p> These task frames define four new pre-conditions.
-    So we need to define task frames for these new pre-conditions also.
+<p> These goal frames define four new pre-conditions.
+    So we need to define goal frames for these new pre-conditions also.
 </p>
 <pre class="example">
 ---
-Task: Ask customer for order items.
-Post: Order is completely defined.
-Pre:
+<k>Goal:</k> Order is completely defined.
+<k>Pre:</k>
 . Customer has asked for service.
-Actions:
+<k>Actions:</k>
 . Order Taker: Ask customer for order items.
 ---
-Task: Ask customer to confirm order.
-Post: Customer has confirmed order.
-Pre:
+<k>Goal:</k> Customer has confirmed order.
+<k>Pre:</k>
 . Order is completely defined.
-Actions:
+<k>Actions:</k>
 . Order Taker: Ask the customer to confirm the completed order.
 ---
-Task: Assemble coffee items.
-Post: Coffee items are all assembled.
-Pre:
+<k>Goal:</k> Coffee items are all assembled.
+<k>Pre:</k>
 . Customer has confirmed order.
-Actions:
+<k>Actions:</k>
 . Coffee Mixer: Assemble coffee items for the order.
 ---
-Task: Pack donut items.
-Post: Donut items are all packed.
-Pre:
+<k>Goal:</k> Donut items are all packed.
+<k>Pre:</k>
 . Customer has confirmed order.
-Actions:
+<k>Actions:</k>
 . Packer: Pack all donut items in the order.
 ---
 </pre>
@@ -317,11 +310,10 @@ Actions:
 </p>
 <pre class="example">
 ---
-Task: Wait on customer.
-Post: Customer has asked for service.
-Pre:
+<k>Goal:</k> Customer has asked for service.
+<k>Pre:</k>
 . Store is open.
-Actions:
+<k>Actions:</k>
 . Store Manager: Open the store.
 ---
 </pre><p>
@@ -365,7 +357,7 @@ Order delivered to customer.
 2.3.1 . Customer has confirmed order. (same as 1.1)
 </pre>        
 <p>  You may have noticed that some of the pre-conditions 
-     appear in several task frames;
+     appear in several goal frames;
      but they do not appear as often in the plan tree above.
      When the plan tree is displayed for human inspection,
      the tree is "pruned" to remove:
@@ -376,7 +368,7 @@ Order delivered to customer.
      In the following snippet, "Order is completely defined." is <i>redundant</i>
      because it is also a pre-condition of "Customer has confirmed order."
      You need not worry about including redundant pre-conditions
-     in your task frames.
+     in your goal frames.
      The Planner will sort them out.
      They are harmless and may even add value
      by making the plan more robust
@@ -384,7 +376,7 @@ Order delivered to customer.
      and move things around.
 </p>
 <pre class="example">
-Pre:
+<k>Pre:</k>
 . Order is completely defined.
 . Customer has confirmed order.</pre>
     <a name="Ontology"></a>    <h4>Ontology</h4>
@@ -407,25 +399,25 @@ Pre:
 <pre class="example">
 <b>Order delivered to customer.</b>
 <b>
-1.  <u>Customer</u> has paid for <u>order</u>.</b>
-1.1 . <u>Customer</u> has confirmed <u>order</u>.
-1.1.1 . <u>Order</u> is completely defined.
-1.1.1.1 . <u>Customer</u> has asked for service.
-1.1.1.1.1 . <u>Store</U> is open.
+1.  <n>Customer</n> has paid for <n>order</n>.</b>
+1.1 . <n>Customer</n> has confirmed <n>order</n>.
+1.1.1 . <n>Order</n> is completely defined.
+1.1.1.1 . <n>Customer</n> has asked for service.
+1.1.1.1.1 . <n>Store</n> is open.
 <b>
-2.  <u>Order</u> is ready for delivery.</b>
-2.1 . <u>Customer</u> has paid for <u>order</u>.    (same as 1.)
-2.2 . <u>Coffee items</u> are all made.
-2.2.1 . <u>Customer</u> has confirmed <u>order</u>. (same as 1.1)
-2.3 . <u>Donut items</u> are all made.
-2.3.1 . <u>Customer</u> has confirmed <u>order</u>. (same as 1.1)
+2.  <n>Order</n> is ready for delivery.</b>
+2.1 . <n>Customer</n> has paid for <n>order</n>.    (same as 1.)
+2.2 . <n>Coffee items</n> are all made.
+2.2.1 . <n>Customer</n> has confirmed <n>order</n>. (same as 1.1)
+2.3 . <n>Donut items</n> are all made.
+2.3.1 . <n>Customer</n> has confirmed <n>order</n>. (same as 1.1)
 </pre>        
        <p>The plan above is generic.
-          To make it specific, we need to specify which <u>customer</u>,
-          which <u>order</u>, 
-          which <u>coffee items</u>, 
-          which <u>donut items</u>,
-          and which <u>store</u>.
+          To make it specific, we need to specify which <n>customer</n>,
+          which <n>order</n>, 
+          which <n>coffee items</n>, 
+          which <n>donut items</n>,
+          and which <n>store</n>.
           The Hum ontology is pre-loaded
           with definitions for customer, order, and store.
           It also knows about products.
@@ -436,23 +428,24 @@ Pre:
        </p>    
 <pre class="example">
 ---
-<b>Dictionary:</b>
-A coffee drink is a <u>product</u>.
-A coffee drink has a recipe.
-A recipe is a <u>bill of material</u>.
-A donut is a <u>product</u>.
-Coffee items are <u>order items</u> where the <u>product</u> is a <u>coffee drink</u>.
-Donut items are <u>order items</u> where the <u>product</u> is a <u>donut</u>.
+<b>Dictionary: Coffee-drink terms.</b>
+A <n>coffee-drink</n> is a <n>product</n>.
+A <n>coffee-drink</n> has a <n>recipe</n>.
+A <n>recipe</n> is a <n>bill-of-material</n>.
+A <n>donut</n> is a <n>product</n>.
+<n>Coffee-items</n> are <n>order-items</n> where the <n>product</n> is a <n>coffee-drink</n>.
+<n>Donut-items</n> are <n>order-items</n> where the <n>product</n> is a <n>donut</n>.
 ---
 </pre>       
+<p class="AUTHOR">ABOVE HAS A WHERE CLAUSE!</p>
 <!-- ......................................................................... -->
     <a name="ExecutingThePlan"></a>    <h4>Executing The Plan</h4>
        <p> 
           The Planner builds a plan when it is given a <i>goal</i>.
-          The Planner builds the plan from task frames found in the frame base.
+          The Planner builds the plan from goal frames found in the frame base.
           The goal must match one of the <i>post-conditions</i>
-          in one of the task frames.
-          The task frame that matches the goal becomes the <i>root</i> 
+          in one of the goal frames.
+          The goal frame that matches the goal becomes the <i>root</i> 
           of a plan tree.
           The remainder of the plan tree is constructed recursively
           by treating the <i>pre-conditions</i> as <i>sub-goals</i>
@@ -471,22 +464,22 @@ Donut items are <u>order items</u> where the <u>product</u> is a <u>donut</u>.
            the Data Maven will ask the Speaker to ask a human.
        </p>
        <p> 
-          The Coordinator executes the plan by running task frames
+          The Coordinator executes the plan by running goal frames
            that are ready to run.
-          A task frame is ready to run if it has no pre-conditions
+          A goal frame is ready to run if it has no pre-conditions
           or if all of its pre-conditions have been satisfied.
-          Several task frames may be running simultaneously.
+          Several goal frames may be running simultaneously.
        </p>
-       <p> When a task frame is completed, 
+       <p> When a goal frame is completed, 
            its post-condition is marked "satisfied."
            That post-condition is either the goal of the plan
-           or it is a pre-condition in other task frames.
+           or it is a pre-condition in other goal frames.
            If the post-condition is the goal of the plan, the work is done.
            If the post-condition is not the goal of the plan,
-           the Coordinator looks for additional task frames
+           the Coordinator looks for additional goal frames
            that may be ready to run as a result.
        </p>
-       <p>When the task frame is executed,
+       <p>When the goal frame is executed,
           The Coordinator assigns the actions to Resource managers.
           Resource managers assign actions to qualified <i>actors.</i> 
           An actor is qualified if it can "understand" the command.
@@ -510,24 +503,24 @@ Donut items are <u>order items</u> where the <u>product</u> is a <u>donut</u>.
 <a name="RoleFrame"></a><h4>Role Frame</h4>
    <p>
       Recall that a 
-      <a href="#TaskFrames">task frame</a>
+      <a href="#GoalFrames">goal frame</a>
       lists the actions required to transition
-      from the task's pre-conditions to the task's post-condition.
+      from the goal's pre-conditions to the goal's post-condition.
       <a href="FrameTypes.html#RoleFrame">Role Frames</a> 
       provide the detailed <i>instructions</i> 
-      needed to perform a task <i>action</i>.
+      needed to perform a goal <i>action</i>.
       The instructions will be performed by an <i>actor</i>
       who has been assigned the role. 
   </p>
 <pre class="example">
 ---
-Role: Store Manager.
-Action: Open the store.
+<k>Role:</k> Store Manager.
+<k>Action:</k> Open the store.
 . Turn on the open signs.
 . Unlock the entry doors.
 . Alert the employees that the store is open.
 
-To: Turn on the open signs.
+<k>To:</k> Turn on the open signs.
 . Open the electrical panel at rear of store. 
 . Turn on the neon window signs.
 . Turn on the billboard power. 
@@ -546,7 +539,7 @@ To: Turn on the open signs.
   <p>    
       When a run-time system is configured,
       roles are assigned to actors.
-      When a task action is invoked,   
+      When a goal action is invoked,   
       the run-time system will assign the action 
       to an actor who knows the corresponding role.
       "Knowing the role" means the actor can "understand" the instructions.
@@ -675,24 +668,26 @@ Table of rates delimited by |
   </p>
 <pre class="example">
 ---
-Role: Store Manager.
-Action: Open the store.
+<k>Role:</k> Store Manager.
+<k>Action:</k> Open the <n>store</n>.
 . Turn on the open signs.                                   [120 seconds]
 . Unlock the entry doors.                                   [30 seconds]
-. Alert the employees that the store is open.               [12 seconds]
+. Alert the <n>employees</n> that the <n>store</n> is open.               [12 seconds]
 
-To: Turn on the open signs.
-. Open the electrical panel at rear of store.               [15 seconds]
+<k>To:</k> Turn on the open signs.
+. Open the electrical panel at rear of <n>store</n>.               [15 seconds]
 . Turn on the neon window signs.                            [3 seconds]
 . Turn on the billboard power.                              [3 seconds]
 . Turn on the parking lot lighting.                         [3 seconds]
 . (Outdoor lighting is regulated by a daylight sensor.)
-. Turn on any remaining power needed to operate the store.  [45 seconds]
+. Turn on any remaining power needed to operate the <n>store</n>.  [45 seconds]
 . (Switches marked in red require a safety check.)
 . Close the electrical panel.                               [6 seconds]
 ---
 </pre>      
-  <!-- ......................................................................... -->
+<p class="AUTHOR">STATEMENTS ABOVE ARE NOT IN PROPER FORM.
+<br/>While a human can interpret, the code critic will certainly complain.
+</p>  <!-- ......................................................................... -->
   <a name="SpecifyEventArrivalDistributions"></a>  <h4>Specify event arrival distributions.</h4>
   <p>
      For any given goal, you can specify the arrival distributions. 
@@ -747,33 +742,35 @@ Table of arrivals delimited by |
 <pre class="example">
 ---
 <b>Dictionary: Coffee Drinks.</b>
-A coffee drink is a <u>product</u>.
-A coffee drink is described by its coffee blend, drink size, 
-  drink flavoring.
-Known coffee blends include 
+A <n>coffee-drink</n> is a <n>product</n>.
+A coffee-drink is described by its <n>coffee-blend</n>, <n>drink-size</n>, 
+  <n>drink-flavoring</n>.
+<n>Coffee-blend</n> categories include 
   "French Roast" [10%], 
   "House"        [60%], 
   "House De-cafe" [30%]. 
-Known drink sizes include tall [30%], taller [40%], and tallest [30%].
-Known drink flavorings include
+<n>vDrink-size</n> categories include tall [30%], taller [40%], and tallest [30%].
+<n>Drink-flavoring</n> categories include
   hazelnut      [10%],
   vanilla       [10%],
   raspberry     [10%],
   almond        [10%],
   chicory       [10%],
   and chocolate [50%].  
-An expresso drink is a <u>coffee drink</u>.
-A recipe is a <u>bill of materials</u>.
-An expresso drink is described by its name and <u>recipe</u>.
-Known expresso drinks include 
+An <n>expresso-drink</n> is a <n>coffee-drink</n>.
+A <n>recipe</n> is a <n>bill-of-material</n>.
+An <n>expresso-drink</n> is described by its <n>name</n> and <n>expresso-drink-recipe</n>.
+<n>Expresso-drink-recipe</n> categories include 
  "Kappa-Chino" [30%], 
  "Macho-Chino" [10%], 
- "Mucho-Mocha"   [35%], 
+ "Mucho-Mocha" [35%], 
  "Turkey Shot" [5%], 
  "Red Eye" [10%], 
  and "Chile Pepper" [10%].
  ---
 </pre>  
+<p class="AUTHOR">NOTE: The categories above have quoted terms.
+</p>
     <p> 
      A (version of the) plan base 
        plus a set of distribution edits 
@@ -844,15 +841,15 @@ Known expresso drinks include
     </p>  </blockquote><!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
 <hr/>    
   <a name="TutorialFive"></a>    <h3>Tutorial Five - Handling Exceptions</h3>  <blockquote><!-- ......................................................................... -->
-    <a name="WhenThingsGoWrong"></a>    <h4>When things go wrong - Handling task exceptions</h4>
+    <a name="WhenThingsGoWrong"></a>    <h4>When things go wrong - Handling run-time exceptions</h4>
     <p class="advice">
         A caution to programmers 
         who are accustomed to writing exception-handling logic
         in traditional programming languages:
-        A <i>task exception</i> is not a <i>program exception.</i>
-        Task exceptions are caused by problems with resources.
+        A <i>run-time exception</i> is not a <i>program exception.</i>
+        Run-time exceptions are caused by problems with resources.
     </p>
-    <p>Task exceptions are caused by problems with <i>resources.</i>
+    <p>Run-time exceptions are caused by problems with <i>resources.</i>
        For example, an assembly actor might not be able to complete an assembly
        because a needed part or material has run out.
        Or, an instruction that is delegated to an actor
@@ -862,7 +859,7 @@ Known expresso drinks include
        Also, when it comes time to assign an actor,
        there may be no actor currently assigned the role.
     </p>
-    <p>The general strategy for handling task exceptions is:
+    <p>The general strategy for handling run-time exceptions is:
        <ol type="1">
        		<li>The actor that experiences a problem informs its resource manager.</li>
        		<li>In the case of a stock-out, 
@@ -938,7 +935,7 @@ Known expresso drinks include
        that looks like this:
     </p>
     <blockquote>
-      <code>Trouble-Shooter: Handle stock-out of <u>resource</u>.</code>
+      <code>Trouble-Shooter: Handle stock-out of <n>resource</n>.</code>
     </blockquote>
     
     
@@ -959,7 +956,7 @@ Known expresso drinks include
     <p>The trouble-shooter could resolve the no-bid situation by relaxing
        one or more constraints and then go for another bidding round. 
     </p>    <blockquote>
-      <code>Trouble-Shooter: Arbitrate no-bid on <u>instruction</u>.</code>
+      <code>Trouble-Shooter: Arbitrate no-bid on <n>instruction</n>.</code>
     </blockquote>
 <!-- ......................................................................... -->
     <a name="TimeOut"></a>    <h4>Time out</h4>
@@ -984,7 +981,7 @@ Known expresso drinks include
        For example: The actual duration may exceed the time in which 98%
        of all executions of that instruction are normally completed.
     </p>    <blockquote>
-      <code>Trouble-Shooter: Analyze time-out of <u>instruction</u>.</code>
+      <code>Trouble-Shooter: Analyze time-out of <n>instruction</n>.</code>
     </blockquote>
 <!-- ......................................................................... -->
     <a name="MissingActor"></a>    <h4>Missing Actor</h4>
@@ -993,7 +990,7 @@ Known expresso drinks include
        when the time comes to assign an instruction
        and no actor is currently assigned the role.
     </p>    <blockquote>
-      <code>Trouble-Shooter: No actor is assigned to <u>role</u>.</code>
+      <code>Trouble-Shooter: No actor is assigned to <n>role</n>.</code>
     </blockquote>
 <!-- ......................................................................... -->
 &nbsp; <!-- attempt to force a sticky page break. -->
@@ -1064,16 +1061,15 @@ Known expresso drinks include
    
 <pre class="example">
 ---
-Task: Enable sensors.
-Post: Sensors are all enabled.
-Pre:
+Goal: Sensors are all enabled.
+<k>Pre:</k>
 . (none)
-Action:
+<k>Action:</k>
 . Steering Wheel: Sense angle of turn.
 . Brake Pedal: Sense braking force.
 ---
-Role: Steering Wheel.
-Action: Sense angle of turn.
+<k>Role:</k> Steering Wheel.
+<k>Action:</k> Sense angle of turn.
 . Report angle of turn as "Angle of turn is now *." to context "Steering".
 ---
 Dialog: Accept data from sensors.
@@ -1082,11 +1078,11 @@ U: Angle of turn is now *.
 S: (The speaker does not talk back to the sensor actor.) 
 . Steersman: Respond to rudder [*].
 ---
-Role: Steersman.
-Action: Respond to rudder angle.
+<k>Role:</k> Steersman.
+<k>Action:</k> Respond to rudder angle.
 . Yaw angle per second. (We may prefer a more logarithmic response.)
 
-Action: Respond to brake sensor input.
+<k>Action:</k> Respond to brake sensor input.
 . Apply reverse thrust scaled to brake sensor input. 
 . (Scaling the thrust in response to user input is delegated to the actor.)
 . (Note: This means that the sensor and the steersman are tightly coupled.)
@@ -1111,7 +1107,7 @@ Action: Respond to brake sensor input.
         A party[1] has to be authorized to request a service, control a robot, make a journal entry.
         In Hum, <i>permits</i> may be required for various actions:
         <ol>
-          <li>Task level: Define who can invoke a goal in a task frame.</li>
+          <li>Goal level: Define who can invoke a goal in a goal frame.</li>
           <li>Action level: Define who can invoke an action via a dialog.</li>
           <li>View level: Define who may view the data in the view.</li>
         </ol>
@@ -1128,7 +1124,7 @@ Action: Respond to brake sensor input.
     <h4>Authorization Annotation</h4>
       <p>In the example below, 
           we use an annotation to declare the authorization required
-          to perform the task: "Move customer to new-residence."
+          to perform the goal: "Move customer to new-residence."
         The annotation: "[Allow call-center.]"  means that actors operating 
           with a call-center <i>permit</i> will be allowed to invoke this goal.
       </p>
@@ -1145,11 +1141,11 @@ Action: Respond to brake sensor input.
     
 <pre class="example">
 ---
-Task: Move customer to new-residence. [Allow call-center.]
+Goal: Move customer to new-residence. [Allow call-center.]
 . . .
 ---
-Role: Billing. 
-Action: Change customer's billing-address. [Allow call-center, self-service.]  
+<k>Role:</k> Billing. 
+<k>Action:</k> Change customer's billing-address. [Allow call-center, self-service.]  
 . . . 
 ---
 View: Customer-Address. [Allow call-center, self-service, field-operations.]
@@ -1183,7 +1179,7 @@ View: Customer-Address. [Allow call-center, self-service, field-operations.]
 <pre class="example">
 ---
 Data: Authorizations.
-Task: Move customer to new-residence. [Allow call-center.]
+Goal: Move customer to new-residence. [Allow call-center.]
 Role: Billing. 
 Action: Change to new-billing-address 
 . for all the customer's customer-accounts. [Allow call-center, self-service.]
@@ -1237,8 +1233,8 @@ View: Customer-Address. [Allow call-center, self-service, field-operations.]
     </p>
 <pre class="example">
 ---
-Role: Store Manager.
-Action: Open the store.
+<k>Role:</k> Store Manager.
+<k>Action:</k> Open the store.
 . Turn on the open signs.
 . Unlock the entry doors.
 . Alert the employees that the store is open.
@@ -1246,7 +1242,7 @@ Action: Open the store.
 To Reverse: Open the store.
 . Close the store.
 
-Action: Close the store.
+<k>Action:</k> Close the store.
 . Alert employees and customers that the store is closing.
 . Turn off the open signs.
 . Lock the entry doors.
@@ -1302,7 +1298,7 @@ Action: Close the store.
   
      <h4>When should I use a pre-condition and when an action?</h4>
         <p>
-           The commands in the "Actions:" part of the task frame
+           The commands in the "<k>Actions:</k>" part of the goal frame
            must have no pre-condition other than the ones
            already given.
            The action commands will be executed in sequence.
@@ -1310,22 +1306,22 @@ Action: Close the store.
         <p>When you have a series of steps that are performed by the same role,
            you should put the steps in a 
             <a href="FrameTypes.html#RoleFrame">role frame</a> action-block
-            not a <a href="FrameTypes.html#TaskFrame">task frame</a>.
+            not a <a href="FrameTypes.html#GoalFrame">goal frame</a>.
             This is a mainly a matter of good programming style and organization.
             The ontology will validate and run correctly in either case.
        
         </p>
         <p class="ADVICE">
-           REMEMBER: Each action-statement in a task frame must reference 
+           REMEMBER: Each action-statement in a goal frame must reference 
             a corresponding action-block in a role-frame. 
         </p>
         
-     <h4>What if a task and a sub-task have the same pre-condition?</h4>
+     <h4>What if a goal and a sub-goal have the same pre-condition?</h4>
         <p>It is often the case,
-             that several tasks will have the same pre-condition.
+             that several goals will have the same pre-condition.
            This simply means that all of them will wait until the pre-condition
              is satisfied.
-           It is harmless if a task and one of its sub-tasks 
+           It is harmless if a goal and one of its sub-goals 
              both have the same pre-condition.    
            You can make the parent frame more concise by dropping the shared
              pre-condition, but that is not necessary.              
@@ -1340,7 +1336,7 @@ Action: Close the store.
         <p>The 
            <a href="#Checker"><i>Checker</i></a>
            will tell you 
-             when more than one task frame has the same post condition.
+             when more than one goal frame has the same post condition.
            The Planner can run plans that contain competing sub-plans.
            However, this is generally not a good process design 
              because it will waste resources.
@@ -1357,8 +1353,8 @@ Action: Close the store.
              to determine how and why they are different.
            Then give the post-conditions different statements
              to distinguish them.  
-           Otherwise, if you have two task frames with the same post-condition,
-             the ontology will not be able to distinguish the task-frames
+           Otherwise, if you have two goal frames with the same post-condition,
+             the ontology will not be able to distinguish the goal-frames
              and the one that was defined last will be used in plans
              and the one that was defined first will be ignored.  
         </p>
@@ -1422,8 +1418,8 @@ S: Okay. That will be [order total].
          </p>
 <pre class="example">
 ---
-Role: Cook.
-Action: Steam milk to [temperature].
+<k>Role:</k> Cook.
+<k>Action:</k> Steam milk to [temperature].
 . Measure milk into steamer cup.
 . Place thermometer into steamer cup.
 . Until thermometer reading exceeds [temperature]:

@@ -60,7 +60,7 @@
      <br />.
      <table>
       <tr>
-       <td align="RIGHT"><a href="#TaskFrame">       Task Frames        </a></td>
+       <td align="RIGHT"><a href="#GoalFrame">       Goal Frames        </a></td>
        <td> - provide process knowledge.   </td>
        <td>... used to build plans.</td>
       </tr>
@@ -96,12 +96,12 @@
 
 <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->  
 <hr>  
-<a name="TaskFrame"></a>
-<h3>Task Frame Notation</h3>
+<a name="GoalFrame"></a>
+<h3>Goal Frame Notation</h3>
   <p>
-   The purpose of a Task Frame is to describe part of a process.
+   The purpose of a Goal Frame is to describe part of a process.
    A component of the system called the Planner creates programs, called plan trees,
-   by assembling related Task Frames. The Planner assembles task frames to form a plan.
+   by assembling related Goal Frames. The Planner assembles task frames to form a plan.
    It does that by working backwards from a goal.
    The goal matches a post-condition in one of the task frames.
   </p>
@@ -117,8 +117,7 @@
   <h5>Syntax</h5>  
 <pre class="syntax">
 ---
-Task: (imperative sentence - is the name/title of the task)
-Post: (declarative sentence)
+Goal: (declarative sentence)
 Pre:
 . (pre-condition - matches some other task's post-condition)
 . (pre-condition)
@@ -133,8 +132,7 @@ Actions:
 </pre>
 <h5>Example</h5>
 <pre class="example">
-Task: Deliver order to customer.
-Post: Order delivered to customer.
+Goal: Order delivered to customer.
 Pre:
 . Customer has paid for order.
 . Order is ready for delivery.
@@ -142,17 +140,14 @@ Actions:
 . Counter: Give order package to customer.
 . Bookkeeper: Account for order revenue and taxes.
 </pre>
-  <h4>Task Frame Statements</h4>
+  <h4>Goal Frame Statements</h4>
   <ul>
-   <li>The "Task" statement identifies the task.
-    It gives the task a name for reference.
-   </li>
-   <li>The "Post" statement defines the post-condition
+   <li>The "Goal" statement defines the post-condition
     that will be satisfied when the task is completed.
     The post-condition of the top-most task in a plan tree
     is the <i>goal</i> of the plan.
    </li>
-   <li>The "Pre" statements define the pre-conditions
+   <li>The "Pre" statements define the pre-conditions (prerequisites)
     that must be met before work on the "Actions" can begin.
     Some task frames have no pre-conditions
     which means that the work can begin immediately.
@@ -198,7 +193,7 @@ Actions:
 <pre class="syntax">
 ---
 Role: (role)                                     << Actors are assigned roles
-Action: (action invoked in a task frame step)    << Task Frames invoke actions.
+Action: (action invoked in a task frame step)    << Goal Frames invoke actions.
 . (instruction)                                  << Actors execute instructions.
 . (instruction)
 . (instruction)
@@ -670,7 +665,7 @@ S: [item] is now in your shopping cart.
                are directed to the Speaker.
          </li>
          <li>Each goal will match the name of a task that is defined in a
-             <a href="#TaskFrame"> Task Frame</a>.
+             <a href="#GoalFrame"> Goal Frame</a>.
              In the example above, several tasks are invoked.
              The corresponding task frames
              will contain actions assigned to the human interface actor:

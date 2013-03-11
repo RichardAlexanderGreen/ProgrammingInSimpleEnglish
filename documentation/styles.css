@@ -7,14 +7,22 @@
      
      form  { background: LIGHTYELLOW; padding:9 }
   
-     pre         { background:LIGHTPINK;   padding:9; border:5px DOUBLE RED; page-bread-inside:avoid;}
+     pre         { background:LIGHTPINK;   padding:9; border:5px DOUBLE BLUE; page-bread-inside:avoid; margin-left: 3em;}
      pre.toc     { background:LIGHTYELLOW; padding:9; border:5px DOUBLE GREY;}
      pre.show    { background:LIGHTYELLOW; padding:9; border:5px DOUBLE GREY;}    
      pre.syntax  { background:LIGHTGREEN;  padding:9; border:5px DOUBLE GREEN;}
      pre.example { background:LIGHTBLUE;   padding:9; border:5px SINGLE BLUE;}
      pre.bad     { background:CYAN;        padding:9; border:5px BOLD CYAN;}
+	 
+	 pre n {color: blue;}
+	 pre g {color: green;}
+	 pre r {color: red;}
+	 pre k {color: black; font-weight: bold;}
+	 pre w {background-color: white;}
+	 pre y {background-color: yellow;}
 
-  
+
+     p {margin-left: 3em;}
      p.advice { color: BLACK;   background:YELLOW; padding:9; border:5px DOUBLE YELLOW; }
      p.AUTHOR { color: DARKRED; background:LIGHTGREY; font-style:ITALIC; padding:9; border:5px DOUBLE DARKRED; }
      p.EDITOR { color:BLACK;    background:LIGHTPINK; font-style:ITALIC; padding:9; border:5px DOUBLE BLACK;}   
@@ -31,3 +39,4 @@
     h4 {page-break-after: avoid;   }
     
     hr {page-break-before: always; }
+	
