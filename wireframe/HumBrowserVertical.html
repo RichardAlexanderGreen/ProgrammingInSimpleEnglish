@@ -20,6 +20,8 @@
 	  pre n {color: blue;}
 	  pre g {color: green;}
 	  pre r {color: red;}
+	  pre w {background-color: white;}
+	  pre y {background-color: yellow;}
 	  
       @media (max-width: 980px) {
         /* Enable use of floated navbar text */
@@ -62,10 +64,68 @@
 		  
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Ontology</a></li>
-              <li><a href="#view">View</a></li>
-              <li><a href="#debug">Debug</a></li>
-              <li><a href="#deploy">Deploy</a></li>
+				
+                <li class="active dropdown">
+  				  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+  					  Ontology
+  					  <b class="caret"></b>
+  				  </a>
+  				  <ul class="dropdown-menu">
+  					  <li><a href="#new">Initialize a new ontology.</a></li>
+  					  <li><a href="#open">Open an existing ontology.</a></li>
+  					  <li><a href="#save">Save current work in progress.</a></li>
+  					  <li><a href="#close">Close without saving latest work.</a></li>
+  					  <li><a href="#rename">Rename this ontology.</a></li>
+  				  </ul>
+  			  </li>
+			  
+              <li class="active dropdown">
+				  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+					  View
+					  <b class="caret"></b>
+				  </a>
+				  <ul class="dropdown-menu">
+					  <!-- Show / Hide -->
+					  <li><a href="#show-diagrams">Show diagram thumbnails.</a></li>
+					  <li><a href="#show-referenced-code">Show referenced code.</a></li>
+					  <li><a href="#show-dictionary">Show dictionary entries.</a></li>
+					  <li class="divider"></li>
+					  <li><a href="#bigger-fonts">Use larger fonts.</a></li>
+					  <li><a href="#smaller-fonts">Use smaller fonts.</a></li>
+				  </ul>
+			  </li>
+
+              <li class="active dropdown">
+				  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+					  Test
+					  <b class="caret"></b>
+				  </a>
+				  <ul class="dropdown-menu">
+					  <!-- TODO: How will the test environment be configured? -->
+					  <!-- TODO: e.g. How will the test world-base be assigned? -->
+					  <li><a href="#run-from-context">Run from dialog context.</a></li>
+					  <li><a href="#run-from-instruction">Run from instruction.</a></li>
+					  <!-- Load test will not run with an incomplete ontology. -->
+					  <li class="disabled"><a href="#run-load-test">Run load test.</a></li>			  
+					  <li class="divider"></li>
+					  <!-- Following are only available in step mode -->
+					  <li class="disabled"><a href="#show-blackboard">Show blackboard.</a></li>
+					  <li class="disabled"><a href="#show-message-log">Show message log.</a></li>
+				  </ul>
+			  </li>
+			  
+              <li class="active dropdown">
+				  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+					  Build
+					  <b class="caret"></b>
+				  </a>
+				  <ul class="dropdown-menu">
+					  <li class="disabled"><a href="#to-java">Translate to Scala.</a></li>
+					  <li class="disabled"><a href="#to-erlang">Translate to Erlang.</a></li>
+					  <li class="disabled"><a href="#to-smalltalk">Translate to Smalltalk.</a></li>
+				  </ul>
+			  </li>
+			  
             </ul>
           </div><!--/.nav-collapse -->
 			  
@@ -88,11 +148,11 @@
 		  <div class="code-editor">
 			  <h4>Code Editor</h4>
 			  <pre>
-<b>Goal:</b> All <n>customer-accounts</n> are forwarded and new <n>energy-services</n> started.
+<b>Goal:</b> All the <n>customer</n>`s <n>accounts</n> are forwarded and new <n>energy-services</n> started.
 <b>Pre:</b> 
-. Old <n>customer-accounts</n> are forwarded to <n>new-billing-address</n>.
-. <n>Energy-services</n> at <n>new-address</n> are started.
-. <n>Energy-services</n> at <n>old-address</n> are re-assigned.
+<w>. <n>Customer</n>`s <n>accounts</n> are forwarded to <r>new-billing-address</r>.</w>
+. <n>Energy-services</n> at <r>new-address</r> are started.
+. <n>Energy-services</n> at <r>old-address</r> are re-assigned.
 <b>Actions:</b>
 . None. <g>(The task frame serves to define a compound condition.)</g>		
 	  
@@ -102,9 +162,9 @@
 		  <div class="code-critic">
 			  <h4>Code Critic</h4>
 			  <pre>
-Noun "new-billing-address" has no antecedant.
-Noun "new-address" has no antecedant.
-Noun "old-address" has no antecedant.
+Noun "new-billing-address" has no antecedent.
+Noun "new-address" has no antecedent.
+Noun "old-address" has no antecedent.
 		
 			  </pre>
 		  </div>
@@ -112,12 +172,12 @@ Noun "old-address" has no antecedant.
 		  <div class="referenced-code">
 			  <h4>Refenced Code</h4>
 			  <pre>
-<b>Goal:</b> Old <n>customer-accounts</n> are forwarded to <n>new-billing-address</n>.
+<b>Goal:</b> <n>Customer</n>`s <n>accounts</n> are forwarded to <n>new-billing-address</n>.
 <b>Pre:</b>
-. <n>Customer</n> has moved-in at <n>new-billing-address</n>. <r>[Signal from Customer]</r>
+. <n>Customer</n> has moved-in at <n>new-billing-address</n>. <y>[Signal from Customer]</y>
 . <g>(We expect the customer to call us when they move in?)</g>
 <b>Actions:</b>
-. <i>Billing:</i> Change to <n>new-billing-address</n> for all the <n>customer</n>'s <n>customer-accounts</n>.
+. <i>Billing:</i> Change to <n>new-billing-address</n> for all the <n>customer</n>'s <n>accounts</n>.
 
 			  </pre>
 		  </div>
