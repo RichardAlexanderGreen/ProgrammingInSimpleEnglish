@@ -1,0 +1,155 @@
+<html>
+<head>
+  <title>Task Exceptions in Hum</title>
+  <link href="styles.css" rel=STYLESHEET TYPE="text/css">
+</head>
+<body>
+
+<h1>Task Exceptions in Hum</h1>
+
+<p>
+  Run-time exceptions in Hum are task exceptions, not program exceptions.
+These occur when the run-time system detects a situation 
+which indicates that a goal cannot be met under current conditions.
+At the very least, work is stalled in some area of the plan
+and the plan is in danger of being substantially delayed.
+These situations occur due to problems in the real-world, 
+not due to problems in the application program.
+</p>
+<p>
+The system can detect exceptional situations,
+but human intervention will be required
+to correct or mitigate each situation.
+When an exception occurs, an alarm is set, and the business operators are informed.
+The nature of such exceptions is best understood by examining how a task is executed.
+</p>
+
+<p>
+  <b>A plan is built by recursively adding sub-plans 
+     until the leaves of the plan tree are all runnable.</b>
+  <br />If the plan base is incomplete, 
+        there may be some pre-conditions with no matching post-conditions.
+  <br /><b>Prevention </b>: The system should not be allowed to operate with an incomplete plan base.
+</p>
+
+
+<p>
+  <b>The task is enabled when its pre-conditions are met.</b>
+  <br />If no task in the plan is currently enabled, something has gone wrong.
+  A task is "pending" before its pre-conditions are met.
+  Other tasks should be running (enabled) to help meet these pre-conditions.
+  As each task completes, its post-condition is true.
+  This may or may not enable other tasks, depending on their pre-conditions.
+  However, the whole nature of the plan is that it covers all pre-conditions.
+  <br /><b>Detection</b>: A pending task has no tasks running below it.
+  <br /><i>This exception should only occur when the plan is invalid.</i> 
+           This situation cannot occur when the plan is built
+           because that would be an invalid plan 
+           and the planner would have to return "no plan available to meet the goal."
+           No plan means no start, no start means no run-time exception.
+           However, this problem could still occur while a plan is running
+           if the system allowed the plan to be edited after it was started 
+           ... and also allowed the editor to create an invalid plan.
+   <br /><b>Prevention</b>: Do not allow invalid plans. (Warning: There is circular logic here.)
+</p>
+
+<p>
+  <b>The task actions are assigned to actors.</b>
+  <br />The actor assigned an action has the required role among its capabilities.
+  If no actor can be found with the needed capability, something has gone wrong.
+  For a plan to be valid at the time that it is started, 
+  there must be at least one actor capable of performing every role in the plan.
+  However, the actor could disappear or be disabled after the plan is started.  
+  <br /><b>Detection</b>: When an actor is removed or disabled, 
+        check each role.
+        (Is the role viable? - Is there at least one actor with the role?)
+   <br /><b>Prevention </b>:  When this is detected, 
+         the business operator must assign the role to another actor.
+         An alarm remains set until the problem is resolved.
+</p>
+
+<p>
+  <b>The actor is assigned from a resource pool.</b>
+  <br />Actors are generally assigned using a dynamic scheduling scheme.
+     When the action is ready to start, the dispatcher asks the resource pools for bids.
+     The action is assigned to the pool with the best (faster, cheaper, better) bid.
+     If no resource pool can fulfill the requirement, there will be no bid.
+     <br /><b>Detection</b>: All of the pools return "no bid". An alarm is set.
+     <br /><b>Prevention</b>: This might occur if the set of requirements is too tight.
+     <br /><b>Work-Around</b>: Loosen the requirements and re-bid.
+     <br /><b>Failure Mode</b>: Cannot loosen further. Work is stalled.
+</p>
+<p>
+  <b>The actor may consume various resources.</b>
+  <br />An actor is a resource and consumes its own time.
+        The action procedure may also cause the actor to consume or utilize other resources.
+        If a resource is not available when it is needed, the actor is stalled.
+        With modern inventory controls and a properly written plan, a "stock-out" should be rare. 
+        Of course, problems can occur with production and delivery processes.
+        <br /><b>Prevention</b>: The system can check for required resources before starting an action.
+        This could even be done prior to the action being scheduled (bid) to prevent false bids.
+        <br /><b>Failure Mode</b>: When dynamic scheduler asks for bids, 
+         all pools response "no bid" because they all are short some resource. 
+         (In some cases, there will be only one pool with the capability.)
+         <br /><b>Detection</b>: Alarm is set when the system detects a high probability of a stock-out.
+         (a probability threshold is set based on the consequences of the stock-out).
+         The probability will become quite high when the inventory is down to a few items.
+</p>
+<p>
+  <b>Inventory monitors order more material when re-order points are detected.</b>
+   <br />Re-order points are calculated based on expected demand and expected time to replenish.
+     Either of these expectations could be wrong and we run out of stock.
+     <br /><b>Detection</b>: The system can continuously monitor the demand rate 
+           and set an alarm if the rate deviates significantly from the norm.
+     <br /><b>Failure Mode</b>: The supplier cannot deliver when expected. 
+          The demand rate changes so fast we cannot compensate.  
+</p>
+<p>
+  <b>An actor could become disabled while performing a step.</b>
+  <br />When an actor is disabled (injured, sick, in need of repair, quit)
+        it may be possible to assign the remainder of the action
+        to another actor.
+        However, this situation requires human intervention 
+        - and that is what task exceptions are about.
+        The intervention requires removing the disabled actor,
+        replacing the actor with another actor (assuming the work can still be done),
+        and deciding where to restart the action (assuming that the action is still advisable).
+        <br /><b>Detection</b>: The actor signals "cannot continue" while working some step. 
+              An alarm is set.
+        <br /><b>Failure Mode</b>: The actor might not be able to send the signal.
+              Eventually, the action step will time-out causing a time-out alarm to be set.
+</p>
+<p>
+  <b>An actor could encounter an obstacle while performing a step.</b>
+  <br />An actor might be a robot, a human, a work team, or a software actor. 
+       Any actor might encounter an obstacle that prevents it from carrying out the current step.    
+       For example, a vehicle could break down. 
+       A vehicle could be caught in a traffic jam or encounter an accident. 
+       A robot could detect a foreign object in its environment and halt for safety.
+       <br /><b>Detection</b>: The actor signals "I am blocked" while working some step.
+             An alarm is set.
+       <br /><b>Work-Around</b>: Human intervention will be required 
+             to assure that appropriate action is taken. 
+             A replacement actor might be sent (on a different route). 
+             (The step is re-started with a different actor assigned.) 
+             The blockage might be removed by another agency. 
+             (The step is re-started with the same actor in place.)
+</p>
+<p class="AUTHOR">
+? Do we need a template for alarms?
+<br />
+Actor A has problem P and cannot continue with instruction I.
+</p>
+<pre class="example">
+---
+Data: Alarm from actor.
+. Actor: Coffee-Mixer.
+. Problem: We are out of skim-milk.
+. Instruction
+. . Statement: Measure skim-milk into beaker.
+. . Action: Make foamed-milk.
+. . Task: Make latte.
+---
+</pre>
+</body>
+

@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <title>Brain-storm: Future of Programming</title>
+</head>
+<body 
+  alink="#000088" 
+  bgcolor="#ffffff" 
+  link="#0000ff" 
+  text="#000000" 
+  vlink="#ff0000">
+  
+brain storm something like this:<br>
+
+<h3>The Software Engineer's View of the Future:</h3>
+<ul>
+  <li>Eventually the user interface is a virtual reality scene.<br>
+<!-- 
+Currently the client-side browsers cannot provide 3D experiences.<br>
+But they can provide some degree of 2D experience.<br>
+At present, the user preference is for speed<br>
+and that tends to steer the UI design to a menu metaphor.<br> 
+-->
+  </li>
+  <li>The user may discuss their needs and desires with a bot in the scene.<br>
+<!--
+The programming technology for this kind of dialog processing is now usable.<br>
+-->
+  </li>
+  <li>The bot interprets requests and translates those to application commands.</li>
+  <li>Application commands are routed to SimpleEnglish framework.</li>
+  <li>The framework takes the commands as goals and creates plans to meet the goals.<br>
+  </li>
+  <li>The SimpleEnglish task-master executes the resulting plan.</li>
+  <li>The task-master informs the communication-actor (com-actor) as the plan steps are executed.<br>
+  </li>
+  <li>The com-actor (UI) can provide feedback as needed to the user.<br>
+If the user is still in the virtual reality scene, the feedback could
+be provided using scene action metaphors or simply communicated
+verbally by a bot.<br>
+  </li>
+</ul>
+
+
+<h3>Programming:</h3>
+
+<ul>
+  <li><p><b>User Story:</b> 
+  The user story describes the interactions between the parties.<br>
+Each sentence describes a <b>dialog</b>. 
+The dialogs will be programmed in a <b>dialog language</b>. 
+<i>(Perhaps a SimpleEnglish re-styling of AIML augmented with SimpleTemplate.)</i>
+</p>
+  <table border="1" cellpadding="9" cellspacing="1">
+    <tbody>
+      <tr>
+        <td valign="top">
+        <pre>---<br>Story: Customer purchases items from our on-line store.<br>. Customer is welcomed to store.<br>. Customer is directed to areas of interest.<br>. Customer selects potential purchases into cart.<br>. Customer edits cart content.<br>. Customer purchases items in cart.<br>. We ship purchased items to customer.<br>. We notify customer of shipment.<br>. We obtain payment from customer's payment agency.<br>Exceptions:<br>. Customer abandons cart.<br>. We have an out-of-stock item.<br>. Customer payment credentials fail on re-validation.<br>---<br></pre>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  </li>
+  <li><b>Test Plan:</b> The user story forms a high-level test plan.<br>
+  </li>
+  <li><b>Business Process: </b>Business processes are described by a plan-base <br>
+containing task-frames that describe individual processes.&nbsp; <br>
+The goal: "We ship purchased items to customer."<br>
+matches the title of a task frame<br>
+that describes the end-game moves in the business process.<br>
+    <table border="1" cellpadding="9" cellspacing="0">
+      <tbody>
+        <tr>
+          <td valign="top">
+          <pre>---<br>Task: We ship purchased items to customer.<br>Post: Purchased items are shipped to customer.<br>Pre: <br>. Customer accepts sales agreement.<br>. . (with shipping arrangement and payment terms)<br>. Purchased items are packaged for shipment.<br>Steps:<br>. Transfer shipping package to shipping company.<br>. Notify customer that purchased items are shipped.<br>. Debit the customer's account for items shipped.<br>---<br></pre>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+  </li>
+  <li>The task-master creates a plan by back-chaining from this task-frame<br>
+to the other task-frames indicated by the pre-conditions.<br>
+
+  
+    <table border="1" cellpadding="9" cellspacing="0">
+
+    <tbody>
+      <tr>
+        <td valign="top">
+        <pre>---<br>Task: Customer accepts sales agreement.<br>Post: Sales agreement is accepted by customer.<br>Pre: <br>. Customer selects shipping arrangements.<br>. Customer provides payment credentials.<br>Steps:<br>. Present complete sales agreement.<br>. Ask customer to confirm acceptance of sales agreement.<br>---<br>Task: Package items in order for shipment.<br>Post: Purchased items are packaged for shipment.<br>Pre: <br>. Items in the order are all in the packing department.<br>Steps:<br>. Get appropriate shipping container. (suggested size box)<br>. Move items from warehouse basket to shipping container.<br>. Fill remaining space with padding.<br>. Seal box.<br>. Attach shipping labels.<br>---<br>Task: Pick items in the order.<br>Post: Items in the order are all in the packing department.<br>Pre:<br>. Picker has pick-list for a customer order.<br>Steps:<br>. Get warehouse basket from basket queue.<br>. Travel the pick-list and pull items from shelves into basket.<br>. Move basket to the packing department.<br>--- <br>Task: Provide pick-list for order.<br>Post: Picker has pick-list for a customer order.<br>Pre:<br>. Sales agreement is accepted by customer.<br>. Customer payment credentials are re-validated.<br>Steps:<br>. Compute best route for picking.<br>. Generate the pick-list.<br>. Deliver the pick-list to next available picker.<br>---<br></pre>
+        </td>
+      </tr>
+    </tbody>
+  
+    </table>
+
+  <br>
+
+  </li>
+</ul>
+
+
+<h3>The Operating Environment</h3>
+
+
+<ul>
+
+
+  <li><b>Run-Time System:</b> The framework simply communicates each
+action in the task-plan to an actor, a software actor. The actor, in
+turn, may communicate to other actors or a robot or a human worker.
+When instructions are given to a human worker, a task-appropriate human
+interface is used. The human interface could be a sheet of paper, a
+mobile display, an interactive voice response system, or a virtual
+reality display with 3D metophors. <br>
+- The system may be highly distributed involving many actors hosted on
+geographically dispersed hosts. Coordination is all asynchronous using
+secure messaging. The messages contain SimpleEnglish sentences.<br>
+  </li>
+  <li><b>Accounting:</b> Actors are using resources and moving assets
+around. Accounting is built-into the statement-understanding and
+process instrumentation. The general ledger operates in real-time.</li>
+  <li><b>Memory and History:</b>&nbsp; Programmers will delegate
+record-keeping to the framework. They will no longer need to spend time
+assuring that the recording system is functioning. Agents have only a
+small amount of current data to remember - very simple persistance
+systems will handle that. Businesses will use off-the-shelf "appliance"
+systems to record and retrieve facts about customers, suppliers,
+resources, and accounts. <br>
+</li>
+  <li><b>Component Architecture:</b> The essential components of the system include:</li>
+  <ul>
+    <li>Human Interface Agent - communicates with human clients and workers<br>
+    </li>
+    <li>Accounting Service - operates accounting services, general ledger<br>
+    </li>
+    <li>Contact Database - tracks people and parties<br>
+    </li>
+    <li>Plan KnowledgeBase - stores the business process representation<br>
+    </li>
+    <li>Task Master - runs each task to completion or termination<br>
+    </li>
+    <li>Plan Maker - builds a plan for each goal<br>
+    </li>
+    <li>Resource Pool (class) - supertype for all resource pools: allocates, assigns, tracks<br>
+    </li>
+    <li>Resource (class) - supertype for all resources<br>
+    </li>
+    <li>Actor (class) - a resource that can perform action statements<br>
+    </li>
+    <li>Utilization db - hold resource utilization statistics, facilitates Monte Carlo draws.<br>
+    </li>
+  </ul>
+
+</ul>
+
+
+<h3>Consequences:</h3>
+
+
+<ul>
+
+
+  <li><b>Business Strategy:</b> Business process excellence will not
+distinguish most competitors. The buying experience is already the thing that
+differentiates brands in the consumer's minds. Branding will merge with the customer
+experience. The customer experience will occur in the virtual reality store-front.&nbsp; This means that the ability to create
+satisfying experiences, perhaps with some entertainment thrown in, will
+be essential to building brand loyalty. <br>
+  </li>
+  <li><b>Strategic advantage</b> will be based
+on understanding customer preferences and being able to provide
+customers with a delightful experience in addition to the old
+strategies concerning market position, supply logistics, and the
+ability to predict and respond to changes.</li>
+  <li><b>Knowledge Economy:</b> Most business processes are not
+unique.&nbsp; Warehouse and retail operations are well understood. The
+generic top-level business processes for retail operations and shipping
+and transportation will all be defined in a the first few months after
+the SimpleEnglish framework is released. <br>
+- The more critical knowledge will be an <b>understanding of customer preferences</b>.
+In markets where the customers are young people, preferences will be
+relatively volatile. One might expect that services that can profile
+consumers in a way that allows bots to customize their behaviors might
+be highly valued.<br>
+  </li>
+  <li><b>Talent Economy:</b> Initially the critical new knowledge will
+be the ability to continuously provide satisfying buyer experiences.
+This means creating interesting scenes and responsive bots. It appears
+that this will require far more artistic talent and perhaps somewhat
+less technical talent than has been the case in the past. <br>
+- Currently, the work of creating highly detailed 3D scenery is very
+labor intensive. One might therefore expect much of this work to flow
+to places where labor is less expensive. <br>
+- The work of creating good dialog requires a very good sense of local
+verbal idiom - including, perhaps, a good sense of the customer's
+cultural preferences. In the case of youth culture, this may require a
+good ability to follow and imitate fads. This type of work is likely to
+require a culturally sensitive and hence somewhat local work-force. (I
+am only somewhat ignoring the fact that there is a global youth
+culture.)</li>
+  <li><br>
+  </li>
+</ul>
+
+
+</body></html>

@@ -1,0 +1,113 @@
+---
+Task: Move customer to new-residence.
+Post: All customer-accounts are forwarded and new energy-services started.
+Pre: 
+. Old customer-accounts are forwarded to new-billing-address.
+. Energy-services at new-address are started.
+. Energy-services at old-address are re-assigned.
+Actions:
+. None.
+---
+Task: Forward old customer-accounts to customer's new-billing-address.
+Post: Old customer-accounts are forwarded to new-billing-address.
+Pre:
+. Customer has moved-in at new billing-address. [Signal from Customer?]
+Action:
+. Billing: Change to new-billing-address for all the customer's customer-accounts.
+---
+Role: Billing.
+Action: Change to new-billing-address for all the customer's customer-accounts.
+. For each of the customer's customer-accounts:
+. . Change customer-account billing-address to new-billing-address.
+---
+Task: Start the energy-services at the customer's new-address.
+Post: Energy-services at new-address are started.
+Pre:
+. Customer has possession at new-address. [Signal from Customer.]
+. Customer has met deposit requirements. [Signal from payments.]
+. Energy-services requested by the customer are all installed.
+Actions:
+. Field: Start requested energy-services at new-address.
+---
+Task: Install or prove requested energy-services.
+Post: Energy-services requested by the customer are all installed.
+Pre:
+. Gas-energy-service installed at new-residence. 
+. Electric-energy-service installed at new-residence.
+. Interruptible-electric-energy-service installed at new-residence.
+. (Note: One or more of these energy-services may already exist.)
+. (In that case, we will find the historic event in the world-base.)
+. (LOGIC ERROR: What if they don't want interruptible energy-service?)
+Action:
+. None.
+---
+Task: Install energy-service at residence.
+Post: Energy-service installed at residence. (Should match pre-conditions above.)
+Pre:
+. None.
+. (Only come here when the condition has not already been satisfied by a pre-existing installation.)
+Action:
+. Workflow: Install new energy-service at location.
+---
+Dictionary: Energy-service types.
+. Gas-energy-service is an energy-service.
+. Electric-energy-service is an energy-service.
+. Interruptible-electric-energy-service is an energy-service.
+---
+Dictionary: Location names.
+. New-billing-address is an billing-address.
+. Billing-address is an address.
+. New-residence is a residence.
+. Old-residence is a residence.
+. A residence has an address.
+. New-address is synonym for new-residence.
+. An address has a premise-line.
+. Premise-line attributes include number, street-direction, street-name, apartment.
+. An address has a city-line.
+. City-line attributes include city, state-province, postal-code, nation.
+---
+Dictionary: Customer role.
+. Customer is a role.
+. A role has a party.
+. A role has a business-process.
+. A party has a name.
+. An organization is a party.
+. An energy-service attributes include energy-service-type, energy-service-capacity.
+. energy-service-capacity is a category.
+. energy-service-capacity categories include kW, mW, ccf.
+. energy-service-type categories include electric, interruptible-electric, yard-light, street-light, gas.
+. A home-protection-plan is a energy-service.
+. A home-security-energy-service is a energy-service.
+. Customer-account is an account.
+. A customer-account has a customer.
+. A customer-account has a billing-address.
+. A customer-account has a balance.
+. A customer-account has a deposit.
+. A customer-account has an invoice-history.
+. A customer-account has a payment-history.
+. An invoice-history is a history.
+. A payment-history is a history.
+. A residence has an address.
+. A residence contains a collection of energy-services.
+. A balance is money.
+. A deposit is money.
+---
+Dictionary: Work-Order.
+. A transfer-work-order attributes include old-residence, new-residence, old-billing-address, new-billing-address, customer-account, old-residence-stop-date, new-residence-start-date.
+. Old-billing-address is a billing-address.
+---
+Role: Billing.
+Action: Change the billing-address for all the customer's customer-accounts.
+. For each of the customer's accounts:
+. . Change billing-address to new-address.
+---
+Role: Work-flow.
+Action: Install new energy-service at location.
+. Call-center: Make an appointment for the installation of new energy-service.
+. Field: Dispatch crew to install new energy-service at time of appointment.
+---
+Role: Field.
+Action: Start requested energy-services at new-address.
+. Call-center: Make an appointment for the energy-service turn-on.
+. Field: Dispatch worker to turn-on the energy-service at time of appointment.
+---

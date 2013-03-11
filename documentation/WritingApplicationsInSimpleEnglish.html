@@ -1,0 +1,360 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>  
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <title>Writing Applications in Hum</title>
+  <link href="styles.css" rel=STYLESHEET TYPE="text/css">
+  
+</head>
+<body>
+
+<h1>Writing Applications in Hum</h1>
+
+<h2>Applications are created by informing, not programming.</h2>
+<p>
+   You do not really program the Hum system.
+   Instead you tell the system what it needs to know to write its own programs.
+   Accordingly, authoring an application mainly involves 
+     identifying the goals of the application
+	 and then providing the knowledge required
+	 by the system to achieve each goal. 
+</p>
+<p>	 
+   In general, the system determines what is missing
+   by examining what you have told it so far
+   and identifying things you have mentioned
+   but not yet explained.	
+   Thus, the system might not know that a goal is missing,
+   but, it will know when the plan for a known goal is incomplete.   	 
+</p>
+<p>
+  
+</p>
+
+<h2>Capturing Business Process Knowledge</h2>
+<p>
+The Hum <i>framework</i> is designed, from the ground up,
+ to <i>implement</i> 
+and <i>simulate</i> business processes. 
+The framework can be used for other purposes, 
+but it is easiest to understand 
+when viewed in the context of a <i>business process</i>.
+</p>
+<h3>Fulfilling an Order</h3>
+<p>
+The fundamental business process is fulfilling an order. 
+An order is the triggering event. 
+Fulfilling the order is the goal of the business system. 
+Everything else flows from the order.
+Resources are marshaled, allocated, assigned, used, and accounted. 
+The customer is billed for the service performed or product delivered, 
+funds are collected.
+The metrics of the enterprise are continuously monitored.
+</p>
+<h3>Example Scenario - A Donut Shop</h3>
+<p>
+To illustrate how the system works, 
+  consider the following <b>scenario</b>:
+Our enterprise is operating a donut shop. 
+Customers buy donuts and coffee. 
+We offer a variety of donuts and coffees. 
+We will describe our business processes from the top down. 
+Along the way, 
+  we will note the different <i>entities</i> involved 
+  - the roles, the resources, the products.
+This scenario is partially described in the top-level task frame shown in 
+<a href="#Figure_1">Figure 1</a>.
+</p>
+
+<a name="Figure_1"></a>
+<table border="1" cellpadding="9" cellspacing="0">
+  <tbody>
+    <tr>
+      <td valign="top">
+         <h4>Figure 1: The top-level task frame - identifies the primary goal.</h4>
+<pre class="EXAMPLE">
+---
+Task: Serve the customer.
+Post: Customer is served.
+Pre: 
+. Customer has entered an order.
+. Customer has paid for order.
+Actions:
+. Coffee-Mixer: Prepare the coffee items in the order.
+. Donut-Fetcher: Fetch the donut items in the order.
+. Order-assembler: Assemble order items into packages.
+. Order-checker: Give packages to the customer.     
+---
+Dictionary:
+. A donut is a product.
+. A donut item is an order item.
+. A carrier is a delivery package.
+---
+</pre>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p><i>
+This is not the time to worry about the realism or efficiency 
+of this business process 
+or the related business policies. 
+This example is for illustration. 
+In fact, it contains some deliberate errors.
+Later, we will show how processes get refined and how policies are changed.
+</i></p>
+
+<h3>The Task Frame</h3>
+
+<p class="ADVICE">
+<i>
+Read the following paragraph carefully. 
+<br />It contains a dense description of the main concepts of Hum.
+</i>
+</p>
+<p>
+The <i>top-level task frame</i> defines the <i>goal</i> of the <i>plan</i> in its <i>post-condition</i>.
+The post-condition is labeled "Post" in the frame. 
+However, 
+  before the work of serving the customer can begin, 
+  we need to know what the customer wants. 
+Therefore, 
+  a <i>precondition</i> is that the customer has entered an order. 
+It is also our policy to collect payment in advance. 
+So, that is one of the preconditions also. 
+Once the preconditions (labeled "Pre" in the task frame) are satisfied, 
+  we perform a sequence of <i>actions</i>
+  with the end result being that the post-condition, the goal, is achieved.
+Each action is a procedure performed by a specific <i>role</i>.
+The actions performed by a role are detailed in a <i>role frame</i>.
+</p>
+
+<h4>Defining Sub-processes</h4>
+<p>
+Now that the primary goal and its prerequisites 
+  and transitional actions are identified,
+  we can define the prerequisite sub-processes indicated by the preconditions. 
+We will write more task frames to show how the preconditions are satisfied. 
+We will also write <i>role frames</i> (sets of procedures) to define the actions performed by various roles.
+</p>
+<p>
+Assume for now that we always have <i>actors</i> on hand that can understand the <i>instructions</i> in the role frame. When the system is running, the roles are assigned to humans, robots, or simulated actors (sim-bots).
+</p>
+
+<p>Here is an <b>action procedure:</b></p>
+
+<a name="Figure_2"></a>
+<table border="1" cellpadding="9" cellspacing="0">
+  <tbody>
+    <tr><td>
+    <h4>Figure 2: Role Frame - Provide detailed instructions for actors assigned to a role.</h4>
+<pre class="EXAMPLE">
+Role: Coffee-Mixer.    (Coffee-Mixer is the name of a role.)
+Action: Prepare the coffee-items in the order.  
+. Get a coffee-tray from the coffee-tray-stacker.
+. For each coffee-item in order:
+. . Prepare the coffee-item.       		
+. . Add coffee-item to coffee-tray.		
+. . Bookkeeper: Add coffee-item value to coffee-tray inventory.
+. Move coffee-tray to outgoing-coffee-queue.	
+
+To: Prepare the coffee-item.                  
+. Fetch recipe's cup from cup-dispenser. 
+. Execute coffee-item's assembly-process.
+. (The assembly-process is the coffee-item recipe.)
+. (The assembly-process will account for materials and equipment costs.)
+
+To: Get container from stacker.
+. Move to stacker's location.
+. Remove container from stacker. 
+</pre>
+     </td></tr>
+  </tbody>
+</table>
+
+<p>Here are some of the points of interest in the action procedure shown in 
+<a href="#Figure_2">Figure 2</a>:
+</p>
+<ul>
+  <li>The <i>role</i> is called "Coffee-Mixer". 
+      When the <i>action</i> is performed,
+	    the <i>actor</i> could be a human, or a robot, or a sim-bot.
+	  </li>
+  <li>The term role might also be thought of as synonymous with <i>actor</i>. 
+      A single person or a single robot could be performing multiple roles in our scenario. 
+	  <i>
+	  (If you thought our coffee-shop was over-staffed, 
+	     you should now understand that a single person could be doing everything.)
+	  </i>
+	  </li>
+  <li>The action is defined with a <i>action-procedure</i> 
+      - directly under the "Action" label.
+	  </li>
+  <li>That action-procedure contains a "For each" statement. 
+      This type of statement provides a way to iterate over the items in a collection. 
+	  In this case, the order contains a collection of order-items.
+	  </li>
+  <li>The action-procedure refers to a <i>sub-procedure</i> 
+        called "Prepare the coffee item."
+      </li>
+  <li>That sub-procedure is associated in a with a "To" label 
+      and defined in a block of statements that follow the To-label.
+      </li>
+  <li>The main procedure <i>delegates</i> the book-keeping work to another actor, called "Bookkeeper".
+      </li>
+  <li>The instruction "Get a coffee-tray from the coffee-tray-stacker."
+        is detailed under: "To: Get container from stacker." 
+        ... This illustrates the use of <i>supertypes</i>.
+        A coffee-tray is a kind of container.
+        A coffee-tray-stacker is a kind of stacker.
+        The relationships between supertypes and subtypes are defined 
+          in <i>dictionary frames</i>.
+      </li>
+</ul>
+
+<table border="1" cellpadding="9" cellspacing="0">
+  <tbody>
+    <tr><td>
+    <h4>Figure 3: Dictionary Frame - add new words to the vocabulary.</h4>
+<pre class="example">
+---
+Dictionary: Donut-Shop Equipment.
+. A coffee-tray is a container.
+. A coffee-tray-stacker is a stacker.
+---
+</pre>
+     </td></tr>
+  </tbody>
+</table>
+
+
+<h4>Run-Time Semantics</h4>
+<p>
+Since the procedures are written in Hum, 
+they can be understood equally well by humans, robots, and sim-bots. 
+When we run the actual business, 
+the procedures are executed by humans and/or robots.
+When we simulate the operation of the business, 
+  the procedure actions are performed by <i>sim-bots</i>. 
+The same system can be used to operate the business in the real world 
+  or in a virtual world. 
+In fact,
+ we may want to test our business processes in the virtual world 
+   before running them in the real-world.
+</p>
+
+<h3>Where are the variables?</h3>
+<p>
+If you are a programmer, you may be wondering how the <i>variables</i> 
+  are indicated in the procedures.  
+In a natural language sentence, the <i>nouns</i> denote variables.
+Nouns are almost always abstract concepts whose meaning depends on context.
+Only proper nouns denote a specific instance of an object. 
+</p>
+<h4>Filling in the Blanks</h4>
+<p>
+Variables in a programming language are essentially blanks (slots) 
+  to be filled-in at run-time.
+Using the language of math, 
+  we would say that the system substitutes specific values for the variables
+  in the formulae.  
+</p>
+<p>
+When humans are given procedures,
+   they map the nouns to specific <i>objects</i> in their environment
+   based on context and experience.
+But sim-bots are just bots and they need a little help with the mapping.
+There are two things involved here: mapping and context.
+</p>
+<p>
+<b>Mapping:</b>
+Nouns refer to <i>entities</i> and the <i>attributes</i> of entities.
+Dictionary entries map nouns to built-in concepts.
+In Hum, the <i>dictionary</i> entries identify which nouns are entities
+and which are attributes.
+In addition to data-level concepts like entity and attribute,
+  the framework contains higher level concepts including:
+  <br/>- role
+  <br/>- resource
+  <br/>- resource pool
+  <br/>- location
+  <br/>- measure
+</p>
+
+<p>
+<b>Context:</b>
+At run time, the nouns in the statements are mapped to specific objects.
+A <i>plan</i> is assembled to satisfy a specific <i>goal</i>.
+All of the nouns in that plan 
+  are then interpreted in the context of that goal 
+  and the <i>world</i> in which the plan is operating.
+Some objects are defined in the goal. 
+For example, a specific order (product) and customer (client, person)
+  might be referenced in the <i>post-condition</i> of the top-most task frame.
+Other nouns may refer to the environment.
+For example, they may refer to specific <i>resources</i> 
+  including equipment, materials, workspaces, and actors.
+</p>
+<p>
+When a Hum system wakes up, its memory of the world is read 
+  from a kind of database that we call a world-base.
+The memory of the world changes as the instructions 
+  in the frames are executed by various actors.
+The world-base maintains records of what-is and what-happened.  
+</p>
+<p>
+Consider the instruction:
+<code> . Add flavors shown in item recipe.</code>
+<br/>The nouns are "flavors", "item", and "recipe".
+The system already knows that "item" refers to an "order item"
+and that an <i>order item</i> will refer to a <i>product</i>
+and that a product may have a <i>bill-of-material</i>
+and an assembly-process.
+We need to explain "flavors" and "recipe".
+The relevant dictionary entries are:
+</p>
+<pre class="EXAMPLE">
+---
+Dictionary:
+. A flavor is a material.
+. Recipe is a synonyn for assembly-process.
+---
+</pre>
+<p>
+These dictionary entries map the nouns to lower-level concepts
+that are "understood" by the system. 
+In this case, the item is in the order that is referenced in the original goal.
+The item, in turn, implicitly references a recipe.
+The recipe is an assembly-process defined by a task frame in the ontology.
+The sim-bots will read the bill-of-materials
+and draw "flavor" <i>material</i> from appropriate <i>resource pools</i>.
+</p>
+<pre class="example">
+---
+Dictionary: Bill-of-Materials concepts.
+. Product is described by name, bill-of-materials, assembly-process.
+. . (The "assembly-process" names a task-frame in the ontology.)
+. A bill-of-materials contains a list of component-quantities. 
+. A component-quantity is described by a component and a quantity.
+. A part is a component.
+. A material is a component.
+---
+</pre>
+ 
+<h2>Elaborating the Example</h2>
+<p>
+A version "0.1" elaboration of the Donut Shop's business process is in 
+the "<a href="DonutShopV01Linked.html">DonutShopV01</a>" listing. 
+This is a good time to examine the listing.
+The elaboration is fairly detailed, 
+but there are still some inconsistencies
+and some missing bits.
+That will help us show how the system catches errors.
+</p>
+<p> 
+In <a href="RunningTheBusiness.html">Running the Business</a>,
+we will explain how the system operates (or simulates) a business.
+</p>
+</body>
+</html>

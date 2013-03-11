@@ -1,0 +1,205 @@
+<html>
+<head>
+	<title>Hello World</title>
+</head>
+<body>
+<h2>Hello World in a Dialog Frame</h2>
+<pre>
+---
+Dialog: Greeting.
+Context: No cookie. (We don't know who the user is yet.)
+U: Knock knock - no cookie.
+S: Hello. 
+   I do not know who you are 
+   because there is no cookie in your browser.
+   
+   If you tell me your e-mail address 
+     and you have been here before,
+     I will know who you are 
+     and remember our past conversations.
+   If you have not been here before, 
+     telling me your e-mail address 
+     will allow us to know who you are in the future
+     and I will remember our past conversations.
+     
+   In any case, we will not share your information with anyone
+   and we will not send you any e-mail unless you ask us to.
+       
+   If you wish to remain anonomous, just say "guest".
+   Note that all dialogs are recorded and reviewed periodically
+   by the staff to improve the dialog.
+...
+U: Guest.
+U: * guest *.
+S: Fine. 
+   As a guest, you are welcome to explore all of our information offerings.
+. Context is guest.   
+. (A guest will not be allowed to update anything.) 
+   Here is a menu of what we have available:
+. Ask "What do you wish?". 
+. (The "Ask" and "Show" commands allow us to include electronic-forms in the dialog.)  
+...
+U: * [name] @ [host] .  (User provided e-mail in response to query above.)
+S: 
+   Welcome [name].
+   With your permission, I will send a cookie to your browser 
+     so that I will remember you in the future.  
+   May I do that?
+. Set context "Permission to set cookie".
+...
+U: *.
+U: *?
+S: 
+   I do not understand [*] in this context.
+   Please enter "guest" or your e-mail address.
+. Ask "Guest or e-mail".  (Show a form to make the prompt more explicit.)   
+...
+Context: Permission to set cookie.   
+...
+U: Yes.
+S: Thank you.
+   When I see the cookie in the future, 
+     I will remember know who you are. 
+     
+   Here is a menu of what we have available.     
+. Update cookie.
+. Remove "Permission to set cookie" from context.
+. Show "What do you wish?".   
+...
+U: No.
+S: Okay. I will forget our conversation when this session ends.
+   
+   Here is a menu of what we have available:
+. Ask "What do you wish?".         
+. Remove "Permission to set cookie" from context.
+...
+U: What is a cookie?
+S: A cookie is a small file that your web browser keeps.
+   Cookies are used by web sites to facilitate dialogs with users.
+   The web site can store small amounts of data on the cookie
+     and thus know that the user has been to the site before.
+   The browser will not permit a web site to view cookies left by other web sites.
+   
+   The only other practical way for a web site to know who is calling
+   is for the web site to ask for a user-name and password.   
+. (A special purpose browser could provide identification information, but that would be of limited use.)   
+...
+Context: Guest. 
+. (The frames following this "context" label are relevant in the "Guest" context.)
+...
+U: *. 
+S:
+. (This pattern will match anything.) 
+. (The system will attempt to match the most specific patterns first.)
+S: 
+   Sorry. I do not know what "[*]" means in this context.
+   Here is a menu of what we have available:
+. Show "What do you wish?". 
+--- 
+View: What do you wish?
+
+  What do you wish? 
+
+  [[ 1 ]] Tell me more about Simple English.
+  [[ 2 ]] I wish to become a subscriber. Send me e-mail about new developments.
+  [[ 3 ]] I wish to become a contributor - join the development team.
+  [[ 4 ]] I want to read the documentation.
+  [[ 5 ]] I want to download the software.
+  
+. [[ 1 ]] Hear "Tell me more about Simple English.".
+. [[ 2 ]] Hear "I wish to become a subscriber.".
+. [[ 3 ]] Hear "I wish to become a contributor.".
+. [[ 4 ]] Hear "I want to see the documentation.".
+. [[ 5 ]] Hear "I want to download the software." .
+---
+Dialog: Tell me more.
+U: Tell * Simple English.
+U: * Simple English?
+S: 
+   Simple English is a new programming system based on a old idea.
+   The old idea is to allow people to write programs in natural written English.
+   The first attempt was the COBOL language. 
+   COBOL was invented around 1960 
+     and was based on the technologies available at that time.
+   Simple English was invented around 2005 and, of course,
+     it is based on more evolved technologies.
+...
+U: * subscriber.
+U: * subscription.
+S: 
+   We send e-mail notices to subscribers 
+   when the content of the web site changes.
+   You can un-subscribe at anytime.
+   There is no charge for the subscription service.
+. Ask "Subscription".
+---
+View: Subscription.
+
+  We will send e-mail notices about changes to this web site content
+  to the e-mail address you enter here:
+  
+  [name] @ [host]
+  
+. Start subscription for name, host.
+---
+Dictionary: Subscriber, subscription, e-mail.
+. A subscriber is a user.
+. Subscription attributes include subscriber, preferences, start-date.
+. A start-date is a date.
+. Subscriber attributes include e-mail-address, self-description, contacts.
+. E-mail-address attributes include name, host.
+. A host is a URL. (This is not strictly correct. Need to correct later.)
+---
+Dialog: How to contribute.
+U: * contributor *.
+U: * development team.
+U: * join *.
+U: * member *.
+S: There are several ways that developers can contribute to Simple English.
+
+   1. Improve the documentation. (on-line dialogs and the [link: Programmers' Guide])
+   2. Add new processes, simulations, or games to the [link: catalog].
+   3. Add agent capabilities. See development [link: roadmap].     
+...
+U: * download * documentation.
+S: The Simple English documentation is copyrighted.
+You cannot make copies other than for your own use or teaching purposes.
+Short excerpts may be quoted in other monographs with proper attribution.
+. Show "Documentation Menu".
+...
+U: * download * software.
+S: 
+  Simple English is distributed under this [link: license].
+  If you agree to the license terms, you can download the software.
+. Ask "License Agreement".   
+---
+View: License Agreement.
+
+  Blah, blah, blah.
+  
+  [[ Yes ]] I agree to the terms of the license.
+  [[ No  ]] I cannot agree to the terms of the license.
+. [[ Yes ]] Hear "I agree.".
+. [[ No  ]] Hear "I refuse.".
+---
+Dictionary: Contributer, license, agreement.
+. A contributer is a subscriber.
+. A license is a document.
+. An agreement is an affirmation.
+---
+Dialog: License agreement query.
+U: I agree.
+S: 
+   You may download the software by ... 
+   The software depends on ... which you can download from ...  
+...
+U: I refuse.
+S: 
+   Okay. If you need more information, feel free to ask. 
+   If I understand the question, I will try to answer.
+   Otherwise, the question will be forwarded to a human
+   and the answer returned to you by e-mail or phone.
+---      
+</pre>
+</body>
+</html>

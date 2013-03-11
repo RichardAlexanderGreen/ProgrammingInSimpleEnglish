@@ -1,0 +1,848 @@
+<html>
+<head>
+  <title>Frame Notations</title>
+  <link href="styles.css" rel=STYLESHEET TYPE="text/css">
+  <!--Copyright 2006 Richard A. Green 734-223-6687 -->
+</head>
+<body>
+
+<table cellpadding="9" border="1" style="background:YELLOW">
+<tr><td>
+    <h3>Preface - This is the English version of Hum - Hum English</h3>
+      <p>
+       The notations shown here are for the English-language version of Hum
+       which we refer to as "Hum English".
+       The concepts of Hum are the same from language to language.
+       But the notation may vary to accommodate the conventions
+       and keyboards associated with different languages.
+      </p>
+</td></tr>
+</table>
+<h2>Frame Notations</h2>
+  <p>Hum <i>applications</i> are composed from short vignettes called
+     <i>frames</i>.
+     There are several types of frames which serve different purposes.
+     Each type of frame uses a slightly different <i>notation</i>.
+     <!--
+     Other programming languages also use several notations.
+     For example, COBOL has different notations in its several sections.
+     FORTRAN has different notations for procedure, format, and data schema.
+     Java has different notations for procedures, arrays, and properties.
+     Java applications typically use several variants of XML 
+     (HTML, JSP, STRUTS artifacts, EJB deployment descriptors)
+     to specify display format, dialog (page flow), deployment descriptors.
+     -->
+  </p>
+  <p>While one goal of Hum is to be as natural as possible,
+     one must recognize that written English is not as "natural" as verbal English.
+     Various notations and conventions are used in written English
+     for various contexts and purposes.
+     For example, technical documents often contain specific notations
+     that have their own peculiar semantics
+     and, if read aloud, would be unusable as verbal English.
+     (For example: Consider a train schedule.)
+     And thus, even written English contains many examples of synthetic language.
+  </p>
+  <p>Hum has notations that are intended to be 
+       easy to learn 
+       and highly readable.
+     The notations are designed 
+       around the concepts that they are intended to record and convey.
+     Computer languages such as FORTRAN, Basic, C, and Java are designed
+       as much for the computer's convenience as for human convenience.
+     Hum is designed for human convenience.
+  </p>
+  <table width="100%" cellpadding="9">
+   <tr>
+    <td>
+     There are several types of frames 
+     - each with a different purpose and a different notation.
+     <br />.
+     <table>
+      <tr>
+       <td align="RIGHT"><a href="#TaskFrame">       Task Frames        </a></td>
+       <td> - provide process knowledge.   </td>
+       <td>... used to build plans.</td>
+      </tr>
+      <tr>
+       <td align="RIGHT"><a href="#RoleFrame">       Role Frames      </a></td>
+       <td> - provide step-level instructions.   </td>
+       <td>... tell actors what to do.</td>
+      </tr>
+      <tr>
+       <td align="RIGHT"><a href="#DictionaryFrame"> Dictionary Frames  </a></td>
+       <td> - provide vocabulary.              </td>
+       <td>... make natural language possible.</td>
+      </tr>
+      <tr>
+       <td align="RIGHT"><a href="#ViewFrame">     View Frames      </a></td>
+       <td> - show how to display data.                </td>
+       <td>... for some entity.</td>
+      </tr>
+      <tr>
+       <td align="RIGHT"><a href="#DialogFrame">     Dialog Frames      </a></td>
+       <td> - indicate user interface dialogs.      </td>
+       <td>... stimulus-response </td>
+      </tr>
+      <tr>
+       <td align="RIGHT"><a href="#DataFrame">       Data Frames        </a></td>
+       <td> - communicate data. </td>
+       <td>... in a concise and readable form.</td>
+      </tr>
+     </table>
+    </td>
+   </tr>
+  </table>
+
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->  
+<hr>  
+<a name="TaskFrame"></a>
+<h3>Task Frame Notation</h3>
+  <p>
+   The purpose of a Task Frame is to describe part of a process.
+   A component of the system called the Planner creates programs, called plan trees,
+   by assembling related Task Frames. The Planner assembles task frames to form a plan.
+   It does that by working backwards from a goal.
+   The goal matches a post-condition in one of the task frames.
+  </p>
+  <p>
+   The notation of the task frame
+   is designed to concisely describe
+   an individual task.
+   It also facilitates starting with an end-goal
+   and then letting the system identify
+   what process knowledge remains
+   to be described.
+  </p>
+  <h5>Syntax</h5>  
+<pre class="syntax">
+---
+Task: (imperative sentence - is the name/title of the task)
+Post: (declarative sentence)
+Pre:
+. (pre-condition - matches some other task's post-condition)
+. (pre-condition)
+. (...)
+. (Some tasks have no pre-conditions. They are ready to run.)
+Actions:
+. (role) : (action - understood by an actor assigned the role)
+. (role) : (action)
+. (...)
+. (Some tasks will have no actions. They simply define a named-state.)
+---
+</pre>
+<h5>Example</h5>
+<pre class="example">
+Task: Deliver order to customer.
+Post: Order delivered to customer.
+Pre:
+. Customer has paid for order.
+. Order is ready for delivery.
+Actions:
+. Counter: Give order package to customer.
+. Bookkeeper: Account for order revenue and taxes.
+</pre>
+  <h4>Task Frame Statements</h4>
+  <ul>
+   <li>The "Task" statement identifies the task.
+    It gives the task a name for reference.
+   </li>
+   <li>The "Post" statement defines the post-condition
+    that will be satisfied when the task is completed.
+    The post-condition of the top-most task in a plan tree
+    is the <i>goal</i> of the plan.
+   </li>
+   <li>The "Pre" statements define the pre-conditions
+    that must be met before work on the "Actions" can begin.
+    Some task frames have no pre-conditions
+    which means that the work can begin immediately.
+    <br />- The Planner forms a plan tree by
+    back-chaining pre-conditions in each frame
+    to post-conditions in other frames
+    until all the pre-conditions are matched.
+   </li>
+   <li>The "Actions" specify the work needed to satisfy the post-condition
+    once the pre-conditions have been satisfied.
+    Some task frames have no actions.
+    Such frames serve to combine two or more conditions
+    into a single condition.
+   </li>
+  </ul>
+
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->  
+<hr>  
+  
+  <a name="RoleFrame"></a>
+  <h3>Role Frame Notation</h3>
+  <p>
+   Role Frames provide the <i>instructions</i>
+   required to perform a <i>action</i>.
+   At run-time, these instructions will be executed
+   by an <i>actor</i> assigned the <i>role</i>
+   named in the step.
+  </p>
+  <p>
+   Since the instructions are written in Hum,
+   they can be understood equally well by humans, robots, and sim-bots.
+   When we run the actual business,
+   the instructions are executed by humans and/or robots.
+   When we simulate the operation of the business,
+   the instructions are performed by <i>sim-bots</i>.
+   The same system can be used to operate the business in the real world
+   or in a virtual world.
+   In fact,
+   we may want to test our processes in the virtual world
+   before running them in the real-world.
+  </p>
+
+<pre class="syntax">
+---
+Role: (role)                                     << Actors are assigned roles
+Action: (action invoked in a task frame step)    << Task Frames invoke actions.
+. (instruction)                                  << Actors execute instructions.
+. (instruction)
+. (instruction)
+
+To: (instruction used elsewhere in this frame)   << Explain detail in more detail.
+. (instruction)
+. (instruction)
+. (instruction)
+---
+</pre>
+
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->  
+<hr>  
+
+  <a name="DictionaryFrame"></a>
+  <h3>Dictionary Frame Notation</h3>
+  <p>
+   The purpose of a Dictionary Frame is to describe the <i>vocabulary</i> of the task world.
+   Dictionary items map new concepts to concepts
+   that the Hum system already knows.
+   The Hum system already understands terms such as:
+   order, order item,
+   bill-of-material, material, part, assembly, container,
+   person, worker, employee, organization, roles,
+   measure, metric, money, cost, price, account,
+   resource, resource pool, inventory,
+   and more.
+  </p>
+  <p>
+   The design of the dictionary notation
+   is meant to allow people to describe terms
+   in a natural style.
+   The style is close to written English in this case.
+  </p>
+  <p>Syntax:</p>
+<pre class="syntax">
+---
+Dictionary:
+A (name) is a (name).
+("a" and "an" are interchangeable.)
+(name = noun phrase)
+A (name) is described by its (name), (name), (name), (name), and (name).
+---
+</pre>
+<p>Example:</p>
+<pre class="example">
+---
+Dictionary: Coffee-Mech Facts.
+. A coffee-mech is a robot.
+. A coffee-mech is described by its make, model, and software-release.
+. A coffee-mech is identified by its serial-number.
+. JavaBot is a synonym for coffee-mech.
+. SN is shorthand for serial-number.
+---
+Dictionary: Employee Relationships.
+. Relationship: Worker W is assigned mentor M.
+. Relationship: Worker W works in store S.  (many to many)
+. Relationship: Employee E is assigned role R effective on date D. 
+. Relationship: Worker W is assigned to supervisor S when working in role R.
+. A mentor is an employee.
+. An employee is a worker.    (Some workers are employees.)
+. A contractor is a worker.   (Some workers are contractors.)
+. A worker is a person.
+. A supervisor is an employee.
+---
+</pre>
+  <h4>Dictionary Frame Statements</h4>
+  <ul>
+   <li>The "... is a ..." statement enables you
+    to define a word in terms of another word that the system already knows.
+    The nouns in an "is a" statement defines a term as referring 
+    to an entity-type (class) that is a subtype (sub-class) of a known entity-type.
+   </li>
+   <li>The "... is described by ..." statement identifies 
+           the <i>attributes</i> of an <i>entity.</i>
+       </li>
+   <li>The "... is identified by its ..." statement
+       advises the system that an attribute's value is an identifier.
+       (An identifier may be used in data to refer to an instance of an entity.)
+   </li>
+   <li>
+       The "... is a synonym for ..." statement
+       advises the system that the two terms might be used interchangeably.
+   </li>
+   <li>The "... is shorthand for ..." statement
+       advises the system that a term may be used as a shorthand
+       when entering new statements or data into the system.
+   </li>
+   <li>The ". Relationship:" instruction tells the system that a relationship
+         exists between two or more entities. 
+       The relationship notation provides a template 
+         for "Assert:" <i>instructions</i> and <i>messages</i> 
+         that may be invoked during the running of a plan.
+   </li>
+  </ul>
+  <h4>Acronyms, Synonyms, and Shorthand.</h4> 
+  <p>
+     The dictionary accommodates acronyms with the phase:
+     "... is shorthand for ..."
+     Synonyms are recorded with the phrase:
+     "... is a synonym for ..."
+  </p> 
+<pre class="example">
+---
+Dictionary:
+QOH is shorthand for quantity-on-hand.
+Client is synonym for customer.
+---
+</pre>  
+  <p><i>Shorthand</i> 
+     allows the programmer to substitute a short term for a longer one
+     at the time that a statement is entered. 
+     The system immediately replaces the shorthand token with the full term.
+     <br /><i>"Smart edit" tools are expected to implement this feature.</i>
+  </p>
+  <p><i>Synonyms</i> are used to indicate a word or phrase 
+  			that can be mapped to another word or phrase 
+  			which is already known to the system.
+     When the system interprets statements, 
+       it will use synonyms to match a statement to similar statements.
+     Synonyms allow a statements to assume two or more <i>alternate forms</i>.
+
+  </p>
+  <p class="ADVICE">     
+     Do not declare a synonym when you should declare a <i>subtype</i>. 
+  </p>
+  <p>Synonyms may be used where they conform to normal usage in the parlance
+     of the industry or shop.
+     Unlike a shorthand, a synonym is not replaced on input.
+     The statement is stored in the frame base with the synonym intact.
+     Thus, you can use synonyms 
+       when they make statements and instructions more human-readable.
+  </p>
+  <!--
+  <h4>Identifiers, Handles, and Relationships</h4>
+  <p> 
+     In a data frame you might need to describe a <i>relationship</i> between two
+     entities. 
+     Identifiers make that easier.
+     If an entity has an attribute that is used as an identifier,
+     you advise the system using the phrase 
+     "A (entity) is identified by its (attribute)."
+  </p>
+  -->
+  <h4>Categories and Enumerations</h4>
+  <p>
+     Enumerations are sets of values that describe a kind of attribute.
+     For example: Colors are given names. 
+     The set of names that might describe a color constitute an enumeration. 
+  </p>  
+<pre class="example">
+---
+Dictionary:
+A car may be described by its body color.
+Categories for color include red, green, blue, yellow, orange, brown, 
+. black, white, grey, purple, mauve, maroon, tan, pink, 
+. (colors that reference something else ...)
+. silver, gold, copper, bronze, ivory, ebony, cobalt, cyan, taupe, charcoal,
+. lavender, lilac, rose, maize, indigo, magenta, chartreuse, 
+. cranberry, raspberry, burgundy, apricot, peach, cream, 
+. navy blue (which navy?), royal purple (which royalty?), 
+. sky blue, forest green.
+---
+</pre>
+<p class="AUTHOR">
+   This probably needs more thought.
+   Is color a member of some semantic set? 
+   <br />(A "quality", a "category")
+   <br />Think about the <b>nature</b> of enumerations.
+   <br />{ dark, light }
+   <br />{ short, tall }
+   <br />{ small, medium, large, very large, extra large }
+   <br />{ hot, warm, cold, freezing }
+   <br />{ liberal, conservative, moderate, radical, reactionary }
+</p>
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->  
+<hr>  
+<a name="ViewFrame"></a>
+<h3>View Frame Notation</h3>
+  <p>
+      One purpose of a view frame is to indicate 
+        how a business entity (entity) is displayed.
+      A business entity is an object instance that appears in the problem domain.
+      It typically will have several attributes of different types.
+   </p>
+   <p>View frames represent "forms" (fill-in the blank forms).
+      They are intended for text-mode displays.
+      They can be rendered as forms in almost any run-time environment
+      including web-pages, applets, MS-Windows, X-Windows, Java applications, et cetera.  
+   </p>
+   <p>
+     A view frame may be used for display or for input or for both.
+     The use depends on the context.
+     
+   </p>
+   <p class="AUTHOR">
+     Should we have different verbs in dialogs to indicate display versus input?
+     <br />Perhaps "Ask [entity]" versus "Show [entity]".
+   </p>
+<pre class="syntax">
+---
+View: (entity name)
+ label: [attribute name]                             &lt;&lt; text field 
+ (1) choice one  (2) choice two  (3) choice three    &lt;&lt; radio buttons
+ . (1) attribute = value1                            &lt;&lt; attribute set to value
+ . (2) attribute = value2
+ . (3) attribute = value3
+ 
+ [1] pepperoni  [2] sausage  [3] green pepper        &lt;&lt; check boxes
+ . [1] attribute1 [2] attribute2 [3] attribute3      &lt;&lt; elements set true/false
+ 
+ label: [enumeration name *]                         &lt;&lt; combo box
+ 
+ description: [text attribute name          ... 5]   &lt;&lt; multi-line box of 5 lines
+ 
+  [[ Place Order ]] Send my order to the kitchen.
+. [[ Place Order ]] Deliver [pizza] order.           &lt;&lt; Button sets goal.  
+---
+</pre>
+   <h4>View Frame Statements</h4>
+   There are two types of lines in a view frame.
+   <ol>
+    <li><i>Template lines</i> indicate what will be displayed.
+     This is meant to be nearly WYSIWYG.
+    </li>
+    <li><i>Data mapping instructions</i>, which begin with a dot,
+     indicate how data is mapped to the display.
+    </li>
+   </ol>
+   View frames use specific "mark-up" notations:
+   <ul>
+    <li>[name] refers to an attribute of the entity (given after "panel:").
+     <br />The substring "[name]" will be replaced by a form slot (text box).
+     The value is provided by the context or left blank for the user to fill in.
+    </li>
+    <li>(1) indicates a radio button.
+     <br />The attribute and value associated with the radio button is indicated
+     by one of the data mapping lines that follow the template line.
+    </li>
+    <li>[1] indicates a check box.
+     <br />The associated boolean attribute is indicated in the data mapping line
+     that follows the template line.
+    </li>
+    <li>[enumeration *] indicates a (drop down) combo box.
+     <br />The indicated <i>enumeration</i> provides the values for the drop down.
+    </li>
+    <li>[name ... 99] indicates a multi-line text box.
+     <br />The name refers to an attribute that is expected to have a text value.
+     <br />The number following "..." indicates
+     the number of lines to display in the text box.
+    </li>
+    <li>[[ Button Label ]] indicates a push-button.
+      <br />The button is mapped to a goal with a mapping line of the form:
+      <br /><code>. [[ Button Label ]] Goal-statement. </code>
+    </li>
+   </ul>
+
+   <p class="AUTHOR">
+       The current design does not fully anticipate voice input.
+       The view frames could be adapted to that use.
+       However, some serious thought is needed, 
+         because in that mode,
+         the view frames will interact strongly with dialog frames 
+         -- the panel and dialog frames becoming closely coupled.
+       In that kind of environment,
+         the view frames might be designed to guide the Speaker
+         which is running a series of prompts.
+         The view frames might indicate optimum order.    
+   </p>
+   <p class="AUTHOR"> 
+       View frames represent "forms". 
+       Forms are ubiquitous in our culture with strong conventions. 
+       Forms provide a traditional way to structure a communication
+         when several data elements are required
+         or when there are several choices.
+       People who routinely communicate in writing find them convenient.  
+       <br />-
+       An avatar that helps a user fill-in a form panel
+         is certainly possible.
+       It might be based on existing actors designed to aid people
+         with physical handicaps.  
+   </p>
+   <p class="ADVICE" style="page-break-before: always;"> 
+      The following syntax expands the notation to include something like a wiki mark-up.
+      <br />This provides a way to format content 
+      			and avoid the need to drop into HTML.
+      <br />Hum notations are meant to be as close to written English
+      			as possible. 
+      <br />In this case, we have adapted some ideas from wiki mark-up to achieve that goal.
+   </p>
+<pre class="syntax">
+---
+View: (Example of wiki mark-up usage.)
+
+! First-Level Heading (a main heading)
+!! Second-Level Heading (a sub-heading)
+!!! Third-Level Heading (a sub-sub-heading)
+
+* First list item
+** Indented list item
+*** Twice indented
+
+Emphasis is indicated as follows:
+  a pair of asterisk indicates *bold emphasis*
+  a pair of tilde indicates ~italic emphasis~
+  a pair of underscore indicates _underscore emphasis_
+
+.Table          (Signals the start of table formatting.)
+. Row            (Row -or- Header Row)
+   This content goes into first column by default.
+. Column
+   This content is in second column of the first row.
+. Row           (Signals start of next row.)
+. Column        (Column -or- Header Column)
+   This content is in first column of the second row.
+. Column
+   This content is in second column of the second row.    
+.End Table      (Signals the end of table formatting.)
+
+___  (Begin line with 3 or more "_" or "-" to indicate a horizontal-rule.)
+
+.HTML           (Signals that mark-up has switched to HTML.)
+
+     <i>Raw HTML may be needed for features 
+     that are not available the Hum mark-up notation.
+     For example, if you wanted to include an image map,
+     inserting raw HTML would be a way to do that. </i>
+
+.End HTML
+
+---
+</pre>   
+
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->  
+<hr>  
+<a name="DialogFrame"></a>
+<h3>Dialog Frame Notation</h3>
+   <p>
+    In the Hum system, most dialogs are automatically constructed by the system.
+    For example: When given a user goal,
+    the Planner will construct a plan tree from task frames by back-chaining.
+    When the plan tree is complete,
+    the Planner will then determine what data is required to articulate the plan.
+    Some data may be in the world memory and some may be needed from the user.
+    The system's user interface actor will ask the user for needed data
+    using whatever medium is available.
+    If we are in contact with the user via HTML, an HTML page with HTML forms will be sent.
+   </p>
+   <p>
+    The purpose of a Dialog Frame is to describe a dialog between the user and the system.
+    In the notation, a line starting with "U:" is something the user might say.
+    A line starting with "S:" is the system's dialog response.
+    A line starting with a dot "." is the system's <i>action</i>.
+    This notation is the Hum equivalent of the
+    Artificial Intelligence Markup Language
+     (<a href="http://en.wikipedia.org/wiki/AIML" title="AIML">AIML</a>)
+    XML notation for natural language software actors.
+   </p>
+<h5>Example</h5>
+<pre  class="example">
+---
+Dialog: User enters site.
+U: Knock. (User appears at entry.)
+S: Hello. What can I do for you?
+. Show 'Activities'.
+U: I would like to [act]. (Browse Catalog, Check Order Status, Cancel Order, Open Account)
+S: An excellent choice! 
+. Show [act].
+. Switch context to [act].
+---
+Dialog: User browses product catalog. 
+Context: Browse Catalog
+U: I want * [product category].
+U: Show me * [product category].
+U: Do you have * [product category]?
+S: Here are the different kinds of [product category].
+. Show [product category] choices.
+. Add [product category] to context.
+---
+Dialog: User is looking at specific product category.
+Context: Media
+U: Show me * by [artist].
+S: Let us see if we have anything indexed that way.
+. Show [product category] items by [artist].
+. (If there are none, the "Show" format will say so.)
+---
+U: I want to buy [item.title].
+U: I want to buy [item.number].
+S: [item] is now in your shopping cart. 
+   You may remove it later if you change your mind.
+. Put [item] in shopping-cart.   
+---
+</pre>
+   <p class="AUTHOR"> 
+      Think more carefully about how [entity] (see above "[item]") in dialog 
+        is related to a noun in an action statement or goal statement.
+   </p>
+<h4>Dialog Frame statements</h4>
+   <p>
+    Dialog frames require a full chapter to explain them.
+    For a overview, read this decomposition of the example above:
+    <ul>
+     <li>Dialog Frames start with a dialog statement ("Dialog: ...").
+      <br />- The sentence following the colon indicates the nature of the dialog.
+     </li>
+     <li>A  context statement ("Context: ...") indicates when the pattern
+      that follows it will be applicable.
+      <br />- Just as humans need context
+      to understand the intent of a verbal statement,
+      the Speaker also needs some context.
+      If the same pattern appears in two different contexts,
+      the Speaker will attempt to disambiguate the situation
+      by applying the contexts that are current.
+      <ul>
+       <li>When the system attempts to recognize the user's intent,
+        it attempts to match patterns in each context
+        according to the <i>priority</i> of the context.
+       </li>
+       <li>
+        It attempts the context with the highest priority first.
+        If no match is found in that context,
+        the next highest context is applied
+        until a match is found.
+       </li>
+       <li>If no match is found anywhere,
+        the Speaker will tell the user that it does not understand
+        what they have said
+        and suggest that the user try to say it in another way.
+       </li>
+       <li>In a more advanced implementation,
+        the Speaker may ask questions to disambiguate
+        the user's intent.
+       </li>
+      </ul>
+     </li>
+     <li>A line starting with "U:" indicates the user's speech act.
+         <br />- The speech act may be provided by direct input
+         (the user actually typed a sentence of the given form or spoke the words)
+         or as a result of interpreting a form that the user has filled in.
+         <ul>
+             <li>The "star" (*) notations
+                 <br />in the pattern lines indicate
+                 some arbitrary string of words that might be there, or might not.
+             </li>
+             <li>The [name] notations
+                 <br /> in the pattern lines indicate a term that is defined in a
+                 <a href="#DictionaryFrame"> Dictionary Frame</a>.
+                 The [name] notation will match any string of words
+                 that refer to an entity
+                 of the indicated <i>type</i> or <i>super-type</i>.
+             </li>
+         </ul>
+     </li>
+     <li>One or more lines beginning with "U:" form a <i>pattern</i>
+         to be recognized by dialog system.
+         <br />- When the pattern is recognized,
+         the system responds by interpreting the lines following "S:"
+         (the remainder of the dialog <i>vignette</i>).
+      <ul>
+         <li>The response will often contain a mix of dialog lines
+             which are displayed or spoken to the user,
+             and <i>instructions</i>,
+             which set <i>goals</i> to be fulfilled by the system
+             or <i>actions</i> to be performed by <i>roles</i> 
+             	(actors available to the system).
+             Most instructions are directed to the dialog actor (the Speaker).
+             For example, in the dialog frame above, 
+               the "<code>. Show ...</code>" instructions 
+               are directed to the Speaker.
+         </li>
+         <li>Each goal will match the name of a task that is defined in a
+             <a href="#TaskFrame"> Task Frame</a>.
+             In the example above, several tasks are invoked.
+             The corresponding task frames
+             will contain actions assigned to the human interface actor:
+             <ul>
+                <li>"Show ... "
+                    - will display the entity or form
+                      that matches the remainder of the sentence.
+                </li>
+                <li>"Switch context to ..."
+                    - will change the dialog context.
+                    Future input from the user will be recognized
+                    and interpreted in the given context.
+                    (In a more advanced system, multiple contexts are permitted
+                    but the indicated context is given <i>priority.</i>
+                </li>
+                <li>"Add ... to context."
+                    - adds the term (in ...) to the context.
+                    Prior terms in the context remain in effect also.
+                </li>
+             </ul>
+         </li>
+      </ul>
+     </li>
+    </ul>
+   </p>
+&nbsp;   
+<h4>Dialog Example - "Hello World"</h4>   
+<p style="page-break-after:avoid;">
+Here is the proverbial "Hello World" example:
+</p>   
+<pre class="example">
+---
+Dialog: Hello world example.
+U: Knock knock. (User appears at our entry.)
+S: Who's there?
+. Set context to "first name".
+---
+Context: first name.
+U: *
+S: * who? 
+. Set context to "last name".
+. Assert: User's first name is *.
+---
+Context: last name.
+U: *
+S: Hello, [firstName] *.
+. Assert: User's last-name is *.
+</pre>
+<p > 
+  In the example above, the "Assert:" instructions go to the "Assert" actor.
+  Other instructions go to the Speaker by default because no role is indicated.
+  Roles are indicated by the instruction syntax 
+  <br />"<code>. (role): ...</code>" 
+     - with a role-name and a colon preceding the statement.
+  <br />This is the same syntax that we use in task frames and role frames
+    to indicate what role is performing an instruction.
+</p>
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->  
+<hr>  
+<a name="DataFrame"></a>
+<h3>Data Frame Notation</h3>
+   <p>
+    Data frames are used to communicate data.
+    They are used 
+     in message payloads between actors and resource managers,
+     and to record configuration data. 
+    Hum authors (programmers)
+     will rarely need to write data frames 
+     but may want to read them.
+   </p>
+<h5>Syntax / Example</h5>   
+<pre class="syntax">
+---
+Data: (data set name)    &lt;&lt; Indicate a data frame. Give the frame a name/title.
+
+Worker                   &lt;&lt; The following data is for a worker (entity). 
+. ID: (string)           &lt;&lt; The system knows an ID should be unique.
+. name: (string)         &lt;&lt; provides the data value for worker's "name" attribute.
+. Home Address           &lt;&lt; "Home Address" is an embedded entity.
+. . line1: (string)
+. . line2: (string)
+. . postal code: (string)&lt;&lt; "Reader" and "Smart Editor" validate values.
+. age: (string)          &lt;&lt; This value should be a positive integer.
+
+Site                     &lt;&lt; The following data is for a Site (entity)
+. name: (string)         &lt;&lt; name of site
+
+. description:           &lt;&lt; The description of the site is in text format.
+"""                      &lt;&lt; Arbitrary text delimited by triples as shown here.
+(text)                   &lt;&lt; The text data starts on the line after the triple.
+"""                      &lt;&lt; A triple (""") or (''') starts and ends the text.
+
+. Site Address           &lt;&lt; "Site Address" is an embedded entity.
+. . line1: (string)
+. . postal code: (string)
+---
+</pre>
+
+<h4>Data Frame Statements</h4>
+   <p>
+    The comments in the example above follow the "&lt;&lt;" marker.
+    The comments indicate how the data frame notation works.
+   </p>
+   <p>
+    In this example, we have a Worker entity and a Site entity.
+    The Worker has four attributes: ID, name, Home Address, and age.
+    The Home Address attribute is another entity embedded in the Worker entity data.
+    The indentation indicates that the Home Address belongs to the Worker.
+   </p>
+   <p>
+    The Site entity has three attributes: name, description, and Site Address.
+    The value of the description attribute
+     contains multiple lines of text between lines
+      that start with the triple quote (""" or ''').
+    You can put any text between the triple quotes except for another line that
+    starts the same way. (That would confuse the data reader.)
+   </p>
+<h4>Tables</h4>
+   <p>
+    Within a Data Frame, an attribute might contain a table.
+    This is appropriate when the attribute is a collection
+    of "child" entities and the child entities have a "flat" structure.
+    For example, a worker's weekly schedule might look like this:
+   </p>
+<h5>Example</h5>
+<pre class="example">
+---
+Data: Worker's Scheduled Hours
+
+Worker
+. ID: 12345
+. name: Robin Good
+. weekly hours:
+"""
+table of weekly-hours delimited by |
+| Day       | Begin | End  | 
+| Monday    | 0600  | 1400 |
+| Tuesday   | 0600  | 1400 |
+| Wednesday | 0600  | 1400 |
+| Thursday  | 0600  | 1400 |
+| Friday    | 0600  | 1400 |
+"""
+---
+</pre>
+<h5>Table Syntax</h5>
+   <p>
+    A table is multi-line text enclosed in triple quotes.
+    The table text follows a special notation.
+    <ul>
+     <li>The first line will start with the phrase: 
+          "table of (entity) delimited by x".
+      <br />A "pipe" (|) is often a good choice for a delimiter
+      because it makes the table quite readable.
+      However a comma may be more convenient for the typist.
+      A comma will work as long as the data in the rows do not also contain a comma.
+     </li>
+     <li>The rows and columns of the table will start and end
+      with the indicated delimiter.
+      In the example, we have added spaces to make the delimiters line up.
+      But that was done only to make the example more readable
+      and is not necessary.
+     </li>
+     <li>The first row identifies the attributes contained in the columns.
+     </li>
+    </ul>
+   </p>
+<p class="AUTHOR"> 
+  Think about how to represent relationships.
+  <br />For example, suppose we have relationships such as:
+  <br />"Assert: Store S is in region R." (to one)
+  <br />"Assert: Store S in in state-province P." (to one)
+  <br />"Assert: Male M is married to female F during period P." (association)
+</p>
+ </body>
+</html>

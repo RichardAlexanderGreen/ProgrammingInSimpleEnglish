@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Hum Browser - Vertical Layout</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="dummy prototype for Hum Code Browser">
+    <meta name="author" content="RichardAlexanderGreen@GMail.com">
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+	  pre n {color: blue;}
+	  pre g {color: green;}
+	  pre r {color: red;}
+	  
+      @media (max-width: 980px) {
+        /* Enable use of floated navbar text */
+        .navbar-text.pull-right {
+          float: none;
+          padding-left: 5px;
+          padding-right: 5px;
+        }
+      }
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../assets/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+<!--
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="../assets/ico/favicon.png">
+-->
+  </head>
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+			<!-- Triple-bar button -->
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+		  
+          <a class="brand" href="#">Customer Is Moving</a>
+		  
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Ontology</a></li>
+              <li><a href="#view">View</a></li>
+              <li><a href="#debug">Debug</a></li>
+              <li><a href="#deploy">Deploy</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+			  
+          <p class="navbar-text pull-right">
+            Logged in as <a href="#" class="navbar-link">RichardAlexanderGreen@GMail.com</a>
+          </p>
+			
+		  
+        </div> <!-- container-fluid -->
+      </div> <!-- navbar-inner -->
+    </div> <!-- navbar -->
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+
+
+	  
+	  <div class="span8 code-view">
+		  
+		  <div class="code-editor">
+			  <h4>Code Editor</h4>
+			  <pre>
+<b>Goal:</b> All <n>customer-accounts</n> are forwarded and new <n>energy-services</n> started.
+<b>Pre:</b> 
+. Old <n>customer-accounts</n> are forwarded to <n>new-billing-address</n>.
+. <n>Energy-services</n> at <n>new-address</n> are started.
+. <n>Energy-services</n> at <n>old-address</n> are re-assigned.
+<b>Actions:</b>
+. None. <g>(The task frame serves to define a compound condition.)</g>		
+	  
+			  </pre>
+		  </div>
+		  
+		  <div class="code-critic">
+			  <h4>Code Critic</h4>
+			  <pre>
+Noun "new-billing-address" has no antecedant.
+Noun "new-address" has no antecedant.
+Noun "old-address" has no antecedant.
+		
+			  </pre>
+		  </div>
+		  
+		  <div class="referenced-code">
+			  <h4>Refenced Code</h4>
+			  <pre>
+<b>Goal:</b> Old <n>customer-accounts</n> are forwarded to <n>new-billing-address</n>.
+<b>Pre:</b>
+. <n>Customer</n> has moved-in at <n>new-billing-address</n>. <r>[Signal from Customer]</r>
+. <g>(We expect the customer to call us when they move in?)</g>
+<b>Actions:</b>
+. <i>Billing:</i> Change to <n>new-billing-address</n> for all the <n>customer</n>'s <n>customer-accounts</n>.
+
+			  </pre>
+		  </div>
+		  
+	  </div><!-- code view -->
+	  
+	  <div class="span4 diagram-view">
+			  
+          <div class="diagram">
+            <h4>Goal Relations</h4>
+			  <img src="svg/CustomerIsMoving-Tasks.svg" alt="Goal Relations" title="Goal Relations" width="100%" border="3"> 
+          </div><!--/span-->
+			
+          <div class="diagram">
+            <h4>Word Relations</h4>  
+			  <img src="svg/CustomerIsMoving-Ontology.svg" alt="Word Relations" title="Word Relations" width="100%" border="3"> 
+          </div><!--/span-->
+			
+          <div class="diagram">
+            <h4>Role Relations</h4>  
+		    <img src="svg/CustomerIsMoving-DataFlow.svg" alt="Role Relations" title="Role Relations" width="100%" border="3"> 
+          </div><!--/span-->
+			
+	  </div>
+		  
+      </div><!--row fluid-->
+
+    </div><!--/.fluid-container-->
+<!--
+	
+    <hr/>
+
+    <footer>
+      <p>&copy; ragaa software 2013</p>
+    </footer>
+-->
+    <!-- Le javascript 
+    ================================================== -->
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+  </body>
+</html>

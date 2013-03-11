@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+  <title>Study World-Base Logic</title>
+  <link href="styles.css" rel=STYLESHEET TYPE="text/css">
+</head>
+<body>
+<h2>Study World-Base Logic</h2>
+<pre class="example">
+---
+Dialog: Questions about world-base concepts and features.
+Context: World-Base Concepts and Features.
+U: * world-base * ?
+S: A world-base is like a data-base except that
+     instead of operating at the level of tables and transactions,
+     it operates at the level of entities, attributes, relationships, and events.
+   The world-base is a temporal data-base and automatically provides event logs.  
+   It can retrieve the past state of entities given a time-period of interest.
+   The event logs indicate who changed which data and why.
+ 
+U: * updated * ?
+S: A world-base is updated whenever an event occurs
+   in a run-time framework 
+   which has attached the world-base
+   to record its world model.
+
+U: * event * ?
+S: An event is any change in the state of the world.
+   Events occur as a result of executing plans in the run-time framework.
+
+U: * world  * ?
+S: A world may be a real-world or a simulated world.
+   For example, a real-world might be an operating business.
+   A simulated world could be a game, a simulation of an environment,
+     or a simulation of a businesss operation.
+
+U: * quad * ?
+S: A "quad" is a coined-word meaning a 4-tuple in the world-base.
+   There are two kinds of quad: 
+     one representing current state,
+     and one representing historical state.
+   Current: [ e, a : p, v ] where p = [ t-start, no end ].
+   History: [ e, a, p : v ] where p = [ t-start, t-end  ].  
+   In this notation:
+   - e is an entity-instance identifier.
+   - a is an attribute-type identifier.
+   - p is a time-period.
+   - v is some value. 
+   The colon (:) separates the key from the data.
+
+U: * schema * ?   
+S: The data schema is *not* recorded in the world-base.
+   It is recorded in the ~ontology~. 
+   If an entity-type E has a set attribute-types {A},
+     the entity schema is represented in the ontology as: [ E : {A} ].
+   An attribute-type may be a complex-type, having attributes of its own;
+     and, in effect, the complex-type is like an entity.
+   Attribute-types are assumed to be 
+     of ~data-type~ "string" unless declared otherwise.
+   
+U: * data-type * ?
+S: The run-time handles the following data-types.
+   - string    - Simply a string of characters.
+   - measure   - A number with limited precision and unit of measure.
+   - date-time - A specific point in the world-time.
+   - duration  - A duration is a kind of measurement - a measure of time.
+   - collection - A set or list of items of the same type.     
+
+U: * relationships * ?
+S: Relationships between entities are a type of object.
+   They are "Associative Entities" in Entity-Relationship terminology.
+   If B is a binary relationship between entity E1 in role R1
+     and entity E2 in role R2,
+     the quads would look like this:
+   - [ B, R1, p, E1 ].  
+   - [ B, R2, p, E2 ]. 
+   Associative Entities may relate more than two roles
+     and have additional attributes of their own.
+   
+U: * embedded * ?
+U: * child * ?
+U: * children * ?
+U: * component * ?
+U: * collection * ?
+U: * set * ?
+U: * list * ?
+S: Consider an order that contains a list of order-items.
+   In the Hum dictionary frames, 
+     an entity-type may be declared 
+     as containing a collection (a set or a list) 
+     of some other entity-type.
+   If the collection is a set, 
+     the sequence in which the items are displayed is arbitrary
+     and no item may appear more than once.  
+   If the collection is a list,
+     the sequence in which the items are displayed is fixed
+     and the list may contain items with identical attributes.  
+   
+---
+Dictionary:
+. An event contains a list of slots.
+. A slot contains an event-role and an entity.
+. . (Events represent entity updates and new relationships.)
+. An entity contains a list of attributes.
+. An entity contains a set of listeners. 
+. . (A view will be a entity listener.)
+. An entity-type contains a set of listeners. 
+. . (An external world-base can be synchronized this way.)
+. An entity-type contains a set of entities.
+. An entity-type contains a list of attribute-types.
+---
+Role: World-Base.
+Action: Process event.
+. (An event contains a set of entities.)
+. For each slot in event:
+. . Update the entity.
+. If the event contains more than one entity:
+. . (The event represents a relationship.)
+. . Create an associative entity to represent the indicated relationship.
+
+To: Update an entity.
+. (An entity contains a set of attributes.)
+. For each attribute in entity data-set:
+. . If the attribute has been changed:
+. . . Update the attribute quad.
+. . Else:
+. . . Do nothing.
+. Notify the entity-type listeners.
+. Notify the entity listeners.
+
+To: Update an attribute quad.
+. Translate the current-state quad to history.
+. Replace the current-state quad.
+
+To: Translate the current-state quad to history.
+. Input  [ e, a : p, v ], p = [t-start, null] from current-state
+. Set t-end same as t-start of in-coming event.
+. Output [ e, a, p : v ], p = [t-start, t-end] to history.
+
+To: Replace the current-state quad.
+. Input  [ e, a: p, v ], p = [t-start, null] from event.
+. Output [ e, a: p, v ], p = [t-start, null] to current-state.
+. (Does it make sense for an event to set t-end in the time-period?)
+
+To: Notify the entity listeners.
+. For each listner in the entity:
+. . Send a data-event showing new entity-state to the listener.
+
+To: Notify the entity-type listeners.
+. For each listener in the entity-type:
+. . For each entity in the entity-type:
+. . . Send a data-event showing new entity-state to the listener.
+
+Action: Register an entity-type listener.
+. (Provide the means to synchronize external world-bases.)
+. Add listener to the entity-type's list of listeners.
+
+Action: Register an entity listener.
+. (Provide means to inform views.)
+. Add listener to the entity's list of listeners.
+
+Action: Remove an entity listener.
+. Remove listener from the entity's set of listeners.
+
+Action: Remove an entity-type listener.
+. Remove listener from the entity-type's set of listners.
+
+Action: Send a data-event showing new entity-state to the listener.
+. (A data-event is different from a world-event ... So, this is not recursive.)
+. Create a data frame for the entity.
+. Messenger: Send the data frame to the listener.
+
+Action: Build a view-frame for an entity-type.
+. For each attribute-type in the entity-type:
+. . Create a label and a slot.
+
+To: Create a label and a slot.
+. Use the attribute-type's label as the view label.
+. Create a slot appropriate to the attribute-type's data-type.
+---
+</pre>
+
+</body>
+</html>

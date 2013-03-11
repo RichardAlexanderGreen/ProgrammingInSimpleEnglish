@@ -1,0 +1,413 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <title>Object-Oriented Concepts in Hum</title>
+  <link href="styles.css" rel=STYLESHEET TYPE="text/css">
+</head>
+<body>
+<p class="AUTHOR">
+   I wrote this relatively early in the design and implementation
+   as a means to clarify some concepts in my own mind.
+   <br/>2008.11.02 - The document is serving that purpose well.
+   I have come back to it
+   to clarify some tricky problems
+   that I am having designing the dialog mechanisms.
+   <br/>- This document also serves to identify some of the features
+   that the Hum translaters and interpreters must have
+   to satisfy those (myself included) 
+   who require a framework that implements "object-oriented" concepts.
+   
+</p>
+<h1>Object-Oriented Concepts in Hum</h1>
+
+<p>
+In object oriented programming languages, 
+programs are assembled from compilation units called class files. 
+An execution is typically invoked by starting a "main" procedure 
+that is defined in one particular class file. 
+The "main" class is indicated on a command line. 
+The class containing the main procedure is instantiated
+and then other classes referenced by that class and by the main
+procedure are instantiated as needed. 
+An equivalent idea is that a master process instantiates threads in response to system events. 
+Each thread has an action class with a "run" or "start" procedure that is like a main procedure. 
+Different system events are mapped to different action classes.
+</p>
+<p>
+In Hum, 
+  an execution is started in response to the setting of a <i>goal</i>. 
+The <i>plan</i> for achieving the goal is assembled from <i>task frames</i> (figure 1). 
+Task frames define the pre-conditions that must be met before a goal (a post-condition) can be met. 
+A plan is created by back-chaining through the pre-conditions. 
+</p>
+
+<table border="1" cellpadding="9" cellspacing="0">
+    <tbody>
+      <tr>
+        <td valign="top">
+<b>Figure 1:</b> This is a task frame.
+<br/>- Task frames are assembled to create plans.		
+<br/>- The (get: ...) comments indicate the data that is implicitly referenced.
+<pre class="EXAMPLE">
+Task: Satisfy client's goal.         (get: client, goal)
+Post: Client's goal is satisfied.
+Pre: 
+. Plan developed to satisfy goal.    (get: plan, goal)
+. Plan approved by client.
+Actions:
+. Manager: Execute plan on behalf of client.      
+. Billing: Add costs of plan to client's account. (get: costs, account) 
+---
+</pre>
+        
+        </td>
+      </tr>
+    </tbody>
+</table>
+
+<p>
+A task frame may also have a sequence of <i>actions</i>. 
+An <i>action</i> is a process to be performed by some <i>actor</i>. 
+Actions are defined in <i>role action frames</i>. (figure 2) 
+Since a role is performed by a specific actor, 
+ and an actor may perform more than one role, 
+ actions are collated by <i>role</i>. 
+In this way, an action is equivalent to a method in a class declaration.
+
+</p>
+<p> 
+Actions are defined in a syntax that that includes block statements
+such as If-Else, For-Each, and With.
+Actions may reference other actions.  
+This provides readability and while retaining the power of a procedural language.
+</p>
+<p class="ADVICE">
+  While Hum provides role-action frames to define the details
+  and operational meaning of an action statement,
+  one should carefully consider which instructions
+  belong in the ontology of the client business process
+  and which belong in the ontology (programming-framework) of the actor.
+</p>
+<p class="AUTHOR"> 
+  The desk-check experiments and the examples shown in the programmer's guide
+  do not deal with this question.
+  <b>
+  I need to write some actor-side code to properly investigate this issue.
+  </b>
+</p>
+
+<table border="1" cellpadding="9" cellspacing="0">
+    <tbody>
+      <tr>
+        <td valign="top">
+<b>Figure 2:</b> An action frame - Actions may be called from a task frame, dialog frame, or another action.
+<pre class="EXAMPLE">
+Role: Billing.
+Action: Add costs of plan to client's account.
+. Add invoice-line for completion of plan to client's AR-journal.
+
+To: Add invoice-line for completion of plan to AR-journal.
+. With goal of plan:
+. . With invoice-line:
+. . . Assign name of goal to description.
+. . . Assign price of goal to price.
+. . . Assign plan's completion-time to date.
+. Append invoice-line to AR-journal. 
+---
+</pre>
+        </td>
+      </tr>
+    </tbody>
+</table>
+<p>
+On the surface, 
+  Hum does not look like an object oriented language. 
+  But, object oriented concepts do apply in Hum. 
+  In fact, most object-oriented concepts apply in natural language (written English); we just don't think about natural language in that way.
+</p>
+
+  <ul>
+  <li>Objects are categorized as: Entities, Attributes, and Relationships
+	   <br>These distinctions are useful for defining the syntax of the language 
+	       and the organization of the persistence layer (system memory). 
+    </li>
+  <li>Entities may have subtypes - which inherit their attributes and behavior.
+    </li>
+  <li>Polymorphism (superseding methods) allows a sentence to apply to the subtypes and synonyms of a noun.
+	</li>
+  </ul>
+<!-- ................................................................... -->
+  
+<h3>Entities, Attributes, Events, and Relationships</h3>
+<p>
+In the world of Object-Oriented-Programming (OOP), 
+  everything is potentially treated as an object. 
+This is particularly true in a language like C++ or Smalltalk.
+But, as a practical matter, some things are more object-like than others. 
+In Hum, 
+  where the emphasis is on business problems, 
+  the concepts from Entity Relationship Analysis (ERA) are very effective. 
+In fact, 
+  Hum is delivered "off-the-shelf"  
+  with certain Entities pre-packaged (built-in)
+  complete with attributes, events, relationships, and methods. 
+By examining these pre-packaged objects, 
+ we can quickly show how object-oriented concepts are applied in Hum.
+</p>
+<!-- ................................................................... -->
+<p>
+<b>Entities and Attributes:</b> 
+An <i>entity</i> is characterized by its name, and a set of <i>attributes</i>. 
+In simple structural terms, an entity is a thing that has attributes. 
+While <i>attributes</i> are typically simple descriptors (strings), 
+  they can also be entities in their own right.
+</p>
+
+<table border="1" cellpadding="9" cellspacing="0">
+    <tbody>
+      <tr>
+        <td valign="top">
+<pre class="EXAMPLE">
+---
+Dictionary: Party pattern.
+. A party has attributes including name, alphabetized-name, address, phone.
+. Address attributes include address-line-1, address-line-2, city, state,
+. . postal-code, nation.
+. Province is synonym for state. (apologies to non-USA readers)
+. Address-line-1 attributes include street-number, street-direction, 
+. . street-name, street-name-suffix.
+. Phone attributes include area-code, exchange, number, extension.
+---
+</pre>
+        </td>
+      </tr>
+    </tbody>
+</table>
+<!-- ................................................................... -->
+  
+<p>
+<b>Subtypes and Inheritance:</b> 
+An entity may have sub-types which inherit the attributes, plans, and commands 
+of their super-types. 
+Often, subtypes have additional attributes of their own. 
+(A subtype might also be defined 
+because it adds some behavior to its super-type, 
+or over-rides that behavior.)
+</p>
+
+<table border="1" cellpadding="9" cellspacing="0">
+<tbody>
+<tr>
+<td valign="top">
+<pre class="EXAMPLE">
+---
+Dictionary: Extensions of party.
+. A person is a party.
+. An organization is a party.
+. A person has attributes including prefix, first-name, middle-name, 
+. . last-name, suffix.
+. A person's alphabetized-name is computed from the rule:
+. . Smalltalk: alphabetizedName := lastName, ", ", firstName, " ", middleName.
+. An organization's alphabetized-name is computed from the rule:
+. . Smalltalk: alphabetizedName := name rotated.
+. A worker is a person.
+. A worker has a badge-number.
+. An employee is a worker.
+. Employee attributes include payroll-entry, benefits-entry.
+. A contractor is a worker.
+. Contractor attributes include vendor, contract.
+. A vendor is an organization.
+. A contract is a document.
+</pre>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- ................................................................... -->
+
+<p>
+<b>Polymorphism:</b> 
+In an object-oriented language, 
+  a "method" of a super-type may be over-ridden by a subtype.
+While Hum does not have "methods" per se, 
+ it does have rules and actions that are related to specific entity types. 
+A simple example of this would be how a party's name is alphabetized. 
+By default, the Alphabetized Name is the same as the Name. 
+But, the Person subtype will over-ride this rule. (See example above.)
+</p>
+<!-- ................................................................... -->
+<p>
+<b>Associations and Relationships:</b> 
+An <i>association</i> may be regarded a a special type of entity. 
+In Entity-Relationship-Analysis, 
+  this concept is referred-to as an "Associative Entity". 
+It is an entity because, 
+in addition to the entities involved in the association, 
+the association always has a time-period attribute that 
+defines when the association applied to the entities involved.
+For example, a marriage is an contract involving two people 
+in a specific legal (and social) framework.  
+The entities referenced include the person in the husband role,
+the person in the wife role, a document recording the contract,
+and sometimes a prenuptial agreement. 
+The time-period is initialized with a start-date.
+</p>
+<p> A <i>time-period</i> is defined by its beginning and its ending 
+(start, stop) times.
+The beginning or start is known when the association is instantiated,
+but the ending or stop is often not known when the association
+is instantiated.
+The <i>time-stamps</i> used to indicate the start and stop of an association
+have an intended resolution.
+In business contexts, 
+the start and stop resolution is often simply a calendar date. 
+However, in data operations, 
+the required resolution must allow one to properly distinguish
+events at the resolution of the system clock
+or using an event counter.
+
+</p>
+<p class="AUTHOR"> 
+	The "relationship" declaration indicted in the next box
+has not been implemented (YET) in Hum.
+The <b>interesting questions</b> here include:
+<br/>. When do we instantiate the association? 
+<br/>. In other words, what mechanism detects the event?
+<br/>. . In traditional business programming,
+events are implicitly detected via user interfaces.
+The programmer knows that the intent of the user interface
+is to observe an event,
+and therefore writes logic to record the appropriate event data. 
+The declaration connecting the user-interface to the event
+is generally missing in traditional programming frameworks.
+(As I write this, <!-- 2008.11.02 -->
+it is also missing in the Hum framework.)
+</p>
+<table border="1" cellpadding="9" cellspacing="0">
+<tbody>
+<tr>
+<td valign="top">
+<pre class="EXAMPLE">
+Relationship: Worker is assigned to Organization. (condition)
+Relationship: Party is a member of Organization.  (condition)
+Relationship: Party is _role_ _prep_ Party.       (condition)
+</pre>
+</td>
+</tr>
+</tbody>
+</table>
+<p>
+In simple English, 
+ the conditional statements in pre-conditions and post-conditions also express associations. 
+The associations are instantiated when the conditions are satisfied. 
+</p>
+<p class="AUTHOR"> 
+  The word <b>relationship</b> 
+  is generally intended to mean a "binary" association
+  with just two references.
+  The assocative entities related to the realization of preconditions 
+  are more properly <b>associations</b> in the entity-relationship sense
+  because they might be trinary or n-ary associations.
+</p>
+
+<!-- ................................................................... -->
+
+<p>
+<b>Methods: </b>
+In Hum, the equivalent of methods are <i>actions</i>, <i>instructions</i>, and <i>rules</i>. 
+Actions connect task frames and dialog frames to action frames.
+Each action statement defines a procedure containing a set of instructions.
+The instructions will be carried out by an <i>actor</i> assigned to a role. 
+ </p>
+<p>
+The actions of actors affect the <i>state</i> of the actors 
+  and the state of other objects (resources).
+Actors are also entities. 
+And so, they are instantiated, viewed, and persisted like other entities.
+</p>
+<p>
+<i>Rules</i> define how some attributes are derived from others. 
+<p class="AUTHOR"> 
+  Data derivation rules are not implemented yet. (2008.11.02)
+  Nor is the syntax well-tested in the example and test ontologies.
+</p>
+</p>
+<!-- ................................................................... -->
+<p>
+<b>Data Types:</b> 
+In Hum the equivalent of a data type is a domain. 
+The <i>domain</i> of an attribute is a <i>string</i>, 
+  unless it is declared otherwise. 
+The concept of a domain is that it defines constraints on the values 
+  that an attribute might assume 
+  and it defines operations that may be performed with those values.
+It also defines conventions for displaying the value of an attribute 
+  and conventions for validating data that is entered. 
+For typical business processes, 
+  Hum supports the following <b>domains</b>:
+</p>
+
+<ul>    
+  <li>String: Any string of characters. 
+      </li>
+  <li>Category: A string that comes from an enumerated set. 
+      <br>For example, the color of a thing might be categorized as one of: 
+	  red, yellow, blue, green, orange, purple, blank, white, and so on. 
+	  Or, looking at the question in reverse, 
+	    one might say that "red" is a category of color.
+	  </li>
+  <li>Text: A string that has the semantics of natural language. 
+      <br>For example, text has words, sentences, paragraphs, sections, and titles.
+      </li>
+  <li>Document: A text with embedded formatting advice.
+      </li>
+  <li>Measure: A number that is associated with a unit of measure.
+      <br>The system understands the semantics of measures.
+	  It knows that you cannot add centimeters to meters without conversion. 
+	  It knows that when you multiply meters by meters you get square-meters. 
+	  It knows that measures have an implied precision (digits of accuracy) 
+	    and will not over-state the precision of a result.
+	  </li>
+  <li>Count: A number that is a count of some type of entity. 
+      <br>The system will not add apples and oranges 
+	    unless apples and oranges have a common super-type, such as fruit. 
+		(In which case, the resulting count is expressed in "fruits".)
+	  </li>
+  <li>Probability: A number that is between zero and one. 
+      <br>Probabilities are associated with events or values.
+	      They are usually displayed as percentages.
+      </li>
+  <li>Distribution: A probability distribution.
+      <br>Distributions are inputs to simulations and allocation rules.
+	  <br>Distributions are outputs from simulations and actual operations. 
+      </li>	  
+  <li>Time: a point in time. 
+      <br>A point in time may be expressed with varying levels of precision. 
+	  For example: century, year, month, quarter, day, hour, minute, second, 
+	  and sub-second.
+	  <!--
+	  In a simulation, the time at which an event occurs 
+	    is given a precision based on the simulation's clock. 
+	  In real-world operations, the time at which an event occurs is given
+	  a precision based on the system clock (typically, millisecond precision).
+	  -->
+	  </li>
+  <li>Time Period: a period of time has a start and a finish. 
+      <br>It is often used to express the start and end of a relationship or state.
+      Since some relationships and states are "in-progress" 
+	  - the finish may be unknown.
+	  </li>
+  <li>Elapsed Time: Elapsed time is a special case of a measure.<br>
+      </li>
+</ul>
+<p>
+Hum is <i>extensible</i>. 
+So programmers may add domains (data types) to the system when needed.
+</p>
+
+<!-- ................................................................... -->
+
+
+
+</body></html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; 
+        charset=ISO-8859-1" 
+        http-equiv="content-type">
+  <title>The Principle of Simple</title>
+</head>
+<body alink="#000088" 
+      bgcolor="#ffffff" 
+      link="#0000ff" 
+      text="#000000" 
+      vlink="#ff0000">
+<h1>The Principle of Simple</h1>
+<h3>Problem-space complexity is conserved.</h3>
+<p>
+      Complexity is conserved. 
+<br />You can hide it. 
+<br />You can abstract it. 
+<br />You can defer dealing with it. 
+<br />But, you cannot get rid of it.
+      [<a href="#1">1</a>] 
+<br />Some irreducible complexity is there in the problem space, 
+      <br/>and eventually, 
+           that complexity must be represented in the solution space. 
+      [<a href="#2">2</a>] 
+
+</p>
+<h3>The trick is to avoid adding unneeded complexity in the solution space.</h3>
+<p>
+   While the complexity of the problem space is conserved,
+   <br />a good tool does not add unneeded complexity. 
+   <br />What does this mean?
+</p>
+<ul>
+  <li>First of all, 
+      the tool should provide a simple way of representing the problem space. 
+      <br />The notation should offer good <i>fidelity</i>. 
+      <br />- It does not distort the basic facts of the problem space 
+              by recasting them into an awkward or esoteric representation.
+  </li>
+  <li>Secondly, the different <i>facets</i> of the problem space 
+      <br />should remain different facets in the solution space. 
+      <br />For example: The domain model is not mixed 
+           with the presentation model.
+  </li>
+  <li>Thirdly, the tool should be <i>transparent</i>. 
+      <br />What does that mean? 
+      <br />It means that the tool does not produce problems of its own. 
+      <br />It should not add artifacts to the problem space descriptions.
+      <br />It should not obscure the facts of the problem space
+              by translating them into an obscure notation.
+  </li>
+  <li>Finally, 
+      simple recurring problems should have nearly <i>automatic solutions</i>.
+      <br />Once the problem statement is complete, 
+            the solution should be a push-button away. 
+      <br />For example, 
+            if the presentation problem is 
+            to display a few related domain entities in an update mode, 
+            the display should be automatically produced 
+            along with the needed logic for updating the data store.
+  </li>
+</ul>
+<h3>Hum avoids unneeded complexity and obscure notations.</h3>
+<p>
+   Hum does have notations 
+   - but they are designed to be as natural as we could make them.
+   The notations provide a regimen for organizing knowledge.
+   But the regimen is as simple as we could make it.
+</p>
+<p>
+   The most esoteric notation in Hum is the mark-up notation
+     used to advise the user interface actors.
+   We have attempted to keep the mark-up notation minimal but adequate.  
+   Hopefully, this might be hidden from view some day
+     when a WYSIWYG editor will obviate the need for people to know this notation.   
+</p>
+<!--
+  We have invented our own mark-up which is similar to some wiki mark-up notations.
+  This is probably a mistake.
+  However, most of the mark-ups we evaluated 
+    seemed to be even more esoteric than ours.
+-->
+
+<!-- ................................................................. -->
+<hr size="2" width="100%">
+<p><a name="1">[1]</a>
+   We deliberately ignore situations where people 
+     have created a self-inflicted complexity in the problem space
+     and that complexity might be removed from the problem space
+     by process re-engineering or policy reform.
+   Consider, for example, the (USA) federal tax code. 
+</p>
+<p><a name="2">[2]</a> 
+   The principle is that the solution designers must acknowledge and represent 
+     whatever complexity exists in the problem space.
+</p>
+</body>
+</html>

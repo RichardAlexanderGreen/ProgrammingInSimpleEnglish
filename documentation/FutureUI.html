@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+  <title>Future User Interface</title>
+  <link href="styles.css" rel=STYLESHEET TYPE="text/css">
+</head>
+<body>
+<h1>The future of the user interface.</h1>
+
+<h2>The system's avatar speaks for the system.</h2>
+  <p>In Hum, the avatar represents the system to the end-user.
+     It speaks the system's lines in a dialog frame. 
+  </p>
+  <p>Future user interfaces are likely to be more speech oriented
+     and significantly less text oriented.
+     Text may still be used as a display advice - to record the fill-in the blank responses
+     when several data slots must be filled-in simultaneously. 
+  </p>
+  
+<h2>Existing Advanced User Interfaces</h2>
+  <p>
+     The future of computing is often predicted by looking at gaming frameworks.
+     A business operation is a kind of multi-person game.
+     The Second Life framework is a possible indicator of future user interfaces.
+     It provides an interesting environment with social - not just individual interactions.
+     One of it's interesting features is that the user can choose a style theme. 
+     The implication for business in Second Life, 
+     is that a business might need to conform
+     to different virtual cultures (style themes) 
+     in its VR outlets.
+  </p>
+  <p>The Croquet Project is a good indicator of how the virtual reality
+     concept can be applied in a business environment. 
+     While Second Life seems to be designed 
+     with chat, entertainment, and the 3D artist in mind,
+     The Croquet framework (Tea Time) is designed with collaboration in mind.
+     This seems a more relevant focus for future business environments.
+  </p>
+  
+<h2>Customer-Oriented versus Worker-Oriented</h2>
+  <p>
+     However, perhaps there is a split between customer-oriented interfaces,
+     where the business wants to constrain the customer's interactions
+     and worker-oriented interfaces
+     where the business wants to amplify and enhance the worker's interactions.
+     This could indicate a possible difference in the organization
+     of the frameworks.
+     For example, a customer-oriented interface may prefer to place the customer
+     in a passive role with limited responses available to the customer.
+     But the purpose of a collaboration environment 
+     is to encourage active participation.
+  </p>
+  <p>The consequence of this simplestic dichotomy <i>may</i> be simple enough. 
+     We might simply discover that a front-desk metaphor will suffice 
+     for customer-oriented interfaces 
+     and that something like a shared white-board might work well
+     for a collaboration environment.
+     In a virtual world, one also has the possibility of using the third dimension
+     for display and, potentially, for collaboration.
+     The third dimension makes three dimensional surface graphs feasible.
+     It also makes walk-through presentations possible.
+     (However, a walk-through is much like a slide-show,
+     but with a slightly different metaphor.)
+  </p>
+  <p>The shared white-board already exists on the internet, but is rarely used.
+     Why not? 
+     Perhaps it is because very few people have access to pen interfaces
+     and so the usual hand-writing, hand-drawing instrument is missing
+     from the environment.
+     However, typing and mouse-driven drawing is available, and yet rarely used.
+     Could it be a kind of microphone fright? 
+     Could it be that most people are uncomfortable with the tool?
+     Perhaps this environment needs some additional usability engineering. 
+  </p>
+
+<h2>Consequences for Dialog Actors</h2>
+  <p>  The current user interface design has two modes of communication: 
+     </br>[1] <b>Dialog Mode</b> - a series of questions and answers.
+     </br>[2] <b>View Mode</b> - a paper-form metaphor - like a HTML form. 
+     A dialog is a goal generator. 
+     It provides the user with a way to invoke plans.
+     An initial dialog is invoked by a set-up. 
+     (Set-up of a site or VR proximity detector.) 
+     A view is used to gather data when needed.
+     A view frame is invoked by a dialog or a plan when new data is needed
+     or existing data must be confirmed.
+  </p>
+  <p>  The <b>Dialog Mode</b> is suitable for a VR environment or a simple 2D chat bot.
+    The Dialog Mode can also be extended to respond to sensors in the VR environment.
+    For example, a sensor such as a slider widget or a VR proximity detector
+    could invoke dialogs which, in turn, invoke actor instructions. 
+  </p>
+  <p>  The <b>View Mode</b> provides backwards compatibility 
+    with the existing form-based metaphor that is used 
+    to display and gather data in many computer environments.
+    In those environments, the View Frame can be translated into the usual HTML form
+    or the equivalent widgets in other GUI frameworks.
+    In the Croquet VR framework, the keyboard is still usable,
+    and users can fill in a form by typing.
+    While the user is typing, 
+    the VR display shows a laser-like ray of light 
+    connecting the user's avatar to the form
+    to indicate the actor and the action.
+  </p>
+  <p>  <b>Dialog Actors</b> - Dialog actors operate dialogs and views.
+    The system's dialog actor is assigned when the application is set-up.
+    (Technically, an actor-factory is identified 
+      in the application configuration
+      and the factory creates actor instances
+      to work each user session when the session starts.)
+    The actor must inter-operate with the display framework 
+      that is also part of the configuration.
+  </p>
+  <p>In a web environment, the Dialog Actor becomes a servlet or applet.
+    In a desktop environment, the Dialog Actor operates one or more windows.
+    In a VR environment, the Dialog Actor may operate an avatar in Dialog Mode.
+    In View Mode, the Dialog Actor may cause a Form-Object 
+      to be spawned in the VR
+      or on the user's console.
+    The Form-Object would then signal the Dialog Actor 
+      when the form has something to report. (For example, submit button is pressed.)
+    It is possible that the user's avatar could pass the form to the system's avatar.  
+  </p>
+  <p> The usability problem with the Dialog Actor is the awkwardness
+    of current document-centric user interface metaphors.
+    This is made worse by the nature of the web-server, web-browser framework.
+    If a Simple Enlish application is deployed on the web,
+      there are two options - fight it or join it.
+    To fight it, the application would deploy its own client 
+      becoming a client-server architecture.
+    To join it, the application would work through the existing web browser framework
+      and deploy its own application server.
+    While working via a web browser, 
+      the dialog actor could operate as a servlet or as an applet.
+    Operating as an applet would be the preferred implementation
+      because more interface options are available
+      and the response to the user's inputs can be instantaneous.   
+  </p>
+  <p> The Hum language can be translated via code generators
+      to other suitable programming languages.
+    That means that the choice of an application framework
+      implies a corresponding code generator and run-time.
+    <ul>
+      <li> To operate in the web environment,
+           view frames can be translated to HTML forms or applet swing widgets.
+           The run-time would then be a kind of application server on the web host.    
+           </li>
+      <li>To operate in a desktop environment,
+            view frames can be translated to VB or C# forms or to swing widgets.
+          The run-time would then be a kind of desktop application.  
+          </li>
+      <li>To operate in the Croquet Tea Time VR environment,
+            view frames can be translated to equivalent Tea Time widgets.
+          The run-time would be an extension of the Tea Time system.
+          </li>
+     </ul>  
+   </p>
+</body>
+</html>

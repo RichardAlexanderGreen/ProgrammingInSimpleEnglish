@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+  <title>Frequently Asked Questions (FAQ)</title>
+  <link href="styleV2.css" rel=STYLESHEET TYPE="text/css">
+  
+  <style type="text/css">
+    dt {font-emphasis:bold;}
+    dl {margin-left:2em; margin-top:0;}
+    h4 {margin-bottom:0;}
+  </style>
+  
+</head>
+<body>
+<h1>Frequently Asked Questions (FAQ)</h1>
+
+<h4>Does Hum support inheritance?</h4>
+  <dl>
+    Hum knows when a word has a super-type.
+    If a statement applies to a super-type of an noun, 
+      it applies to that noun as well.
+  </dl>
+<h4>Does Hum support polymorphism?</h4>
+  <dl>
+    The short answer is "yes." Here is how it works:
+    When the system is interpreting a statement,
+      the interpreter first attempts to find a statement that matches exactly.
+    If there is no match,
+      the interpreter will seek alternatives
+      by substituting every combination 
+      of super-type in the statement 
+      and with each combination 
+      it will attempt to find a matching statement in the ontology.
+    If no combination produces a match, 
+      the statement is flagged as "currently undefined" in the ontology.
+    While you can run with an ontology that has undefined statements in it,
+      if the plan attempts to execute one of them,
+      you will (of course) get a run-time error.    
+  </dl>    
+<h4>Is Hum a strongly-typed language?</h4>
+  <dl>Yes and no.
+      The way in which a statement in a task frame or an action frame
+        should be interpreted 
+        is known at "compile-time."
+      In that sense, the concept of strong-typing applies.  
+      See "polymorphism" above.  
+      However, the context of a conversation 
+        between a user and the system 
+        may wander during a long dialog session.
+      In that situation, a noun that has two or more
+      	<font color="RED"> orthogonal super-types</font>
+        could be misinterpreted. 
+      The system and the user will then have different assumptions
+        about each other's intentions.
+      But this can happen in a strongly typed system also.
+      It is mainly a result of the way session data is managed.    
+    </p>
+    <p>In a technical sense, Hum uses <i>dynamic typing</i>. 
+       This is just like spoken and written English.
+       A word has whatever referent the history of the situation has given it.
+       That means that it is theoretically possible 
+         to feed a run-time instance into an situation 
+         where it no longer makes sense
+         because the noun that referred to the instance
+         has more than one meaning.
+       You can easily construct artificial situations where this would occur.  
+       But, in real applications, 
+         situations of that sort are unlikely 
+         because the nouns appear in complete sentences.
+       In many programming languages that use positional notations,
+         programming errors are more likely.
+       When argument meanings are guided by keywords
+       	 (as they are in Hum and Smalltalk), 
+         programmer errors are less likely. 
+    </p>      
+    <p>Consider the case: "Move cup from counter to dish-washer."
+       This statement will match "Move object from location-A to location-B"
+         if counter and dish-washer both have the word "location" as a super-type.
+       Suppose a cup is also a part. 
+       Then the statement match "Move part from inventory-A to inventory-B." 
+       might also match 
+       if "counter" and "dish-washer" both have "inventory" as a super-type.
+    </p>
+    </dl>
+<h4>What about orthogonal super-types?</h4>
+  <dl>Hum, like natural language, 
+        allows a noun to have more than one super-type chain. 
+      A noun can have <i>incompatible</i> super-types in different chains.
+      Basically this is a fancy way of saying 
+        a word can have two different and incompatible meanings.      
+      <p>  
+      In the context of a task, two incompatible meanings are very unlikely.
+      But in the context of a long-running dialog,
+        the situation is relatively unconstrained
+        because the context is easily changed.
+      The memory of the preceding dialog is retained
+         and that memory of a prior entity instance
+         can cause trouble.  
+     </p>    
+     <p>The context and content of a dialog is relatively unconstrained.
+       This means that a noun with more than one meaning 
+         (more than one super-type chain)
+         could be invoked in both meanings during the dialog.  
+       If the user intends to move the conversation to a 
+       <font color="RED">new instance</font>
+       
+        and the user is no longer talking about the old instance, 
+        the system might apply an orthogonal super-type
+        to the old instance
+        with some resulting actions that may confuse the user.
+       Also, the user may have trouble correcting the context.
+       Basically, the user needs a simple way to say: 
+        "I want to talk about a different ____."           
+    </p>
+    <p>Here is how things can go wrong:
+       Nouns are filled-in at run time 
+        by referencing and updating the <i>blackboard</i>.
+      The blackboard contains the current value 
+        for all nouns that have been filled-in
+        during the running of the current dialog session.
+      In a long-running dialog,
+        the dialog's blackboard could acquire values
+        for an entity that has two orthogonal super-types (two different meanings). 
+      If the course of a dialog wanders into a second context
+        where an orthogonal super-type applies, 
+        the user and the system could become confused 
+        about each other's intentions.
+      The system may attempt to populate attributes 
+        of the newly referenced super-type.
+      To do that, 
+        it will first look in the world-base (database)
+        for remembered attributes of the (presumed) entity instance
+        and if it finds nothing there, it will ask the user.
+      In either case, 
+        if the user intended to move the conversation to a new instance
+        and not continue with the old instance, 
+        the situation could is now in a state of confusion.
+      The user's mind and the system's mind are now operating 
+        with completely different assumptions.  
+    </p>
+  </dl>
+<h4></h4>
+  <dl>
+  </dl>  
+<h4></h4>
+  <dl>
+  </dl>  
+<h4></h4>
+  <dl>
+  </dl>  
+  
+</body>
+</html>

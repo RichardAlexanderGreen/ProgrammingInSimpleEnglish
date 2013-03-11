@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+  <title>Explain Buttered Toast</title>
+  <link href="styles.css" rel=STYLESHEET TYPE="text/css">
+</head>
+<body>
+
+<table border=1 cellpadding=9 cellspacing=0 width=777>
+  <tr>
+    <td>
+<pre class="example">
+Task: Serve buttered toast.
+Post: Buttered toast delivered to patron.
+Pre:
+. Bread is toasted.
+. Butter is melted.
+Actions:
+. Cook: Butter the toast.
+. Server: Move loaded-plate to patron's table.
+---
+Task: Slice the bread.
+Post: Bread is sliced.
+Pre:
+. Baked bread is cool enough to slice.
+Actions:
+. Cook: Slice the bread.
+---
+Task: Melt the butter.
+Post: Butter is melted.
+Pre:
+. None.
+Action:
+. Cook: Melt the butter.
+---
+Task: Toast the bread.
+Post: Bread is toasted.
+Pre:
+. Bread is sliced.
+Action:
+Cook: Toast the bread.
+---
+Role: Cook.
+Action: Toast the bread.
+. Move two slices of bread to toaster.
+. Set toaster to desired shade.
+. Insert bread
+
+Action: Butter the toast.
+. Paint butter onto a toasted bread slice.
+. Place buttered toast on a bread-plate.
+. Move bread-plate to delivery counter.
+
+Action: Slice the bread.
+. Place bread loaf in slicing machine.
+. Operate the slicing machine.
+. Remove bread loaf.
+---
+Role: Server.
+Action: Move loaded-plate to patron's table.
+. Check loaded-plate against order.
+. Move to table indicated by order.
+. Deposit loaded plate near indicated patron.
+---
+</pre>    
+    </td>
+    <td>
+<p>
+  Task frames provide a way to reduce a complicated problem
+    to a set of simpler problems.
+  The goal or post-condition of the task 
+    is indicated by the statement after the "Post" label.
+  The sub-goals or pre-conditions 
+  that need to be satisfied to enable the task
+    are listed under the "Pre" label.
+</p>
+<p>
+  The task "Serve buttered toast" cannot be worked
+    until the bread is sliced and the butter is melted.
+  So, we have the pre-conditions:
+    "Bread is sliced"
+    and "Butter is melted." 
+  Note that these pre-condition tasks can be worked in parallel.  
+</p>
+<p>
+  The original goal links to two sub-goals or pre-conditions 
+    that must be satisfied first.
+  When those sub-goals are met,
+    we can work on the actions required to get from the pre-conditions
+    to the post-condition.
+  For example, to get from
+   "Bread is sliced" and "Butter is Melted"
+   to
+   "Buttered toast is on the plate."  
+  The actions are: 
+    "Cook: Butter the toast" 
+    and 
+    "Server: Move loaded-plate to patron's table."  
+</p>
+<p>
+  The "Butter the toast" action is assigned to a role called "Cook."  
+  The role-frame labeled "Role: Cook" defines some of the things 
+    that an actor assigned to the "Cook" role should know how to do.
+  In this case, the role-frame includes the actions called:
+    "Butter the toast" and "Slice the bread."  
+  Under "Deliver toast" we find a series of steps - instructions to the cook.
+</p>
+<p>
+  The final action in the task frame, 
+  "Move loaded plate to table"
+    is assigned to the "Server" role.
+  When the actor assigned to the server role completes that action,
+    the original goal "Buttered toast delivered to patron" 
+    is satisfied.
+    
+</p>
+<p class="AUTHOR"> 
+	Although this gets the point across, it is not a very realistic application.
+</p>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

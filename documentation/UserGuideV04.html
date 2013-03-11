@@ -1,0 +1,1044 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+  <title>User Guide</title>
+  <style type="text/css">
+    h3 { margin-left: 1em;}
+    h4 { margin-left: 2em;} 
+    p  { margin-left: 3em;}
+    h5 { margin-left: 3em; color: BLUE; font-size: 12pt;} 
+    pre.frame { margin-left: 5em; border: solid 1px;  
+               margin-right: 2em; padding: 9px; background-color: LIGHTBLUE;}
+  </style>
+</head>
+<body>
+<h1>Programmer's Assistant - User Guide</h1>
+<p> 
+  This User Guide explains how to use the Programmer's Assistant, 
+  an interactive development environment (IDE),
+  to develop a program in Hum.
+  The Hum language is explained in the Programmer's Guide.
+</p>
+<table style="background-color: LIGHTGREEN" width="97%" 
+       border="1" cellspacing="0" cellpadding="5"><tr><td>
+<b>Table of Contents</b>
+<ul>
+   <li>Get Started
+          <ul>
+          <li>Install the system, and turn it on.</li>
+          <li>What is the content and purpose of each type of view?
+              <ul>
+                 <li>Frame Editor</li>
+                 <li>Nag</li>
+                 <li>Plan Tree</li>
+                 <li>Dictionary Tree</li>
+                 <li>Actor Network</li>
+                 <li>Simulator Dashboard</li>
+                 <li>Real-Mode Dashboard</li>
+                 <li>Resource Tree</li>
+                 <li>Message Log</li>
+                 <li></li>
+                 <li></li>
+              </ul>
+              </li>
+          <li>The assistants to the Programmer's Assistant:
+              <ul>
+                 <li>Smart Editor</li>
+                 <li>Token Marker</li>
+                 <li>Pretty Printer</li>
+                 <li>Statement Flagger</li>
+                 <li>Code Critic</li>
+                 <li>Librarian</li>
+                 <li>Simulator</li>
+                 <li>Scribe and Speaker</li>
+              </ul>
+              </li>
+       </ul>
+     </li>
+   <li>Enter and test frames.
+       <br>Learn by doing:
+       <ul>
+          <li>  First Frame: Write a short dialog in a dialog frame. 
+              <br>- Feedback: Run the dialog.
+              </li>
+          <li> Second Frame: Write a plan in task frames.
+             <br>- Feedback: View the plan tree.
+             <br>- Feedback: Role-action skeletons are created.
+             </li>          
+          <li>  Third Frame: Define terms in a dictionary frame.
+             <br>- Feedback: The nouns are now underlined in the task frame.
+             </li>
+          <li> Fourth Frame: Write procedure/s in a role-action frame.
+             <br>- Feedback: Run the Simulator (default mode). 
+             </li>
+          <li>  Fifth Frame: Design a view in a view frame.
+             <br>- Feedback: Render as HTML and operate the view.
+             <br>- Feedback: Render as Flex and operate the view.
+             <br>- Generate Magritte ... and operate the view.
+             </li>
+       </ul>
+      </li>
+   <li>Configure the run-time actors.
+       <ul>
+          <li>Set probability distributions for the Simulator.</li>
+          <li>Configure actors.</li>
+          <li>Specify record-retention rules for a World-Base.</li>
+          
+          <li>Configure a Coordinator.</li>
+       </ul>
+       </li>
+   <li>Configure a bookkeeper.
+       <ul>
+          <li>Establish resource prices for the Bookkeeper.</li>
+          <li>Initialize or re-set inventory levels.</li>
+          <li>Initialize or re-set resource usage accounts.</li>
+          <li>Initialize or re-set cost accounts.</li>
+       </ul>
+       </li>
+   <li>Merge ontologies.
+       <ul>
+          <li>Search the knowledge base.</li>
+          <li>Compare ontologies.</li>
+          <li>Merge ontologies.</li>
+       </ul>
+       </li>
+   <li>Record and run regression tests.
+       <ul>
+          <li>Safety: Real mode, test mode, simulation mode.</li>
+          <li>Run dialog-driven tests.</li>
+          <li>Run message-driven tests.</li>
+          <li>Run simulations.</li>
+          <li>Run the obfuscator.</li>
+       </ul>
+       </li>
+</ul>
+</td></tr></table>
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+<hr>
+<h2>Get Started</h2>
+<!-- .................................................................... -->
+  <h3>Install the system, and turn it on.</h3>
+  <h3>What is the content and purpose of each type of view?</h3>
+<!-- .................................................................... -->
+   <h4>Frame Editor</h4>
+     <p> 
+       The frame editor view shows a frame.
+       The statements in the frame will be pretty-printed 
+         so that the reader has additional cues about the state of the work.
+       You can edit the statements in a frame editor view.
+       When you want to create a new frame, click the [[make ...]] button
+         for the type of frame you wish to create.
+     </p>
+   <h4>Nag</h4>
+     <p>The nag viewer shows comments that are posted by the code critic.
+        You may turn on the code critic's voice, 
+          display the comments or not,
+          or turn off the code critic entirely. 
+     </p>
+   <h4>Plan Tree</h4>
+     <p>The plan tree view provides a diagram showing the current shape
+         of the plan or plans that include one or more of the task frames
+         that are currently shown in a frame editor.
+        The diagram generally takes the shape of a tree
+          although, strickly speaking, it is not a pure tree graph
+          because more than one post-condition can have the same precondition
+          and because redundant preconditions may be present.  
+     </p>
+   <h4>Dictionary Tree</h4>
+     <p>The dictionary tree view shows a diagram indicating the relationships
+         between dictionary entries.
+        The diagram generally takes the shape of many trees.
+        However, strickly speaking, it is not a pure tree graph
+         because multiple inheritance
+         and multiple occurences of the same noun as an attribute
+         will cause cross-linking. 
+     </p>
+   <h4>Actor Network</h4>
+     <p>The actor network view shows a diagram indicating the relationships
+         between the actors in the ontology or ontologies included in the view.
+        The diagram shows who calls who to get work done.  
+     </p>
+   <h4>Simulator Dashboard</h4>
+     <p>The Simulator's dashboard indicating the progress and state of a 
+         running simulation.
+        Various widgets indicate 
+          <ul style="margin-left: 3em;">
+             <li>simulation date and time (date-time widget)</li>
+             <li>progress on the simulation's time-line (progress bar)</li>
+             <li>number of threads currently executing (active actors)</li>
+             <li>frequency of events (Pareto graph)</li>
+             <li>material resources consumed (Pareto graph)</li>
+             <li>actor activity (Pareto graph)</li>
+             <li>wait time by resource (Pareto graph) </li>
+             <li></li> 
+          </ul> 
+     </p>
+   <h4>Real-Mode Dashboard</h4>
+   <!-- This might not belong here. 
+        It is about the operating environment, not the developer's environment. 
+        -->
+     <p>The Real-Mode Dashboard looks very much like the Simulator Dashboard,
+          except that it has no time-line (progress bar).
+        Of course, a simulation runs at many times real speed,
+          so a simulator dashboard will generally be much more active
+          than a real-mode dashboard.  
+          <ul style="margin-left: 3em;">
+             <li>current date and time (date-time widget)</li>
+             <li>number of threads currently executing (active actors)</li>
+             <li>frequency of events (Pareto graph)</li>
+             <li>material resources consumed (Pareto graph)</li>
+             <li>actor activity (Pareto graph)</li>
+             <li>wait time by resource (Pareto graph) </li>
+             <li></li> 
+          </ul>      
+     </p>
+   <h4>Resource-Type Tree</h4>
+     <p>The resource tree view show a diagram that indicates
+         the assembly relationships between resource types.
+        <!-- Thinking out loud: 
+             Perhaps this should be a graph of a bill of materials. 
+             We could enter bills of materials
+               using a variant of a data frame.
+             ---
+             Data: Bill of Material for Toy Car.
+             Toy Car:
+             . Body: 1.
+             . Axles: 2.
+             . Wheels: 4.
+             ---  
+             --> 
+         <!-- THINK: There is some risk that users might confuse
+              attributes and parts.
+              In fact, I have to think about it myself. !!!
+          -->     
+     </p>
+   <h4>Message Log</h4>
+     <p>The message log view provides a way to view the messages sent between actors. 
+        One can select two types of actors and view the message traffic between the actors.
+        Once can also select a point in time (actual time or simulated time)
+          and view all the messages in chronological order.
+     </p>
+   <h4></h4>
+   <h4></h4>
+<!-- .................................................................... -->
+              
+  <h3>The assistants to the Programmer's Assistant:</h3>
+   <p>All of the components in the Hum system are actors.
+      Several actors provide the functions in the Programmer's Assistant. 
+   </p>
+   <h4>Smart Editor</h4>
+     <p>The smart editor signals the other actors when a statement is entered or modified. 
+     </p>
+   <h4>Token Marker</h4>
+     <p>The Token Marker marks each token in a frame's model.
+        Tokens include words in statements, comments, and annotations.
+        The type and attributes of the token determines how it is rendered
+        by the Pretty Printer.
+     </p>
+   <h4>Pretty Printer</h4>
+     <p>The Pretty Printer renders each frame with colors and icons
+          that provide cues to the reader about the structure
+          and status of the statements in the frame. 
+     </p>
+   <h4>Statement Flagger</h4>
+     <p>The Statement Flagger puts "flags" on each statement (in the model)
+         that indicate the status of the statement.
+        A statement with no definition will have an "undefined" flag.
+        If an instruction is in one of the domain-specific contexts,
+          and it is not recognized,
+          it will be flagged.  
+     </p>
+   <h4>Code Critic</h4>
+     <p>The Code Critic provides suggestions that might improve the readability
+         or structure of the frames in the system. 
+        If the Code Critic has something to say about a statement,
+         the critic icon will appear next to the statement.
+        If you want to know what the critic has to say,
+         touch the icon and the critic's comment will appear in a balloon.
+        If the critic's audio voice is turned on,
+         you will also hear the comment.     
+     </p>
+   <h4>Librarian</h4>
+     <p>The Librarian provides versioning services.
+        One can "turn back the clock" and view the ontology
+          as it existed at various times in the past.
+        The librarian will also prevent accidental duplication 
+          or redundant definitions of a statement or dictionary entry.  
+     </p>
+   <h4>Simulator</h4>
+     <p>You may use the Simulator to test a program 
+          or to tune a business process.  
+        We will focus on program tests in this section.
+        A later section will explain how to tune a business process. 
+        <!-- Reference / Link needed -->      
+     </p>
+     <p>The Simulator will run the system with sim-bots in place of real actors.
+        If any undefined statements are encountered, the simulation will halt.
+        One can "step over" undefined statements to continue the simulation.
+        The simulator uses inputs that were recorded in previous
+          simulated or real-mode runs of the system.
+        The simulator can also generate events and data.   
+     </p>
+   <h4>Speaker</h4>
+     <p>The Speaker provides the text-to-voice outputs from the system.
+        The Programmer's Assistant provides different voices
+          for each of the Assistant Assistants.  
+     </p>
+     <p>You can turn off the Speaker's audio output
+          when it is not useful or appropriate.
+        When the audio is turned off, 
+          you can view the output as text instead.              
+     </p>
+   <h4>Scribe</h4>
+     <p>The Scribe provides the voice-to-text inputs to the system.
+        The system expects verbal commands in the form "Scribe, do something."
+        Each command can also be entered from the keyboard.
+        Instead of verbalizing "Scribe, do something." 
+          you can enter "\do something."
+        The Speaker provides the text-to-voice outputs from the system.
+        
+     </p>
+<!-- .................................................................... -->
+     
+<h2>Enter and test frames.</h2>
+  <h3>First Frame: Write a short dialog in a dialog frame. </h3>
+    <p>To create a new dialog frame, just say "Scribe, new new dialog."
+       <br>If you prefer to remain silent, type "\New dialog." instead. 
+       <i>When you type a command, 
+           don't forget to enter the period or a return
+            at the end of the command.
+          The Scribe won't respond until you do.  
+       </i>
+    </p>
+    <p>In response to this command,
+        the Assistant displays a frame-editor window with a skeleton dialog frame started.
+       The Assistant is command-driven, this may seem a bit retro,
+        but it is actually faster than point and click.
+       If you forget the exact form of a command, 
+        the Scribe will recongnize reasonable equivalents.
+       For example, 
+         you can say "Make a new dialog" 
+         instead of "Create a new dialog," 
+         and the Scribe will understand your intent. 
+       When the Scribe is not sure of your intent,
+         it will ask a question.
+       For example, it may ask "Do you want me to create a dialog frame?"
+    </p>
+    <p>Make the frame look like this:</p>
+<pre class="frame">
+Dialog: Hello Yourself.
+
+Context: Greeting.
+
+U: Hello.
+S: Hello yourself! [gesture: smile]
+
+U: Bye.
+S: Good bye. See you later.
+. Halt.
+</pre>    
+     <h5>Feedback: Run the dialog.</h5>
+     <p>When your dialog frame is ready, say "Scribe, run this dialog."
+        The Scribe should reply: "Wilco. One moment while I wake the Rube." 
+          <!-- or something like that -->  
+          and then, the run-time avatar should appear. 
+        The avatar will wait for you to speak or enter some input.
+        The avatar's facial gesture will be one of expectation.
+        If you say "Hello", (say it or enter "\hello."),
+         the avatar will reply "Hello yourself!" and smile.
+     </p>
+     <p>To make the run-time avatar go away, say "Bye."
+        The avatar should reply "Good bye. See you later." and disappear. 
+     </p>
+     <p>If you wish to tinker with the dialog, 
+         you might add some alternative ways of saying "hello" and "bye."
+        Here is an example. 
+     </p>
+<pre class="frame">
+Dialog: Hello Yourself.
+
+Context: Greeting.
+
+U: Hello.
+U: Hi.
+U: Yo.
+S: Hello yourself! [gesture: smile]
+
+U: Bye.
+U: Good Bye.
+U: Later.
+U: Aloha.
+S: Good bye. See you later.
+. Exit.
+</pre>     
+              
+<!-- .................................................................... -->
+  <h3>Second Frame: Write a plan in task frames. </h3>
+    <p>To create a new dialog frame, just say "Scribe, new task."
+       <br>If you prefer to remain silent, type "\New task."  
+       In response to this command,
+        the Assistant displays a frame-editor window with a skeleton task frame started.
+     </p>
+     <p>Make  task frame that looks like this: 
+     </p>
+<pre class="frame">
+Task: Deliver custom order pizza pie to user's address.
+Post-Condition: Custom order pizza pie delivered to user's address. 
+Preconditions:
+. User's address is within store's territory.
+. Custom order pizza pie is ready for delivery.
+Action:
+. Driver: Deliver pie to user's address.
+</pre>     
+     <p>When this frame is first entered, 
+         the Statement Flagger will flag both preconditions 
+           and the action statement as undefined.
+        <!-- What is the visual indication? -->
+        A question-mark icon will be displayed to the left of each undefined statement.   
+        We need to define two more task frames to complete the plan.
+        Enter two task frames like these:
+     </p>
+<pre class="frame">
+Task: Accept the user's address.
+Post-Condition: User's address is within store's territory.
+Preconditions:
+. We have set up an account for the user.
+Action:
+. GIS: Verify that user's address is within store's territory. 
+</pre>  
+<pre class="frame">
+Task: Assemble and bake the pizza pie according to the custom order.
+Post-Condition: Custom order pizza pie is ready for delivery.
+Preconditions:
+. Pie is in delivery box. 
+. Pie is baked to order.
+Action:
+. None. (Defined state.) 
+</pre>      
+     <p>After the additional task frames are entered,
+         the preconditions in the "Deliver ... pizza" task frame will be defined.
+        But now the preconditions in the new frames are undefined.
+        This plan is simple. 
+        We can easily keep track of what remains to be done.
+        But some plans can become quite large and we will no longer
+          be able to keep it all in our head.
+        We can view a diagram that shows the state of the plan.
+     </p>
+      <h5>Feedback: View the plan tree.</h5>
+        <p>To view the plan tree, say "Scribe, show the plan tree."
+           If you wish to remain silent, type "\Show plan tree." 
+           With the three task frames entered so far,
+            the plan tree will look like this:     
+        </p>
+        <!-- SVG IMAGE GOES HERE. -->
+        <img src="http://" alt="Plan Tree" title="Plan Tree" 
+             height="480" width="640" align="middle" border="1" 
+             style="margin-left: 4em;">
+        <p>The plan tree shows a dot (small circule) for each task frame.
+           Green dots indicate task frames that are fully defined.
+           Blue dots indicate task frames that have not been entered.
+           Red dots indicate task frames with undefined elements. 
+           If you "touch" one of the dots, 
+             the Speaker will tell you the name (post-condition or task name)
+             of the frame.
+           (If you are running silent, 
+             the name appears in a balloon
+              that is temporarily attached to the dot.)  
+        </p>
+        <p>If you want to view or edit one of the task frames,
+            say "Scribe, show that task."
+           If you wish to remain silent, type "\show task."
+           The Scribe will assume you mean the last one you touched.   
+        </p>     
+      <h5>Feedback: Role-action skeletons are created.</h5>
+        <p>If an action statement in a task frame is undefined,
+            it will have an "undefined" flag next to it.
+           To view the corresponding action frame,
+            touch the flag and say "Scribe, show action."
+           If you wish to remain silent, type "\show action."  
+           When you indicate an action in a task frame,
+             a corresponding action-statement will be started in an action frame.
+           It will remain undefined until you enter some instructions under it.  
+        </p>
+                      
+<!-- .................................................................... -->
+  <h3>Third Frame: Define terms in a dictionary frame. </h3>
+     <p>We have not defined any nouns yet.
+        The plan we have defined can run without them,
+          but no resource accounting would occur.
+        We need to define some nouns.
+        That will enable resource accounting.
+        It will also enable ontologies written by other authors. 
+     </p>
+     <p>To create a dictionary frame, say "Scribe, new dictionary."
+        If you wish to remain silent, type "\new dictionary."
+        Make the frame look like this:   
+     </p>
+<pre class="frame">
+Dictionary: Pizza vocabulary. 
+. A pizza oven is a equipment.  (Enable usage accounts.)
+. A delivery box is  product packaging.  (Enable packaging knowledge.)
+. A pizza pie is a pie.
+. A pie is a product.  (Enable product accounting.)
+. A pie has a lower crust and a filling.
+. Crust attributes include thickness and flavoring.
+. Crust thickness categories include thick, thin, and normal.
+. Crust flavoring categories include normal, multi-grain, and pastry.
+. Pizza pie filling attributes include sauce, cheese-type, and toppings.
+. A topping is a material.  (Enable inventory and consumption accounts.)
+. Pepperoni is a topping.
+. Pineapple is a topping.
+. Extra cheese is a topping.
+. (et cetera)
+</pre>     
+     <p>These definitions are sufficient to enable resource accounting.
+        They also make it possible for you to use statements
+          that define actions or goals
+           and use the words product, material, container, equipment. 
+     </p>
+      <h5>Feedback: The nouns are now hyperlinked in the task frames.</h5>
+        <!-- "hyperlinked" seems so awkward -->
+        <p>If you look at one of the task frames, 
+              you will see that these nouns are now hyperlinked.
+           The Pretty Printer will color-code or underline 
+             words that are known to be nouns.   
+           If you touch one of the nouns, its definition will be displayed.
+        </p>
+      <h5>Feedback: View the dictionary tree.</h5>
+        <p>A dictionary tree is a diagram that indicates the relationships
+            between the nouns in the ontology.
+           A green line indicates an entity-attribute relationship. 
+           A blue line indicates a super-type relationship.
+           A red line indicates a circular relationship.
+           A circular relationship will cause problems
+             and you should break the circle
+              as soon as you can.
+        </p>
+        <img src="http://" alt="Dictionary Tree" title="Dictionary Tree" 
+             height="480" width="640" align="middle" border="1" 
+             style="margin-left: 4em;">
+             
+<!-- .................................................................... -->
+  <h3>Fourth Frame: Write procedure/s in a role-action frame. </h3>
+    <p>An action is performed by an actor that is assigned to a role.
+       An action statement is defined by a procedure in a role-action frame.
+       We will use the term <i>action frame</i> for short. 
+    </p>
+    <p>To create a new action frame, you can click on the "undefined" icon
+       next the statement that needs to be defined;
+       or, you can say "Scribe, new action" or enter "\new action."  
+    </p>
+    <p>But wait. 
+       Consider the action: 
+         <code>"Driver: Deliver pie to user's address."</code>
+       Delivering a product is something that many business processes
+         must include as one of their actions. 
+       Perhaps, someone in the community has already contributed
+         an action frame for this.
+       We will ask the librarian to look for candidates.
+       Say "Scribe, scan library" or enter "\scan library."    
+       When we do that, the precondition and action statements
+         in our ontology will be compared to statements in the library
+         that involve <i>similar nouns</i>.
+       A similar noun has the same name or one of its supertypes match
+         our noun or one of our noun's supertypes.
+       If the librarian finds a likely candidate,
+         a suggestion icon (a light bulb) will appear next
+          to the statement with a matching candidate.
+       In this case, the librarian will find a candidate
+         that also involves a product and an address.
+       
+       When we touch the suggestion icon, 
+         we will see this candidate action frame.          
+    </p>
+<pre class="frame">
+Role: Delivery Person.
+Action: Deliver perishable product to customer at order's ship-to address.
+. Move to product pick-up station.
+. Identify product in the order.
+. Put the product into suitable shipping container.
+. Carry shipping container to delivery vehicle. 
+. Drive vehicle to customer's address.
+. Carry product in shipping container to customer's door.
+. When door is answered, confirm order with customer.
+. Give product to customer.
+. Thank the customer. 
+. Return to vehicle.
+. Return to product pick-up location.
+
+To: Drive vehicle to customer's address.
+. Scan order bar-code into vehicle computer.
+. Select A-to-B directions.
+. Follow directions.
+
+To: Return to product pick-up location.
+. Scan order bar-code into vehicle computer.
+. Select B-to-A directions.
+. Follow directions.
+</pre>    
+    <p>The role has a different name, but we can fix that.
+       We can change the name of the role from  "Driver" to "Delivery Person."
+       The wording in the action statement is also a little different.
+       But we can fix that too by changing 
+         the action statement in the task frame to match.
+       
+    </p>
+    <p>The procedure also has some details
+         that we need to think about.
+       For example, it assumes that there will be a bar-code printer 
+         on the order.
+       In fact, it assumes there will be a printed order
+         not just a hand-written order.
+       And, furthermore,
+         it assumes we have a "vehicle computer" that will give us directions.
+       We decide to adapt the procedure, 
+         but we change the vocabulary to suit our business.
+       <!-- Purists will lament that this is "cut and paste." -->    
+    </p>  
+<pre class="frame">
+Role: Driver.
+Action: Deliver pizza to customer's address.
+. Move to pizza pick-up station.
+. Take next ready order.
+. Verify that the pizza matches the order.
+. Put the pizza box into thermal pack.
+. Carry thermal pack to delivery vehicle. 
+. Drive vehicle to customer's address.
+. Carry product in thermal pack to customer's door.
+. When door is answered, confirm order with customer.
+. Give product to customer.
+. Thank the customer. 
+. Return to vehicle with the thermal pack.
+. Return vehicle and thermal pack to product pick-up location.
+</pre>        
+     
+      <h5>Feedback: Run the Simulator.</h5> 
+      <p>When the program is more or less complete,
+          you can test it manually by exercising the dialogs.
+         You should have several people who are likely to be future end-users
+           try out the dialogs and views.
+         This is an important step in building high-quality user interfaces. 
+         Every dialog is recorded.
+         That means that you can re-run a dialog or a whole set of dialogs
+           from the Simulator.   
+      </p>
+      <p>The Simulator can also run dialogs in random input mode. 
+         The Simulator itself will make random selections of paths and data values.
+         You can run hundreds of tests quite quickly in random input mode.
+         While the random input mode might make "pickels and ice cream"
+           choices that you would never expect a user to make,
+           a well-written program should never halt
+           even when the user does someting unexpected.
+         A business process might wait if it runs short of resources,
+           but the program that runs the process should not halt.   
+      </p>
+      <img src="http://" 
+                alt="Simulator Dashboard" 
+              title="Simulator Dashboard" 
+             height="480" width="640" align="middle" border="1" 
+             style="margin-left: 4em;">
+
+             
+<!-- .................................................................... -->
+  <h3>Fifth Frame: Design a view in a view frame. </h3>
+    <p>To create a new view frame, say "Scribe, new view." or enter "\New view."  
+       In response to that command,
+        the Assistant displays a frame-editor window 
+        with a skeleton view frame started.
+     </p>
+<pre class="frame">
+View: Pizza.
+! Pizza Order
+!! Order number: [serial]
+!!! Crust
+    (N) Normal Crust  (T) Thin Crust  
+    (D) Deep Crust    (C) Cheezy Crust  (P) Pastry Crust
+!!! Sauce
+    (n) Normal Sauce  (q) BBQ Sauce  (z) Thai Peanut Sauce    
+!!! Toppings
+!!!! Meat
+    [p] Pepperoni  [s] sausage  [h] ham  [b] bacon  [B] beef  [c] chicken
+!!!! Vegetables    
+    [a] pineapple  [t] tomatoe  [o] onion [g] green pepper [r] sweet red pepper    
+    [m] mushrooms  [1] black olives  [2] green olives [j] Jalapeno peppers 
+!!!! Extra Cheeze     
+    [e] extra cheeze  [3] 3-cheeze topping  [4] cheddar  [5] feta cheeze
+. (N) => Crust is normal.
+. (n) => Sauce is normal.
+. [p] => Ingrediants include pepperoni.    
+</pre>
+<p>When you are entering a view-frame instruction,
+   <br> the Scribe will render the word "implies" as an implication arrow ("=>"). 
+</p>
+<p>Immediately after you enter "<code>. (N) => Crust is normal.</code>"
+        <br>you can say "Scribe, enumerate." or enter "\enumerate." 
+       The Scribe will compare the instruction you typed to the view content
+         and deduce that you want it to repeat the pattern 
+         for each category of crust.
+<pre class="frame">
+. (T) => Crust is thin.
+. (D) => Crust is deep.
+. (C) => Crust is cheezy.
+. (P) => Crust is pastry.
+</pre> 
+<p>Similarly, immmediately after you enter ". Ingrediants include pepperoni."
+      <br> you can say "Scribe, enumerate." or enter "\enumerate."
+      The Scribe will examine the instruction and deduce that you want it
+        to enter repeat the pattern for each category of topping.
+<pre class="frame">
+. [s] => Ingrediants include sausage.
+. [h] => Ingrediants include ham.
+. [b] => Ingrediants include bacon.
+. [B] => Ingrediants include beef.
+...
+. [5] => Ingrediants include feta-cheeze.
+</pre>    
+</p>
+      <h5>Feedback: Render as HTML and operate the view.</h5>
+        <p> 
+        </p>
+              <img src="http://" 
+                alt="View Rendered as HTML" 
+              title="View Rendered as HTML" 
+             height="480" width="640" align="middle" border="1" 
+             style="margin-left: 4em;">
+
+      <h5>Feedback: Render as Flex and operate the view.</h5>
+        <p> 
+        </p>
+              <img src="http://" 
+                alt="View Rendered as Flex" 
+              title="View Rendered as Flex" 
+             height="480" width="640" align="middle" border="1" 
+             style="margin-left: 4em;">
+      <h5>Generate Magritte ... and operate the view.</h5>
+        <p> 
+        </p>
+              <img src="http://" 
+                alt="View Rendered as Magritte" 
+              title="View Rendered as Magritte" 
+             height="480" width="640" align="middle" border="1" 
+             style="margin-left: 4em;">
+             
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+      
+<h2>Configure the run-time actors.</h2>
+<!-- .................................................................... -->
+  <h3>Set probability distributions for the Simulator.</h3>
+    <p>You can set the probability distribution for each instruction
+        by appending an annotation containing a duration.
+       For example: 
+    </p>
+<pre class="frame">
+. Carry product to customer's door. [40 seconds]
+</pre>    
+<p>If no duration is provided, 
+    the Simulator assumes a median duration of 2 seconds.  
+</p>
+<p>If you provide a single time measure for the duration,
+    the Simulator will take that time as the median (50% point).
+   The Simulator will assume a (S-curve) distribution  
+    <br>where probabilites  ( 0%, 10%, 50%, 90%, 100%) 
+    <br>map to durations of ( 0, &nbsp;0.25, &nbsp;1.0, &nbsp;2.0, &nbsp; 4.0 ) 
+    times the median.
+   
+</p>
+<p>This default curve is probably close enough for most simulations.
+   But, you can enter your own curve if you like.
+   For example, we might give the curve a longer tail, like this:  </p>
+<pre class="frame">
+. Carry product to customer's door. [0,20,40,120,300 seconds]
+</pre>
+<p>When the system has been operating in real-mode for some time,
+    the Simulator can use real data instead of data from annotations. 
+</p>
+<!-- .................................................................... -->
+  <h3>Configure actors.</h3>
+    <p>An actor needs to know:
+       <ul style="margin-left: 2em;">
+          <li>Messenger - The Messenger provides the actor's communication channel.</li>
+          <li>Resource Manager - The Resource Manager will assign actions.</li>
+          <li>Bookkeeper - The Bookkeeper records instruction-level statistics.
+              </li>
+          <li>World-Base - The World-Base records state and events</li>
+          <li>Roles - The roles that the actor will volunteer to perform.</li>
+       </ul>
+           
+     </p>
+     <p>The run-time expects to find these configuration facts 
+         in a configuration file.
+        The file has the same name as the actor and contains a data frame
+          like this.
+     </p>
+<pre class="frame">
+Data: Actor Configuration.
+Actor:
+. name: Forest Wheeler.
+. messenger: http://myhub.com:9090/messenger.
+. resource manager: Driver dispatcher.
+. bookkeeper: Driver bookkeeper.
+. world-base: Driver worldbase.
+. roles: Delivery Person. Store Runner.
+</pre>     
+    
+<!-- .................................................................... -->
+  <h3>Specify record-retention rules for a World-Base.</h3>
+    <p>The purge process runs in the background.
+       The simple data purging actor that comes with the run-time distribution
+         will run during the days you specify as a kind of background process.
+       The algorithm is a kind of garbage collector.
+       Space is freed for other uses.
+       Optionally, the purged data may be written to a zip-file archive.  
+    </p>
+<pre class="frame">
+Data: Purge rules.
+World Base:
+. name: Enterprise Base.
+. table of Purge Rules delimited by |
+| data about | purged after | during        | archive to            |
+| Accounts   | 7 years      | August 15-20  | /archive/accounts.zip |
+| Customers  | 3 years      | August 15-20  | /archive/customers.zip|
+| Assets     | 20 years     | August 15-20  | /archive/assets.zip   |
+| Events     | 5 years      | August 15-20  | /archive/events.zip   |
+</pre>    
+<!-- .................................................................... -->
+  <h3>Configure a Coordinator.</h3>
+    <p>A Coordinator creates and runs plans.
+       Because plans (task frames) contain action statements 
+         that may be assigned
+         to a number of roles,
+         the Coordinator needs a resource manager
+         that can dispatch actions to all of the roles in the ontology.
+       In addition, job accounting requires a bookkeeper.
+       When a post-condition is satisfied,
+         the event will be recorded in a world-base. 
+       And, last but not least, a messenger must be designated to connect all of these actors.    
+    </p>
+    <!-- Where is this data stored? 
+          How will the Coordinator find it? -->
+<pre class="frame">
+Data: Coordinator Configuration.
+Coordinator:
+. name: Enterprise Coordinator.
+. messenger: http://myhub.com:9090/messenger.
+. resource manager: Enterprise Actor Dispatcher.
+. bookkeeper: Enterprise Job Accountant.
+. world-base: Enterprise World-Base.
+</pre>    
+    
+<!-- .................................................................... -->
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+       
+<h2>Configure a bookkeeper.</h2>
+  <p>Multiple coordinators and actors may share a bookkeeper.
+     The obvious requirement is that it makes sense for those
+       business processes and actors to share the same set of books.
+     Basically the sums and breakdowns have to make sense to a reader.
+     To avoid potential misunderstandings or miss-use,
+       authorized actors and coordinators
+       are specified in advance.
+  </p>
+<!-- .................................................................... -->
+  <h3>Establish resource prices for the Bookkeeper.</h3>
+    <p>The bookkeeper tracks the amount of resources used.
+       However, it cannot assign a monetary cost 
+         unless you provide some resource prices.
+       The simple bookkeeper provided with the run-time distribution
+         only implements a simple fixed-price system.
+       You can change the prices from time to time
+         but LIFO and FIFO schemes which relate to purchase histories
+         are beyond the bookkeeper's capability.
+       If you need such pricing schemes, 
+         you will need to replace the simple bookkeeper
+         with one of your own.     
+    </p>
+    <p>You can provide the bookkeeper with pricing data
+         using a data frame. (See below.)
+       The bookkeeper expects to find such data in a file called: "TBD"
+         in the data directory of its server.  
+    </p>
+<!-- A generalized directory and naming strategy might be nice to have. -->    
+<pre class="frame">
+Data: Resource Pricing.
+Bookkeeper: Enterprise main.
+. Currency: US Dollar.
+. Table of resource prices delimited by |
+| resource                | price | per   |
+| chopped pepperoni       | 12.55 | pound |
+| oven ready pizza dough  | 5.23  | pound |
+| BBQ style sauce         | 4.21  | quart |
+</pre>    
+<!-- .................................................................... -->
+  <h3>Initialize or reset inventory levels.</h3>
+    <p>The bookkeeper tracks inventory levels.
+       You can initialize or reset inventory levels by ... 
+    </p>
+<!-- .................................................................... -->
+  <h3>Connect bookkeepers and resource managers.</h3>
+    <p> WHAT WAS I THINKING?
+    </p>
+<!-- .................................................................... -->
+  <h3>Initialize or re-set resource usage and cost accounts.</h3>
+    <p>You may wish to initialize the bookkeeper 
+        by setting certain resource and monetary accounts
+        to certain initial values. 
+    </p>
+<!-- .................................................................... -->
+  <h3>Initialize or re-set cost accounts.</h3>
+    <p> 
+    </p>
+<!-- .................................................................... -->
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+       
+<h2>Merge ontologies.</h2>
+  <p>It is not unusual to discover that two or more organizations
+       that are part of the same company will use the same word
+       to mean significantly different things.
+     Two communities may use different words to refer to the same thing.
+     Hence, the process of merging two ontologies
+       requires a careful attention to detail.   
+  </p>
+<!-- .................................................................... -->
+  <h3>Search the on-line knowledge base.</h3>
+    <p>A small knowledge base with some common low-level business processes
+        is included in the distribution.
+       You will find a larger knowledge base on-line at: 
+       <a href="http://SimpleEnglish.com/KnowledgeBase">
+                http://SimpleEnglish.com/KnowledgeBase</a>.
+       You can search that knowledge base by business process 
+         and by role.         
+       The search engine contains a thesaurus
+         so that a search with one term will also match
+         cases where a synonym was used.
+    </p>
+    
+<!-- .................................................................... -->
+  <h3>Compare ontologies.</h3>
+    <p>You may encounter several hazards when you merge ontologies.
+       The Programmer's Assistant includes a thesaurus 
+       that will attempt to alert you to situations
+       where the an ontology that you are attempting to merge
+       will need some translation or "re-factoring"
+       before you can safely merge it into your ontology.
+    </p>
+    <ul style="margin-left: 2em;">
+       <li>Entities that have different attributes.</li>
+       <li>Entities that have different supertypes.</li>
+       <li>Roles that might be the same but have different names.</li>
+       <li>Roles that have the same name but might have different functions.</li>
+       <li></li>
+       <li></li>
+    </ul>
+<!-- .................................................................... -->
+  <h3>Merge ontologies.</h3>
+    <p>When you merge a role from another ontology
+         you may wish to change the name of the role
+         to match your community jargon or preference. 
+    </p>
+    <p>When you merge statements from another ontology,
+        the primary strategy is to replace nouns
+        in the incoming ontology 
+        with equivalent, or nearly equivalent nouns from your ontology. 
+    </p>  
+    <p>If an ontology is primarily poplated with robotic roles,
+        you may be able to merge it into a similar ontology
+        without a great deal of examination and translation.
+       But any ontology that is heavily populated with human roles
+         will probably require extensive adaptation.
+    </p>
+<!-- .................................................................... -->
+<h2>Record and run regression tests. </h2>
+  <p> 
+  </p>
+<!-- .................................................................... -->
+  <h3>Safety: Real mode, test mode, simulation mode.</h3>
+    <p>The system may run in three different modes.
+       Each mode has different operating characteristics.    
+       To avoid accidentally mixing simulated or test data with
+         real data,
+         the World-Base and Bookkeeper that are attached
+         must be in the same mode as the Coordinator.     
+    </p>
+    <h4>Simulation Mode</h4>
+    <ul style="margin-left: 1em;">
+       <li>Runs with random input.</li>
+       <li>View and control via Simulation Dashboard.</li>
+       <li>Action code is simulated, not run. No messages are sent.</li>
+       <li>World-Base and Bookkeeper must also be in Simulation Mode.</li>
+    </ul>
+    <h4>Test Mode</h4>
+    <ul>
+       <li>Runs with regression input or random input.</li>
+       <li>Enables breakpoints and stepping.</li>
+       <li>Action code is simulated, not run. No messages are sent.</li>
+       <li>World-Base and Bookkeeper must also be in Test Mode.
+           (Test Mode enables watch-points and inspection.)
+       </li>
+    </ul>
+    <h4>Real Mode</h4>
+    <ul>
+       <li>Regression input and random input are disabled.</li>
+       <li>View and control via Real-Mode Dashboard.</li>
+       <li>Action are sent to remote actors - run live.</li>
+       <li>World-Base and Bookkeeper must also be in Real Mode.</li>
+    </ul>
+    <p>
+    </p>
+<!-- .................................................................... -->
+  <h3>Run dialog-driven tests.</h3>
+    <p>You can run the dialog manually in test mode.
+       You can also have the Simulator run the dialog
+         with random inputs
+         that invoke random paths through the dialog.
+       Be warned that the random paths   
+         may be quite different from those that you expect
+         a user to take.
+       However, that is a good test of your code.  
+    </p>
+<!-- .................................................................... -->
+  <h3>Run message-driven tests.</h3>
+    <p>The Messenger records all messages in a log.
+       You can filter the log to produce a stream of input and output
+         messages to run regression tests on one of your actors. 
+    </p>
+<!-- .................................................................... -->
+  <h3>Run Simulations driven by arrival rates.</h3>
+    <p>The Simulator supports tests of concurrent processing
+         by generating dialog inputs
+         with specified arrival rates for various dialog events.
+       The Simulator assumes that dialogs are independent.
+       That means that processes that vary according to the history
+         of a user may not produce results that are consistent with
+         a user's tendancy to produce repetitive behavior.   
+    </p>
+    <p>You can also run regression tests by filtering the Messenger
+        log to isolate the output of the dialogs.
+       This strategy will reproduce the patterns of repetitive behavior 
+        including the timing of those repetitions. 
+    </p>
+<!-- .................................................................... -->
+  <h3>Run the Obfuscator.</h3>
+    <p>You can protect the personal data found in message streams
+         and the world-base by running the Obfuscator on the data source
+         before you run your tests.
+       The Obfuscator knows which attributes of a Person entity 
+         represent personal data,
+         and it will replace those values 
+         with other values that are compatible but different.  
+       Any entity that has Person as a super-type will have
+         those personal attributes obfuscated.  
+    </p>
+    <p>Note that postal codes will be changed.
+       If you are running a simulation which is sensitive
+         to the geographic distribution of your customers,
+         the difference in the postal codes can, of course,
+         affect the outcome.
+       You can turn-off the postal code substitution,
+         but that does reduce the level of protection.   
+    </p>
+<!-- .................................................................... -->
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+      
+
+</body>
+</html>

@@ -1,0 +1,122 @@
+<html>
+<head>
+  <title>Dream House version 0.2</title>
+  <link href="styles.css" rel=STYLESHEET TYPE="text/css">
+</head>
+<body>
+<p class="AUTHOR"> 
+  This is a STUDY of how data frames could be used to define a <b>landscape</b>.
+  <br/>Obviously, it assumes a subsystem that can interpret this data
+    (translate to a scene-graph language) 
+    and a subsystem that can provide visualization.
+  <br/>I wrote this with two questions on my mind: 
+  <br/>[1] Is the data frame notation sufficiently robust to define a scene graph?
+  <br/>[2] Can I think of a landscape that would interest a girl?
+</p>
+<h2>Dream House version 0.2</h2>
+<pre class="example">
+---
+Data: Dream House version 0.2 with dimensions in meters.
+. (Version 0.2 is somewhat larger than version 0.1.)
+. (Version 0.2 has turrets - an amusing way to do the stairs.)
+Second Floor: 3 meters in height.
+Room: Kitchen.
+. Size: 4 meters by 3 meters.
+. Doors:
+. . Door: North to North Porch.
+. . Door: South to Living Room.
+. Counters:
+. . Counter:
+. . . Size: 4 meters by 0.5 meters.
+. . . Location: West wall.
+. . Counter:
+. . . Size: 4 meters by 0.5 meters.
+. . . Location: East wall.
+Room: Library.
+. Size: 4 meters by 4 meters.
+. Location: East of Kitchen.
+. Door: South to Living Room.
+. Door: North to North Porch.
+. (By convention, the between-room wall thickness is split between the rooms.)
+. (Assume an interior wall to be 0.15 m thick ==> 0.075 shared between rooms.)
+Room: Living Room.
+. Size: 8 meters by 7 meters.
+. Location: South of Kitchen and Library.
+. Doors:
+. . Door: North to Kitchen.
+. . Door: North to Library.
+Room: Shared Lavatory.
+. Size: 2 meters by 2 meters.
+. Location: South of Living Room.
+. Door: West to Hall.
+. Counter:
+. . Size: 1 meter by .5 meter.
+. . Location: West wall, South-West corner.
+. Toilet:
+. . Size: 1 meter by 1 meter (clearance).
+. . Location: West wall, North-West corner.
+Room: Hall.
+. Size: 2 meters by 2 meter.
+. Location: South of Living Room.
+. Doors:
+. . Door: North to Living Room.
+. . Door: South to Master Bed Room.
+Room: Coat Closet.
+. Size: 2 meters by 3 meters.
+. Location: South of Living Room.
+. Door: East to Hall.
+Room: Master Bed Room.
+. Size: 7 meters by 7 meters.
+. Location: South of Living Room.
+. Door: North to Living Room.
+. Door: South to Master Bath.
+. Door: South to Walk-In Closet.
+Room: Walk-In Closet.
+. Size: 4 meters by 3 meters.
+. Location: South of Master Bed Room.
+. Door: North to Master Bed Room.
+Room: Master Bath and Laundry.
+. Size: 4 meters by 3 meters.
+. Location: South of Master Bed Room.
+. Door: North to Master Bed Room.
+. Door: South to South Porch.
+. Tub: 
+. . Size: 2 meters by 1 meters.
+. . Location: East wall. (South-East corner.)
+. Counter:
+. . Size: 2 meters by 0.5 meters.
+. . Location: East wall.
+. . Wash basin: Hers.
+. . . Location: center at 0.5 meter South.
+. . Wash basin: His.
+. . . Location: center at 1.5 meter South.
+. Toilet:
+. . Size: 1 meter by 1 meter. (clearance)
+. . Location: West wall.
+. Washer and Dryer. (Washer under, Dryer over)
+. . Size: 1 meter by 1 meter. (clearance)
+. . Location: West wall.
+. Hanging Space. (For letting cloths hang out.)
+. . Size: 2 meter by 1 meter.
+. . Location: West wall.
+Porch: North Porch.
+. Size: 6 meters by 13 meters.
+. Location: North of West Porch, Kitchen, Library, East Porch.
+Porch: East Porch.
+. Size: 25 meters by 3 meters.
+. Location: East of everything.
+Porch: West Porch.
+. Size: 25 meters by 3 meters.
+. Location: West of everything.
+Porch: South Porch. 
+. Size: 6 meters by 13 meters.
+. Location: South of  West Porch, Master Bath, Walk-In Closet, East Porch.
+Stair: Turret Containing Spiral Stair to Sun Deck.
+. Size: 1.6 meter radius. (21 * 0.3 = 0.75 * 2 * 3.14 * (R-.3))
+. (three-quarter turn, rising 3.3 meters, 3.3 / 0.15 = 22 risers = 21 steps )
+. (Radius does not include cladding - wall thickness.)
+. Location: On East corners of North Porch and South Porch.
+---
+</pre>
+</body>
+</html>

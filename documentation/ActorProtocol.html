@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+  <title>Actor Protocol</title>
+  <link href="styles.css" rel=STYLESHEET TYPE="text/css">
+
+</head>
+<body>
+
+<h2>Actor Protocol</h2>
+<h3>Actor Interface</h3>
+<p> 
+  To speak to an actor, 
+    we simply send a statement 
+    along with the objects that the statement references.  
+  If the actor is on the web, 
+    we simply send the request with an HTTP POST.
+</p>
+<p> 
+  The message sent to the actor is a Hum 
+  <a href="FrameTypes.html#DatatFrame">data frame</a> 
+  and looks like this:
+<pre class="example">
+---
+Data: Action request sent to remote actor.
+Action:
+. statement: Assemble coffee-drink.
+. request: r756446356-33. 
+. coffee-drink:
+. . recipe: latte.
+. . decaffeinated: Yes.
+. . skim-milk: No.
+---
+</pre>  
+<p class="ADVICE">
+ In the back-plane, the message carries various data 
+   that is used by the delivery system.
+ For example: unique message identifier, source address, time sent, digital signature. 
+ Because such data serves the back-plane, not the business process,
+   we do not show that data here.
+ That data is in the tranport layer, not the actor interface layer.  
+</p>
+<h3>Actor Address</h3>
+<p>
+  The actor's address on the web is a URI that looks like this:
+  <br/>.
+  <br/><code>http://www.server.com/.../actor/1234</code>
+  <br/>.
+  <br/>where "1234" in the example is the actor's local identifier. 
+  The local identifier can be any string.
+  We suggest anything that works well in a URI as a good-enough choice. 
+</p>
+<p> 
+  If we need privacy or security, the simple solution is to use HTTPS.
+  The protocol is otherwise unchanged.
+</p>
+
+<h3>Registration</h3>
+<p> 
+  The actor registers itself with a Resource Manager 
+    by sending a message to a Resource Manager.
+  The message is sent with an HTTP POST.
+  The actor simply tells the manager its address
+    and a list of the roles it can perform.
+  Optionally, the actor can give its "quit time"  
+    so that the resource manager will avoid assigning tasks
+    which would exceed the quit time.
+</p>
+<p> 
+  The resource manager has a URI that looks like this:
+  <br/>.
+  <br/><code>http://www.server.com/.../resourceManager/4321</code>
+  <br/>.
+  <br/>where "4321" is the resource manager's local identifier.
+</p>
+<p> 
+The message sent to the resource manager is a Hum 
+  <a href="FrameTypes.html#DatatFrame">data frame</a> 
+  and looks like this:
+  
+<pre class="example">
+---
+Data: Remote actor reporting for work.
+Event: 
+. statement: Remote actor is available on schedule enclosed.
+. Actor:
+. . name: One-Arm Charlie.
+. . roles: coffee-mixer, donut-fetcher.
+. . address: https://www.coffeeshop314159/robot/OneArmCharlie.
+. . key: www.coffeeshop314159/robot/OneArmCharlie.
+. Schedule:
+. . begin: now.
+. . end: 2010.12.31 23:59. (Lease expires.)
+---
+</pre>  
+</p>
+
+<h3>Quit</h3>
+<p>
+  The actor can quit (de-register) at any time 
+    as long as it is not currently working a request. 
+  It does that by sending a message to the resource manager.
+  The "quit notice" is sent in a data frame that looks like this:
+<pre class="example">
+---
+Data: Quit notice.
+Event: 
+. statement: Actor will be unavailable per reason for period.
+. actor: www.coffeeshop314159/robot/OneArmCharlie. 
+. reason: Robot going off-line for safety inspection.
+. period:
+. . start: now.
+. . duration: 30 minutes.
+---
+</pre> 
+
+<h3>Completion Report</h3> 
+<p> 
+  When an actor completes an request, 
+    it sends back a "completion report"
+    in a data frame that looks like this:
+<pre class="example">
+---
+Data: Work completion report.
+Completion-Report.
+. statement: Actor consumed resources while completing request.
+. actor: www.coffeeshop314159/robot/OneArmCharlie.
+. request: r756446356-33.
+. resources:
+. . coffee-mech: 47 seconds.
+. . milk: 500 ml.
+. . expresso: 1 shot.
+---
+</pre>    
+</p>
+<h3>Trouble Report</h3> 
+<p> 
+  When an actor cannot complete a request, 
+    it sends back a "trouble report"
+    in a data frame that looks like this:
+<pre class="example">
+---
+Data: Actor cannot complete assigned request.
+Event:
+. statement: Actor encountered problem while working request.
+. actor: www.coffeeshop314159/robot/OneArmCharlie.
+. request: r756446356-33. (request that cannot be completed)
+. problem:
+. . category: Missing material.
+. . reason: Skim milk container is empty.
+. . status: Coffee-mech is waiting for material.
+---
+</pre>    
+  The resource manager will take whatever corrective action 
+    is appropriate to the situation. 
+  Typically, it will refer the problem to a "trouble-shooter" actor
+    which has the knowledge for coping with troubles.
+  For example: The trouble-shooter actor could be a human 
+    or a case-based-reasoning system.    
+  In the case above, the actor is waiting for material.
+  The the trouble-shooter actor could tell the human attendant to re-fill the skim milk container; or, if there is no more skim milk, the trouble-shooter could abort the current order and send a runner to get some skim milk. (In the mean time, operations will be very constrained.) 
+</p>
+</body>
+</html>

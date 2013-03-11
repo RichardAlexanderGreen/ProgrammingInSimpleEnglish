@@ -1,0 +1,1653 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+  <title>Hum - Programmers' Guide</title>
+  <link href="styleV2.css" rel=STYLESHEET type="text/css">
+</head>
+<body>
+<!--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+<h1><font size="+5">Hum - Programmers' Guide</font> </h1>
+<hr/>
+<h2>Table of Contents</h2>
+
+<pre class="toc">
+<b>Preface</b>
+. Hum is meant to be international.      <a href="#Preface">_</a>
+. Document Purpose                       <a href="#DocumentPurpose">_</a>
+
+<b>Introduction to Hum</b>
+. What is Hum? What is Rube?  <a href="#WhatIsHum">_</a>
+. How does Hum work?          <a href="#HowDoesHumWork">_</a>    . When would I use Hum?       <a href="#WhatMightHumBeUsedFoßr">_</a>  
+
+
+
+<b style="font-size:16">Programming in Hum</b> <a href="#ProgrammingInHum">_</a>
+
+<b>. Tutorial 1 - Making A Plan</b>                   
+. . Task Frames          <a href="#TaskFrames">_</a>
+. . Plan Tree            <a href="#PlanTree">_</a>
+. . Ontology             <a href="#Ontology">_</a>
+. . Executing The Plan   <a href="#ExecutingThePlan">_</a>
+
+<b>. Tutorial 2 - Programming The Actors</b>
+. . Role Frame            <a href="#RoleFrame">_</a>
+. . Resources And Pools   <a href="#ResourcesAndPools">_</a>
+. . Bookkeeper            <a href="#Bookkeeper">_</a>
+
+<b>. Tutorial 3 - Running A Simulation</b>
+. . Set-up and run a simulation.          <a href="#SetUpAndRunSimulation">_</a>
+. . Specify durations.                    <a href="#SpecifyDurations">_</a>
+. . Specify event arrival distributions.  <a href="#SpecifyEventArrivalDistributions">_</a>
+. . Specify Parameter Distributions       <a href="#SpecifyParameterDistributions">_</a>  
+
+<b>. Tutorial 4 - Defining Human Interface Dialogs</b>
+. . The Speaker           <a href="#TheSpeaker">_</a>
+. . Form-Based Dialogs    <a href="#FormBasedDialogs">_</a>
+. . Speech-Based Dialogs  <a href="#SpeechBasedDialogs">_</a>
+. . Talking Heads         <a href="#TalkingHeads">_</a>
+
+<b>. Tutorial 5 - Handling Task Exceptions</b>
+. . When things go wrong   <a href="#WhenThingsGoWrong">_</a>
+. . Stock Out              <a href="#StockOut">_</a>
+. . No Bid                 <a href="#NoBid">_</a>
+. . Time Out               <a href="#TimeOut">_</a>
+. . Missing Actor          <a href="#MissingActor">_</a>. . Cascading Exceptions   <a href="#CascadingExceptions">_</a>  
+
+<b>. Tutorial 6 - Gestures and Signals</b>  
+. . User Gestures          <a href="#UserGestures">_</a>
+. . Sensors and Signals    <a href="#SensorsAndSignals">_</a>
+
+<b>. Tutorial 7 - Security</b>
+. . Enterprise Security            <a href="#EnterpriseSecurity">_</a>
+. . Authorization Annotation       <a href="#AuthorizationAnnotation">_</a>
+. . Authorization As Configuration <a href="#AuthorizationConfiguration">_</a>
+
+
+<b style="font-size:16">Advanced Topics</b>
+<b>. Handling Cancelations</b>  
+. . Cancellation and Compensation  <a href="#CancellationAndCompensation">_</a>
+. . How do you reverse an action?  <a href="#HowToReverse">_</a>
+<b>
+. Advising the Planner             <a href="#AdvisingThePlanner">_</a>
+. Building Interfaces              <a href="#BuildingInterfaces">_</a>
+. Running Simulations (Tests)      <a href="#ConstructingTestsAndSimulations">_</a>
+. Fixing Dialog Problems           <a href="#FixingDialogProblems">_</a>
+. Fixing Ontology Problems         <a href="#FixingOntlogyProblems">_</a></b>
+</b>  
+</pre>
+<!--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+<hr/>
+<h1>Programmers' Guide</h1>
+<!-- ......................................................................... -->
+<h2>Preface</h2>
+<a name="Preface"></a>
+<h3>Preface - This programmers guide is for the English version of Hum.
+<br>But Hum is meant to be international.
+</h3>
+<p>
+  "Hum" is the name of the <i>framework</i> and <i>run-time system</i>.
+  "Hum English" is the name of the English-language <i>notation</i>
+  used to advise Hum. The Hum notations can be adapted to the keyboards and conventions of any written language that reads left-to-right. We will not speculate about how it might be adapted to other natural languages.
+</p>
+<!-- REMOVED ... THIS IS A GOAL -- NOT ACTUALLY REALIZED.
+<p>   
+  One does not really program the Hum system. 
+  The process is more like giving the system advice.
+  In a anthropomorphic sense, 
+  the system keeps track of what it needs to know
+  and will tell the programmer what it needs to know
+  to complete its knowledge (to fill in the gaps).
+</p>
+-->
+<p>  
+  The notations shown here are for the English-language version of Hum
+  which we refer to as "Hum English". 
+  The concepts of Hum are the same from language to language.
+  Basic concepts such as entities, attributes, tasks, procedures
+    are present in all written languages.
+  But the notation may vary to accommodate the conventions
+    and keyboards associated with different languages.
+  Hum notation is designed to be easily typed on an English keyboard
+    and easily understood by people living in an English culture.
+  The notation will change when it is adapted to another written language.    
+</p>
+
+<!-- ......................................................................... -->
+<a name="DocumentPurpose"></a>
+<h3>Document Purpose</h3>
+  Audience: This document is written for programmers 
+            - people who will author Hum <i>frames</i>.
+  <br />Goals: After reading this document the reader should be able to: 
+   <ul>
+     <li>Understand the organization of the Hum system</li>
+     <li>Read and write the different types of frames</li>
+     <li>Operate the programming system</li>
+     <li>Operate the simulation system</li>
+     <li>Set-up a business operation</li>
+   </ul>
+   
+<!--
+  From: Author.
+  I use the term "document" here. 
+  This content may be published in multiple media including 
+  . web-site (where the text may be on multiple HTML "pages")
+  . PDF (where the content would be one PDF file with hyperlinks embedded)
+    (The PDF file would be paginated to facilitate a nice print-out.)
+  . print (the intermediate form to drive the typesetter may be LaTeX)
+    (I would probably use an on-demand printer as the distributer.)
+    (If I am very lucky, the publisher would be someone like ORiely.)
+  . wiki (like website wiki pages are generally smaller modules)
+-->   <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% --><!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+<hr />
+<h2>Introduction to Hum</h2>
+<!-- ......................................................................... -->
+<a name="WhatIsHum"></a>
+<h3>What is Hum? What is Rube?</h3>  <ul>    <li>Hum is a programming framework.
+        A programming framework consists of a set of notations, 
+        a translater which produces a ready-to-run form from the notations, 
+        and a run-time system where we can run the executable form.
+        Hum English is the English version of Hum based on written English.
+        <br />Rube is the <i>run-time system</i> that executes programs written in Hum.
+       
+      <ul>        <li>Hum is used to <i>describe a process</i>. 
+           <br/>The process might be a business process, a multi-player game,
+                or an ecology. 
+                Since Hum is a general purpose language,
+                it can be used to describe any kind of process.
+                However, the current version, and this programmer's guide
+                 is primarily designed around the idea 
+                 that we are describing a <i>business process</i>.     
+        </li>        <li>The Rube run-time may be used to 
+            <br /><i>simulate a business process</i>, 
+            <br/>or, to actually
+            <br /><i>operate a business process</i>.</li>      </ul>
+    </li>    <li>The Hum language includes <b>notations</b> representing ...      <ul>        <li>Process knowledge - 
+            <a href="FrameTypes.html#TaskFrame">Task Frames</a>
+            and 
+            <a href="FrameTypes.html#RoleFrame">Role Frames</a>
+            </li>        <li>Ontology - 
+            <a href="FrameTypes.html#DictionaryFrame">Dictionary Frames</a>
+            </li>        <li>Presentation - 
+            <a href="FrameTypes.html#PanelFrame">View Frames</a>
+            </li>
+        <li>Data - 
+            <a href="FrameTypes.html#DataFrame">Data Frames</a>
+            </li>
+        <li>User Dialog - 
+            <a href="FrameTypes.html#DialogFrame">Dialog Frames</a>
+            </li>              </ul>
+    </li>    <li>The Rube run-time framework is designed 
+          to run a business process.
+        It has all of the components that are necessary 
+          for operating a business process.
+        <br />For example:          <ul>          <li>The Planner assembles <i>plans</i> to achieve given <i>goals</i>.
+              <br />(Goals resemble work-orders in this context.)
+          </li>          <li>The Coordinator executes the plans.</li>          <li>Resource Managers allocate, dispatch, and track 
+              required <i>resources</i>.
+              <br />Resource Managers provide inventory, 
+                    scheduling, reservation, dispatch,  
+                    status, and replenishment services.
+              </li>
+          <li>When the time comes to execute an action-statement in a plan,
+              the Coordinator sends the action to a Resource Manager,
+              and the Resource Manager assigns an actor to execute the action.
+              </li>              <li>The Bookkeeper automatically handles routine accounting. 
+              <br />The Bookkeeper records 
+               resource consumption, resource utilization, 
+               and provides inventory valuation,
+               work-order accounting, job costing, 
+               revenue accounting,  
+               activity metrics, business metrics.          </li>
+          <li>The World Base records process events as they occur 
+              and entity-attribute values when they are changed.
+          </li>             </ul>
+    </li>  </ul><!-- ......................................................................... -->
+<a name="HowDoesHumWork"></a>    <h3>How does Hum work?</h3>    <ul>      <li><i>Plans</i> contain <i>tasks</i> 
+          with <i>actions</i> 
+          that are assigned to <i>roles</i>.
+      <li><i>Resource Managerss</i> assign the actions to <i>actors</i>              who know the <i>roles</i>.</li>      <li>The <i>actors</i> consume <i>resources</i> that are allocated          and assigned from various resource <i>pools</i>.</li>      <li><i>Resource</i> utilization is tracked by the <i>Bookkeeper.</i></li>      <li>In <i>simulation</i> mode, 
+          <i>virtual actors</i> 
+          take the place of real-life actors.</li>    </ul>
+<!-- ......................................................................... -->
+<a name="WhatMightHumBeUsedFor"></a>
+<h3>What might Hum be used for?</h3>    <ul>      <li>Operating a business</li>      <li>Simulating a situation (business operation, ecology)</li>      <li>Gaming 
+          (You would use Task Frames
+          to describe the moves of the opposition actors.
+          The Bookkeeper would track energy and damage levels.
+          The Resource Managers would operate in Simulator mode.
+          Players would direct their avatars or vehicles via dialog frames.
+          )
+          </li>    </ul>   <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% --><!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+<hr />
+<a name="ProgrammingInHum"></a><h2>Programming in Hum </h2>
+
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% --><a name="TutorialOne"></a><h3>Tutorial One - Making A Plan</h3>  <blockquote><!-- ......................................................................... -->
+  <a name="TaskFrames"></a>  <h4>Task Frames</h4>
+      <p class="advice">
+         Before starting this section read: 
+         <a href="FrameTypes.html#TaskFrame">Task Frames</a>.           
+      </p>
+      <p>
+         <b>Scenario: </b>
+         Imagine that we are operating a coffee and donut shop.
+         To define our business processes, 
+         we will start at an important end-goal
+         and work backwards from there
+         to identify different tasks
+         required to satisfy the final goal.
+      </p>
+<pre class="example">
+---
+Task: Deliver order to customer.
+Post: Order delivered to customer.
+Pre:
+. Customer has paid for order.
+. Order is ready for delivery.
+Actions:
+. Cashier: Give order package to customer.
+. Bookkeeper: Account for order revenue and taxes.
+---
+</pre>
+<p>
+   The task frame above defines two pre-conditions 
+   which must be satisfied before work can start on the task actions.
+   The Planner will need task frames for those pre-conditions.
+   So, now we write task frames for those <i>sub-tasks</i>.
+</p>
+<pre class="example">
+---
+Task: Ask customer to pay for order.
+Post: Customer has paid for order.
+Pre:
+. Order is completely defined.    (new)
+. Customer has confirmed order.   (new)
+Actions:
+. Cashier: Ask customer for payment on order.
+. Cashier: Advise customer that order is in progress.
+---
+Task: Assemble order.
+Post: Order is ready for delivery.
+Pre:
+. Customer has paid for order.    (defined above)
+. Coffee items are all assembled. (new)
+. Donut items are all packed.     (new)
+Actions:
+. Cashier: Assemble order and give to customer.
+---
+</pre>
+<p> These task frames define four new pre-conditions.
+    So we need to define task frames for these new pre-conditions also.
+</p>
+<pre class="example">
+---
+Task: Ask customer for order items.
+Post: Order is completely defined.
+Pre:
+. Customer has asked for service.
+Actions:
+. Order Taker: Ask customer for order items.
+---
+Task: Ask customer to confirm order.
+Post: Customer has confirmed order.
+Pre:
+. Order is completely defined.
+Actions:
+. Order Taker: Ask the customer to confirm the completed order.
+---
+Task: Assemble coffee items.
+Post: Coffee items are all assembled.
+Pre:
+. Customer has confirmed order.
+Actions:
+. Coffee Mixer: Assemble coffee items for the order.
+---
+Task: Pack donut items.
+Post: Donut items are all packed.
+Pre:
+. Customer has confirmed order.
+Actions:
+. Packer: Pack all donut items in the order.
+---
+</pre>
+<p> Now there is only one pre-condition left: "Customer has asked for service."
+    This seems a little tricky. 
+    What do we need to do?
+    What do we need to do before the customer can ask for service?
+    Ah! We need to open the store!
+</p>
+<pre class="example">
+---
+Task: Wait on customer.
+Post: Customer has asked for service.
+Pre:
+. Store is open.
+Actions:
+. Store Manager: Open the store.
+---
+</pre><p>
+  We could have defined pre-conditions for "Open the store." 
+  For example, we could have specified that a manager be present
+  and that certain resources be above their minimum levels.
+  We did not do that because resource prerequisites
+  are the responsibility of the Resource Pools, not the Planner.
+</p>
+<p>
+  If we were a chain store,
+  we might have stated "Store is built." as a pre-condition
+  and we would have a sub-plan for building a store.
+  But every plan base has to leave some things as assumptions
+  -- The plan has to assume 
+     some axioms, 
+     some prepositions, 
+     some pre-positioning.
+</p>
+<!-- ......................................................................... -->
+    <a name="PlanTree"></a>
+    <h4>Plan Tree</h4>
+        <p> 
+           We can view the plan tree for any goal or sub-goal.
+           The tree is displayed as an indented list.
+        </p>
+<pre class="example">
+Order delivered to customer.
+
+1.  Customer has paid for order.
+1.1 . Customer has confirmed order.
+1.1.1 . Order is completely defined.
+1.1.1.1 . Customer has asked for service.
+1.1.1.1.1 . Store is open.
+
+2.  Order is ready for delivery.
+2.1 . Customer has paid for order.    (same as 1.)
+2.2 . Coffee items are all made.
+2.2.1 . Customer has confirmed order. (same as 1.1)
+2.3 . Donut items are all made.
+2.3.1 . Customer has confirmed order. (same as 1.1)
+</pre>        
+<p>  You may have noticed that some of the pre-conditions 
+     appear in several task frames;
+     but they do not appear as often in the plan tree above.
+     When the plan tree is displayed for human inspection,
+     the tree is "pruned" to remove:
+     <ul>
+       <li>redundant pre-conditions.</li>
+       <li>sub-trees that have already been shown.</li>
+     </ul>
+     In the following snippet, "Order is completely defined." is <i>redundant</i>
+     because it is also a pre-condition of "Customer has confirmed order."
+     You need not worry about including redundant pre-conditions
+     in your task frames.
+     The Planner will sort them out.
+     They are harmless and may even add value
+     by making the plan more robust
+     when you edit the plan
+     and move things around.
+</p>
+<pre class="example">
+Pre:
+. Order is completely defined.
+. Customer has confirmed order.</pre>
+    <a name="Ontology"></a>    <h4>Ontology</h4>
+       <p>
+          The Planner already knows and "understands" many business terms.
+          It will format statements when they are displayed to indicate
+          which terms are known to be nouns.
+          Nouns indicate <i>variables</i> that need to be filled-in
+          when the plan is <i>instantiated</i>.
+       </p>
+       <p>    
+          This is also true of written English.
+          A proper noun is already mapped to a real world entity,
+          while common nouns in instructions 
+          such as those found in Hum
+          await a context. 
+          We borrow the term "variables" from algebra 
+          to refer to "things to be filled-in."
+       </p>
+<pre class="example">
+<b>Order delivered to customer.</b>
+<b>
+1.  <u>Customer</u> has paid for <u>order</u>.</b>
+1.1 . <u>Customer</u> has confirmed <u>order</u>.
+1.1.1 . <u>Order</u> is completely defined.
+1.1.1.1 . <u>Customer</u> has asked for service.
+1.1.1.1.1 . <u>Store</U> is open.
+<b>
+2.  <u>Order</u> is ready for delivery.</b>
+2.1 . <u>Customer</u> has paid for <u>order</u>.    (same as 1.)
+2.2 . <u>Coffee items</u> are all made.
+2.2.1 . <u>Customer</u> has confirmed <u>order</u>. (same as 1.1)
+2.3 . <u>Donut items</u> are all made.
+2.3.1 . <u>Customer</u> has confirmed <u>order</u>. (same as 1.1)
+</pre>        
+       <p>The plan above is generic.
+          To make it specific, we need to specify which <u>customer</u>,
+          which <u>order</u>, 
+          which <u>coffee items</u>, 
+          which <u>donut items</u>,
+          and which <u>store</u>.
+          The Hum ontology is pre-loaded
+          with definitions for customer, order, and store.
+          It also knows about products.
+          But, it does not know that coffee-drinks and donuts are products
+          until we tell it.
+          We tell it via a 
+          <a href="FrameTypes.html#DictionaryFrame">Dictionary Frame</a>.  
+       </p>    
+<pre class="example">
+---
+<b>Dictionary:</b>
+A coffee drink is a <u>product</u>.
+A coffee drink has a recipe.
+A recipe is a <u>bill of material</u>.
+A donut is a <u>product</u>.
+Coffee items are <u>order items</u> where the <u>product</u> is a <u>coffee drink</u>.
+Donut items are <u>order items</u> where the <u>product</u> is a <u>donut</u>.
+---
+</pre>       
+<!-- ......................................................................... -->
+    <a name="ExecutingThePlan"></a>    <h4>Executing The Plan</h4>
+       <p> 
+          The Planner builds a plan when it is given a <i>goal</i>.
+          The Planner builds the plan from task frames found in the frame base.
+          The goal must match one of the <i>post-conditions</i>
+          in one of the task frames.
+          The task frame that matches the goal becomes the <i>root</i> 
+          of a plan tree.
+          The remainder of the plan tree is constructed recursively
+          by treating the <i>pre-conditions</i> as <i>sub-goals</i>
+          and finding the corresponding <i>sub-plans</i>.
+       </p>
+       <p> Once the plan tree is built, 
+           it must be <i>instantiated</i>
+           by "filling in the blanks" 
+           ... by mapping specific entities and attributes to the nouns.
+           The Data Maven fills in the blanks.
+           The first place to look for the data is the plan's <i>blackboard</i>.
+           The next place is the World State.
+           If we are running a simulation,
+           the Data Maven may get the value from a random distribution.
+           If the data still is not known, 
+           the Data Maven will ask the Speaker to ask a human.
+       </p>
+       <p> 
+          The Coordinator executes the plan by running task frames
+           that are ready to run.
+          A task frame is ready to run if it has no pre-conditions
+          or if all of its pre-conditions have been satisfied.
+          Several task frames may be running simultaneously.
+       </p>
+       <p> When a task frame is completed, 
+           its post-condition is marked "satisfied."
+           That post-condition is either the goal of the plan
+           or it is a pre-condition in other task frames.
+           If the post-condition is the goal of the plan, the work is done.
+           If the post-condition is not the goal of the plan,
+           the Coordinator looks for additional task frames
+           that may be ready to run as a result.
+       </p>
+       <p>When the task frame is executed,
+          The Coordinator assigns the actions to Resource managers.
+          Resource managers assign actions to qualified <i>actors.</i> 
+          An actor is qualified if it can "understand" the command.
+          In a typical bricks-and-mortar business, 
+          the actors will be human beings.
+          In a simulation, the actors will be sim-bots.
+       </p>
+       <p> In some future world, the actors might be robots.
+          For example, robots can be programmed to make coffee drinks
+          in a suitably robot-friendly environment. 
+          (For a simple industrial robot, 
+          everything has to be in a fixed position;
+          and, a barrier protects humans from possible injury.)
+          Thus, in our scenario, the "Coffee Mixer" role could be assigned
+          to a human actor, or to a robot.          
+       </p>  </blockquote>
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+<hr/>
+<a name="TutorialTwo"></a>
+<h3>Tutorial Two - Programming the Actors</h3>  <blockquote><!-- ......................................................................... -->
+<a name="RoleFrame"></a><h4>Role Frame</h4>
+   <p>
+      Recall that a 
+      <a href="#TaskFrames">task frame</a>
+      lists the actions required to transition
+      from the task's pre-conditions to the task's post-condition.
+      <a href="FrameTypes.html#RoleFrame">Role Frames</a> 
+      provide the detailed <i>instructions</i> 
+      needed to perform a task <i>action</i>.
+      The instructions will be performed by an <i>actor</i>
+      who has been assigned the role. 
+  </p>
+<pre class="example">
+---
+Role: Store Manager.
+Action: Open the store.
+. Turn on the open signs.
+. Unlock the entry doors.
+. Alert the employees that the store is open.
+
+To: Turn on the open signs.
+. Open the electrical panel at rear of store. 
+. Turn on the neon window signs.
+. Turn on the billboard power. 
+. Turn on the parking lot lighting.
+. (Outdoor lighting is regulated by a daylight sensor.)
+. Turn on any remaining power needed to operate the store.
+. (Switches marked in red require a safety check.)
+. Close the electrical panel.
+---
+</pre>  
+  <p>Instructions are performed, one at a time, in sequence.
+     Complex instructions may be detailed in "To:" blocks.
+     Instructions in "To:" blocks may be detailed in other "To:" blocks
+     as needed. 
+  </p>    
+  <p>    
+      When a run-time system is configured,
+      roles are assigned to actors.
+      When a task action is invoked,   
+      the run-time system will assign the action 
+      to an actor who knows the corresponding role.
+      "Knowing the role" means the actor can "understand" the instructions.
+      If the actor is a human worker, 
+      that means the human understands English and is appropriately trained.
+      If the actor is a robot,
+      assume for now that an <i>interface</i> translates the English instruction
+      into the robot's preferred language.
+  </p><!-- ......................................................................... -->
+  <a name="ResourcesAndResourcePools"></a>
+  <h4>Resources and Resource Pools</h4>
+  
+    <p> 
+       Actors are <i>resources</i>,
+       and resources are allocated and assigned from resource <i>pools</i>.
+       A pool will manage an inventory of material, equipment, or actors.   
+       We need to assign some actors to the roles in our plan.    
+    </p>
+<pre class="example">
+---
+Data: Resource Pools
+
+Pool: Workers
+Table of Workers delimited by |
+| name | shift         | roles                                        |
+| Jack | M-F 0600-1400 | coffee-mixer, donut-packer, cashier, manager |
+| Jill | M-F 0630-1030 | coffee-mixer, donut-packer                   |
+| Mike | M-F 2000-0600 | donut-baker, robot-cleaner                   |
+
+Pool: Robots
+Robot
+. name: Robbie
+. make: Humdinger Robotics
+. model: Coffee Mech Mark V
+. software release: 2010.11.13
+. roles: coffee-mixer
+. shift: 24x7
+---
+</pre>    
+<p class="AUTHOR"> 
+  How is the resource pool informed of inputs like this?
+  <br/>The resource pool is attached to the world. 
+  The resource data may be loaded according to a world configuration.
+  Once loaded the resource data is part of the world-base.
+  So, initialization is only needed for a "fresh" world.
+</p>
+    <!-- ......................................................................... -->
+  <a name="Bookkeeper"></a>  <h4>Bookkeeper</h4>
+    <p>
+       The bookkeeper tracks costs on all resources used in the process.
+       Of course, it needs to know the direct costs. 
+    </p>
+<pre class="example">
+---
+Data: Direct Costs
+Table of rates delimited by |
+| resource | rate          |
+| Jack     | 17.25 $/hour  |
+| Jill     | 12.17 $/hour  |
+| Mike     | 27.37 $/hour  |  (includes shift premium)
+| Robbie   | 1,000 $/month |  (rent and maintenance, 60 month contract)
+---
+</pre>    
+<p class="AUTHOR">
+  Cost rates like this belong to the resources themselves.
+  They are read by the resource pool and then the book-keeper is informed
+    when the resource is used.
+  Asset value are treated in much the same way.
+  When assets are added-to or removed-from a resource pool, 
+    the resource pool informs the book-keeper.
+</p><!-- ......................................................................... -->
+</blockquote><!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+<hr/>
+<a name="TutorialThree"></a><h3>Tutorial Three - Running A Simulation</h3>
+<blockquote>
+<!-- ......................................................................... -->
+  <a name="SetUpAndRunSimulation"></a>
+  <h4>Set-up and run a simulation.</h4>
+  <p> 
+     If you start a simulation <b>with no set-up data</b>,
+     the system will run the simulation with some simple <b>defaults</b>.
+     <ul>
+       <li>Goals will arrive one at a time.
+           The next goal will arrive as soon 
+            as the prior goal has been fulfilled.
+       </li>
+       <li>Resources are assumed to be adequate.
+           It is assumed that a resource is assigned to every role.
+           You will never run-out of any resource
+           and replenishment will not be triggered.
+       </li>
+       <li>The cost of each resource is simply measured in units.
+           The cost is not monetized.
+       </li>
+       <li>If no bill of materials is provided for a product,
+           it is assumed to be an "off the shelf" product.
+       </li>
+       <li>If no duration is given for a instruction,
+           the duration will be measured in "steps"
+            -- one step per instruction.
+       </li>
+       <li>Parameters will be generated with uniform (flat) distributions.
+       </li>
+       <li>Collections will contain only one item.
+           For example, an order has a collection of order items.
+           In a default simulation set-up, 
+             each order will have a single order item.
+           <!--
+             This is convenient for step-thru tests;
+             but a better test might be exactly three items per collection.
+             Perhaps the number of items per collection should be a variable.
+           -->  
+       </li>
+     </ul>
+  </p><!-- ......................................................................... -->
+  <a name="SpecifyDurations"></a>  <h4>Specify durations.</h4>
+  <p>
+     In a real system, 
+     durations are determined from actual performance.
+     In a simulation, 
+     you can specify the <i>median</i> duration for each instruction
+     in a comment immediately after the instruction.
+     The system will assume a distribution of 
+     <br/>(0%, 10%, 50%, 90%, 100%) 
+     ==>  ( 0, .25, 1.0, 2.0, 4.0 ) * median
+  </p>
+<pre class="example">
+---
+Role: Store Manager.
+Action: Open the store.
+. Turn on the open signs.                                   [120 seconds]
+. Unlock the entry doors.                                   [30 seconds]
+. Alert the employees that the store is open.               [12 seconds]
+
+To: Turn on the open signs.
+. Open the electrical panel at rear of store.               [15 seconds]
+. Turn on the neon window signs.                            [3 seconds]
+. Turn on the billboard power.                              [3 seconds]
+. Turn on the parking lot lighting.                         [3 seconds]
+. (Outdoor lighting is regulated by a daylight sensor.)
+. Turn on any remaining power needed to operate the store.  [45 seconds]
+. (Switches marked in red require a safety check.)
+. Close the electrical panel.                               [6 seconds]
+---
+</pre>      
+  <!-- ......................................................................... -->
+  <a name="SpecifyEventArrivalDistributions"></a>  <h4>Specify event arrival distributions.</h4>
+  <p>
+     For any given goal, you can specify the arrival distributions. 
+     The system will generate random arrivals using a Poisson distribution.
+     The data is provided as part of the simulation's configuration data.
+  </p>
+<pre class="example">
+---
+Data: Simulation.
+Goal: Deliver order to customer.
+Table of arrivals delimited by |
+| day of week | hours     | rate         | 
+| Sunday      | 0900-1100 | 100 per hour |
+| Sunday      | 1100-1300 |  60 per hour |
+| Sunday      | 1300-1500 |  30 per hour |
+| M-F         | 0600-0700 |  30 per hour |
+| M-F         | 0700-0800 |  60 per hour |
+| M-F         | 0800-0900 |  90 per hour |
+| M-F         | 0900-1100 |  15 per hour |
+| M-F         | 1100-1200 |  30 per hour |
+| M-F         | 1200-1300 |  45 per hour |
+| M-F         | 1300-1400 |  15 per hour |
+| Saturday    | 0600-0800 |  30 per hour |
+| Saturday    | 0800-1000 |  60 per hour |
+| Saturday    | 1000-1100 |  15 per hour |
+| Saturday    | 1100-1300 |  30 per hour |
+| Saturday    | 1300-1400 |  15 per hour |
+---
+</pre>  
+<!-- ......................................................................... -->
+  <a name="SpecifyParameterDistributions"></a>  <h4>Specify parameter distributions.</h4>
+  <p>
+     When a simulation is run, the Data Maven 
+       will be asked to provide data
+       such as entity types and attribute values
+       when plans are instantiated.
+     When the simulation is set-up,
+       you can tell the simulator to use real-life distributions
+       collected by running the system in a real business process.  
+     Where no distributions are available,
+       the Data Maven will pick values at random
+       from the known subtypes of entities
+       and from the allowed values of attributes.  
+  </p>
+  <p>You can provide distributions by annotating Dictionary Frame entries
+     with percentage values.  
+     This provides a way to set up simulations prior to the existence of real data.
+     It also provides a way to test the effect of introducing new products
+     and other "what if" simulations.
+  </p>
+  
+<pre class="example">
+---
+<b>Dictionary: Coffee Drinks.</b>
+A coffee drink is a <u>product</u>.
+A coffee drink is described by its coffee blend, drink size, 
+  drink flavoring.
+Known coffee blends include 
+  "French Roast" [10%], 
+  "House"        [60%], 
+  "House De-cafe" [30%]. 
+Known drink sizes include tall [30%], taller [40%], and tallest [30%].
+Known drink flavorings include
+  hazelnut      [10%],
+  vanilla       [10%],
+  raspberry     [10%],
+  almond        [10%],
+  chicory       [10%],
+  and chocolate [50%].  
+An expresso drink is a <u>coffee drink</u>.
+A recipe is a <u>bill of materials</u>.
+An expresso drink is described by its name and <u>recipe</u>.
+Known expresso drinks include 
+ "Kappa-Chino" [30%], 
+ "Macho-Chino" [10%], 
+ "Mucho-Mocha"   [35%], 
+ "Turkey Shot" [5%], 
+ "Red Eye" [10%], 
+ and "Chile Pepper" [10%].
+ ---
+</pre>  
+    <p> 
+     A (version of the) plan base 
+       plus a set of distribution edits 
+       plus the initial conditions (start-up data)
+       defines a <i>world</i>.
+     The statistics from each <i>run</i> can be saved in that world's 
+     <i>run history</i>. 
+    </p>
+    <p class="AUTHOR"> 
+      A world-base does not need to be coupled to a specific ontology.
+      But it does need to be informed 
+        by actors and resource pools that operate in the world.
+    </p>
+    <a name="CompareOntologies"></a>
+    <h4>Compare ontology files.</h4>
+    <p>
+       When you ask the system to compare two ontology files,
+       it shows you the frames that are different
+       and highlights the statements (or values)
+       that differ. 
+    </p>
+<!-- ......................................................................... --></blockquote><!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+<hr/>
+<a name="TutorialFour"></a><h3>Tutorial Four - Defining Human Interface Dialogs</h3>  <blockquote><!-- ......................................................................... -->
+    <a name="TheSpeaker"></a>    <h4>The Speaker - (Human Interface Actor)</h4>
+    <p> 
+       When the plan needs information from a user,
+       it will ask the user questions.
+       This dialog will use whatever <i>channel</i> is designated. 
+       For example: The dialog could occur over the web using HTML forms.
+       Or, voice recognition technology could be used if it is available.
+       In a virtual reality environment, the dialog may utilize a visible avatar. 
+    </p><!-- ......................................................................... -->
+    <a name="FormBasedDialogs"></a>    <h4>Form-Based Dialogs</h4>
+    <p>
+       When the system needs information about an entity,
+       the Speaker may request the information
+       by presenting a 
+       <a href="FrameTypes.html#PanelFrame">view frame</a>.
+       If the channel is HTML, 
+       the view frame is translated into an HTML form.
+       If the channel is voice,
+       the view frame will be translated into
+       <a href="FrameTypes.html#DialogFrame">Dialog Frames</a>.
+    </p><!-- ......................................................................... -->
+    <a name="SpeechBasedDialogs"></a>    <h4>Speech-Based Dialogs</h4>
+    <p> 
+       Speech-based dialogs are <i>guided</i> by
+       <a href="FrameTypes.html#DialogFrame">Dialog Frames</a>.
+       Dialogs are interactive and therefore unpredictable.
+       However, the Speaker does have a <i>dialog-goal</i>.
+       The dialog-goal is made part of the dialog's context.
+       The dialog-goal, of course, requires acquiring information from the human.
+    </p>
+    <p>The basic nature of speech dialogs 
+       requires that we acquire information one datum at a time. 
+    </p><!-- ......................................................................... -->
+    <a name="TalkingHeads"></a>    <h4>Talking Heads</h4>
+    <p> 
+        A web site might use an 2D avatar - perhaps a "talking head."
+        A virtual reality may use a 3D avatar - a whole body.
+        Programming body movements is beyond the scope of this document
+        (and probably done in another language - not Hum).
+        However, a simple gesture including a smile, frown, or shrug 
+          may be included in a dialog. 
+        Obviously, these gestures will not be expressed
+          if the Speaker's puppet does not have the capability.  
+    </p>  </blockquote><!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+<hr/>    
+  <a name="TutorialFive"></a>    <h3>Tutorial Five - Handling Exceptions</h3>  <blockquote><!-- ......................................................................... -->
+    <a name="WhenThingsGoWrong"></a>    <h4>When things go wrong - Handling task exceptions</h4>
+    <p class="advice">
+        A caution to programmers 
+        who are accustomed to writing exception-handling logic
+        in traditional programming languages:
+        A <i>task exception</i> is not a <i>program exception.</i>
+        Task exceptions are caused by problems with resources.
+    </p>
+    <p>Task exceptions are caused by problems with <i>resources.</i>
+       For example, an assembly actor might not be able to complete an assembly
+       because a needed part or material has run out.
+       Or, an instruction that is delegated to an actor
+       is taking overly long to finish,
+       the actor may be "stalled" 
+       or resource conflicts can cause the dispatch process to fail.
+       Also, when it comes time to assign an actor,
+       there may be no actor currently assigned the role.
+    </p>
+    <p>The general strategy for handling task exceptions is:
+       <ol type="1">
+       		<li>The actor that experiences a problem informs its resource manager.</li>
+       		<li>In the case of a stock-out, 
+                  the resource pool informs the resource manager.</li>
+       		<li>The resource manager informs the affected plan.</li>
+        	<li>The plan notifies the application (the goal generator).</li>
+        	<li>The application notifies the client.</li>
+        
+        	<li>The application assigns trouble-shooting goal 
+                   to a <i>trouble-shooter</i> actor.
+                <br/>The trouble-shooter actor (could be human) 
+                     will work to remedy the immediate problem.  
+                </li>
+       </ol>
+    <p> 
+    </p>   
+    </p>
+    <p>When a goal is assigned to a trouble-shooter,
+       the Planner creates a <i>fix-up plan</i>.
+       The fix-up plan will operate in a separate thread
+       from the plan that caused the exception.
+       It will not be inserted as a sub-plan.
+       This is necessary because a resource problem
+       may affect many plans simultaneously.
+       Since many plans may reach the same exception condition,
+       the exception handling process
+       tracks which exceptions are already being handled
+       to avoid running redundant fix-up plans.
+    </p>
+    <p>Actually, two fix-up actions may be needed.
+       One short-term fix-up action to fix the immediate problem
+       and a second longer-term fix-up action to prevent a recurrence.
+       Generally, the trouble-shooter will work the short-term fix-up 
+       first, because it has the higher priority 
+       and because learning from the short-term fix-up
+       may inform the long-term fix-up.
+    </p>
+    <p>The trouble-shooter could be a sophisticated expert system 
+       - for example: a case-based-reasoning system.
+       Or, it could be a simple device 
+       that delegates the problem to a human expert.
+    </p>
+<!-- ......................................................................... -->
+    <a name="StockOut"></a>    <h4>Stock Out</h4>
+    <p>
+       The inventory management system is designed to avoid "out of stock" 
+       conditions.
+       But you can still run out of stock due to unusual variations in
+       demand and/or supplier response (re-stock delay).
+       Re-stocking is always based on estimates.
+       Estimates have some confidence-interval (CI)
+         which is the percent of time the estimate will be adequate.
+       For example, the inventory system might be configured
+       to invoke replenishment activities 
+       based on a 95% CI estimate of demand
+       and a 95% CI estimate of the response time.
+       But a 95% CI means that we will be wrong one time in twenty. 
+       The variation is not unexpected ... it is just 
+       relatively unusual (5% probability).
+    </p>
+    <p>For a short-term fix, one cannot do much about demand.
+       We have already stocked-out, so rationing would be ineffective.
+       We might be able to do something about the supplier response.
+    </p>
+    <p>For a long-term fix, the trouble-shooter may need to decide 
+       if the demand estimate is still correct or needs to be adjusted.
+       Similarly, the estimate of the re-stock delay could be assessed. 
+       Under some conditions, it might make sense to set-up a policy
+       where we would ration the supply in the future.
+    </p>
+    <p>In any case, the exception handling process
+       invokes the trouble-shooting activity with an instruction 
+       that looks like this:
+    </p>
+    <blockquote>
+      <code>Trouble-Shooter: Handle stock-out of <u>resource</u>.</code>
+    </blockquote>
+    
+    
+<!-- ......................................................................... -->
+    <a name="NoBid"></a>    <h4>No Bid</h4>
+    <p>
+       The Coordinator assigns actions by first requesting the pools to bid,
+       and then the action is assigned to the pool with the best bid.
+       Sometimes all of the pools might give a "no bid" response.
+       This means that none of them can offer a resource 
+       that satisfies the <i>constraints</i> of the request.   
+       For example: 
+       The request may require a resource that will complete in a certain time
+       and also below a certain price.
+       It may happen that none of the pools has a resource available
+       that can do both - or the pool is unwilling to meet the price.
+    </p>
+    <p>The trouble-shooter could resolve the no-bid situation by relaxing
+       one or more constraints and then go for another bidding round. 
+    </p>    <blockquote>
+      <code>Trouble-Shooter: Arbitrate no-bid on <u>instruction</u>.</code>
+    </blockquote>
+<!-- ......................................................................... -->
+    <a name="TimeOut"></a>    <h4>Time out</h4>
+    <p> 
+       A time-out can be caused when 
+       we have waited too long to assign an actor to an action,
+       <!--This is similar to a stock-out.
+           Perhaps we should distinguish the two types of time-out.
+           Of course, the trouble-shooter can do that
+             but it seems that this needs more thought.
+       -->
+       or,
+       we have waited too long for the assigned actor to complete the action.
+    </p>
+    <p>What if all of the role-capable actors are busy doing other work
+       when we attempt to dispatch an action?
+       We will have to wait for an actor to finish their current work.
+    </p>
+    <p> 
+       A "time out" is signaled when the actual duration of an instruction
+       becomes improbable. 
+       For example: The actual duration may exceed the time in which 98%
+       of all executions of that instruction are normally completed.
+    </p>    <blockquote>
+      <code>Trouble-Shooter: Analyze time-out of <u>instruction</u>.</code>
+    </blockquote>
+<!-- ......................................................................... -->
+    <a name="MissingActor"></a>    <h4>Missing Actor</h4>
+    <p>
+       The "missing actor" condition is signaled 
+       when the time comes to assign an instruction
+       and no actor is currently assigned the role.
+    </p>    <blockquote>
+      <code>Trouble-Shooter: No actor is assigned to <u>role</u>.</code>
+    </blockquote>
+<!-- ......................................................................... -->
+&nbsp; <!-- attempt to force a sticky page break. -->
+    <a name="CascadingExceptions"></a>    <h4>Cascading Exceptions</h4>
+    <p> 
+       Some problems can cause other problems.
+       For example, in a utility
+       if we do not have a recent meter reading,
+       we cannot produce an accurate invoice line.
+       If we cannot produce an accurate invoice line,
+       we cannot produce an acccurate statement.
+    </p>
+<!-- ......................................................................... -->
+    <a name="Cancelled Order"></a>    <h4>Cancelled Order</h4>
+    <p>
+       A cancelled order may result in a series of "compensating actions."
+       For example, some actions may need to be reversed.
+       The client may be required to compensate us for our expenses, et cetera.
+       <!-- Needs more thought. -->
+    </p>
+       
+  </blockquote>
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+<hr/>
+  <a name="TutorialSix"></a>  
+  <h3>Tutorial Six - Gestures and Signals</h3>  <blockquote>
+<!-- ......................................................................... -->
+    <a name="UserGestures"></a>
+    <h4>User Gestures</h4>
+       <p>  
+         Dialog frames already support output gestures.
+         The speaker's avatar (the avatar representing the system) 
+           can be directed to smile, frown, shrug, et cetera.
+         Basically, the avatar is an actor and can be programmed to accept
+           any instruction one cares to invent.
+         Hence, any gesture the avatar can perform in the graphical environment 
+           is feasible.  
+       </p>           
+       <p>    
+         The pattern notation used in dialog frames 
+           might be extended to respond to various sorts
+           of non-verbal input gestures.
+         Pointing to an object or touching an object is the most obvious gesture.
+         More subtle gestures involve standing in at the head of a queue
+           or in front of a service counter.
+         Simply looking the avatar in the eye is a gesture.
+         With suitable body interfaces we could sense such gestures.
+         </p>
+         <p> 
+         A sensor can send signals which can be interpreted at some level.
+         The resulting signal can then be sent to the human interface actor.
+         The actor could then select the appropriate dialog vignette.    
+         
+         Until we are regularly writing for virtual reality, 
+           it should be recognized that voice recognition 
+           will obviate the need to recognize user gestures in most cases.    
+       </p>
+<!-- ......................................................................... -->       
+     <a name="SensorsAndSignals"></a>  
+     <h4>Sensors and Signals</h4>  
+        <p><b>Sensors:</b>
+          Here is the programming convention 
+            that enables sensors and defines the response to a signal.
+          A sensor is monitored by an actor. 
+          The actor is sent an instruction telling it to monitor the sensor
+            and report events back to the caller via a dialog frame vignette.  
+       </p>
+   
+<pre class="example">
+---
+Task: Enable sensors.
+Post: Sensors are all enabled.
+Pre:
+. (none)
+Action:
+. Steering Wheel: Sense angle of turn.
+. Brake Pedal: Sense braking force.
+---
+Role: Steering Wheel.
+Action: Sense angle of turn.
+. Report angle of turn as "Angle of turn is now *." to context "Steering".
+---
+Dialog: Accept data from sensors.
+Context: Steering.
+U: Angle of turn is now *.
+S: (The speaker does not talk back to the sensor actor.) 
+. Steersman: Respond to rudder [*].
+---
+Role: Steersman.
+Action: Respond to rudder angle.
+. Yaw angle per second. (We may prefer a more logarithmic response.)
+
+Action: Respond to brake sensor input.
+. Apply reverse thrust scaled to brake sensor input. 
+. (Scaling the thrust in response to user input is delegated to the actor.)
+. (Note: This means that the sensor and the steersman are tightly coupled.)
+. (Tightly coupling two actors is generally a bad idea.)
+. (We might want to change that by specify the scaling computation here.)
+---
+</pre>
+
+
+  </blockquote>
+  
+  
+  <!-- ......................................................................... -->
+  <hr/>
+  <a name="TutorialSeven"></a>  
+  <h3>Tutorial Seven - Security</h3>  <blockquote>
+<!-- ......................................................................... -->
+    <a name="EnterpriseSecurity"></a>
+    <h4>Enterprise Security</h4>
+      <p>
+      	Enterprise applications need to secure access to certain features.
+        A party[1] has to be authorized to request a service, control a robot, make a journal entry.
+        In Hum, <i>permits</i> may be required for various actions:
+        <ol>
+          <li>Task level: Define who can invoke a goal in a task frame.</li>
+          <li>Action level: Define who can invoke an action via a dialog.</li>
+          <li>View level: Define who may view the data in the view.</li>
+        </ol>
+      </p>
+      <p> 
+        To keep things simple, if no authorization constraint is declared,
+        then no authorization is required.
+      </p>
+      <p>[1] A party is a person, organization, or actor. 
+      </p>
+      
+<!-- ......................................................................... -->
+    <a name="AuthorizationAnnotation"></a>
+    <h4>Authorization Annotation</h4>
+      <p>In the example below, 
+          we use an annotation to declare the authorization required
+          to perform the task: "Move customer to new-residence."
+        The annotation: "[Allow call-center.]"  means that actors operating 
+          with a call-center <i>permit</i> will be allowed to invoke this goal.
+      </p>
+      <p>Similarly, the action statement "Change customer's billing-address."
+           has the annotation: "[Allow call-center, self-service.]"
+           and that means that the action statement can be invoked
+           when an actor has 
+           <i>either</i> a call-center permit <i>or</i> a self-service permit.
+      </p>
+      <p>Finally, the annotation on the Customer-Address view 
+           indicates that an actor holding any one of three permits
+           is authorized to see a customer's address.
+      </p>
+    
+<pre class="example">
+---
+Task: Move customer to new-residence. [Allow call-center.]
+. . .
+---
+Role: Billing. 
+Action: Change customer's billing-address. [Allow call-center, self-service.]  
+. . . 
+---
+View: Customer-Address. [Allow call-center, self-service, field-operations.]
+. . . 
+---
+</pre>
+<!-- ......................................................................... -->
+    <a name="AuthorizationConfiguration"></a>
+    <h4>Authorization As Configuration</h4>
+      <p>In some programming frameworks,
+             the declaration of authorizations is separated 
+             from the definition of the program.  
+           This is done for two reasons: 
+           <ol type="1">
+             <li>The program may be run in more than one organization 
+                  and therefore the permits will vary 
+                  from organization to organization 
+                  and should not be hard-coded into the program itself. </li>
+             <li>The permits can be changed without modifying the tested code. </li>
+           </ol>
+        </p>
+        <p>Hum supports this concept and keeps things simple.
+           The following example shows a data frame containing authorizations
+             as configuration data. 
+           One simply copies the statement requiring authorization into the data frame
+             and appends the appropriate authorization annotation.
+           This data frame may be one of several 
+             used to configure an operating environment.    
+        </p>
+  
+<pre class="example">
+---
+Data: Authorizations.
+Task: Move customer to new-residence. [Allow call-center.]
+Role: Billing. 
+Action: Change to new-billing-address 
+. for all the customer's customer-accounts. [Allow call-center, self-service.]
+View: Customer-Address. [Allow call-center, self-service, field-operations.]
+---
+</pre>  
+<!-- ......................................................................... -->
+  
+  </blockquote>
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% --><!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+<hr />
+<a name="AdvancedTopics"></a>
+<h2>Advanced Topics</h2>
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->  <h3>Handling Cancellations</h3>  <blockquote><!-- ......................................................................... -->
+    <a name="CancellationAndCompensation"></a>    <h4>Cancellation and Compensation</h4>
+    <p> 
+       What happens when a customer cancels an order and work has already begun?
+       It might be possible to invoke an "Reverse" 
+       if all of the actions completed thus far were "virtual" and thus reversible.
+       But, in the real world, some actions are not reversible. 
+       For example, once a coffee drink is mixed, you cannot un-mix it.
+    </p>    
+    <p>In most business situations, the seller is entitled to compensation
+       for work that has already been done at the time the order is cancelled.
+       The seller may also be entitled to additional compensation 
+       for additional work that needs to be done to prevent damage to the seller.
+       For example, material that has been shipped may need to be shipped back.
+    </p>
+    <p class="AUTHOR"> 
+       How is a cancellation signaled?
+       We need some way for a client to identify a running plan.
+       The normal metaphor would involve a order's identifier.
+       That, in turn, implies that we need some way 
+         to associate a plan with an order.
+    </p>
+<!-- ......................................................................... -->
+    <a name="HowToReverse"></a>
+    <h4>How do you reverse an action?</h4>
+    <p>
+       If there is a way to reverse an action,
+         the role frame that defines the action
+         may contain the needed Reversal instructions.  
+       Then, when the Coordinator is attempting to compensate
+         for a cancellation or a reversed pre-condition,  
+         it can issue the needed "Reversal" commands.
+       If the following example,
+         the instructions for reversing "Action: Open the store."
+         are listed under under "To Reverse: Open the store." 
+       In this case, the reversal is relatively simple,
+         we need only follow the normal actions for closing the store.   
+    </p>
+<pre class="example">
+---
+Role: Store Manager.
+Action: Open the store.
+. Turn on the open signs.
+. Unlock the entry doors.
+. Alert the employees that the store is open.
+
+To Reverse: Open the store.
+. Close the store.
+
+Action: Close the store.
+. Alert employees and customers that the store is closing.
+. Turn off the open signs.
+. Lock the entry doors.
+. Allow waiting customers to complete their orders.
+. Chaperone remaining customers through the entry door.
+---
+</pre>  
+    <p class="AUTHOR">
+      Reversal is a tricky business in a plan of any complexity.
+      <br />- We will have to experiment with this before we become fully aware
+            of the complications.
+      The following is based on intuition, not experiment, not formal logic.
+      In fact, formal logic is likely to fail here because many operations
+      are not reversible.   
+      <br />- Also, there is a rather severe problem 
+            dealing with actions that are currently in-progress. 
+            Physical actions have momentum.
+            Procedures that have not been carried to completion
+            place a system in an unknown, possibly unstable state.
+            It may be necessary to allow actions that are in-progress
+            to complete before we attempt reversals.
+       <br />- We could find that the only realistic expectation
+            is that a human trouble-shooter will need to handle spoiled plans.       
+    </p> 
+    <p>When the Coordinator needs to reverse a plan or sub-plan 
+       it will attempt to reverse each of the actions that have been started
+       since the inception of the plan.
+       First the actions that are in-progress will be allowed to complete.
+       Then the supervisor will ask each Resource Manager
+       to assign the reverse action
+       for each action that was completed prior to the beginning of the reversal.
+       The attempts will be made in reverse chronological order. 
+       <!-- 
+          Reverse chronological order is based on common sense / intuition.
+          Unfortunately, 
+          there will undoubtly be situations where this will not work.
+       -->
+    </p>
+    <p><b>Compensation:</b> In real life, some actions cannot be reversed.
+       For example, a seller may have incurred some expenses 
+         prior to cancellation of an order 
+         and is entitled to compensation for expenses that cannot be reduced. 
+       In these situations, the "To Reverse:" actions may identify 
+         the actions required to minimize the damage 
+         and account for the compensation due the seller.     
+    </p>
+  </blockquote>
+<!-- ......................................................................... -->
+<hr/>
+<a name="AdvisingThePlanner"></a>
+<h3>Advising the Planner</h3>
+  <blockquote>
+  
+     <h4>When should I use a pre-condition and when an action?</h4>
+        <p>
+           The commands in the "Actions:" part of the task frame
+           must have no pre-condition other than the ones
+           already given.
+           The action commands will be executed in sequence.
+        </p>
+        <p>When you have a series of steps that are performed by the same role,
+           you should put the steps in a 
+            <a href="FrameTypes.html#RoleFrame">role frame</a> action-block
+            not a <a href="FrameTypes.html#TaskFrame">task frame</a>.
+            This is a mainly a matter of good programming style and organization.
+            The ontology will validate and run correctly in either case.
+       
+        </p>
+        <p class="ADVICE">
+           REMEMBER: Each action-statement in a task frame must reference 
+            a corresponding action-block in a role-frame. 
+        </p>
+        
+     <h4>What if a task and a sub-task have the same pre-condition?</h4>
+        <p>It is often the case,
+             that several tasks will have the same pre-condition.
+           This simply means that all of them will wait until the pre-condition
+             is satisfied.
+           It is harmless if a task and one of its sub-tasks 
+             both have the same pre-condition.    
+           You can make the parent frame more concise by dropping the shared
+             pre-condition, but that is not necessary.              
+        </p>
+        
+     <h4>What if there is more than one way ...?</h4>
+        <p>
+           Sometimes there will be more than one way to meet a goal.
+           For example, there may be more than one sequence of actions.
+           Or, by doing several things in parallel, one can meet a goal faster.           
+        </p>
+        <p>The 
+           <a href="#Checker"><i>Checker</i></a>
+           will tell you 
+             when more than one task frame has the same post condition.
+           The Planner can run plans that contain competing sub-plans.
+           However, this is generally not a good process design 
+             because it will waste resources.
+           There are situations where one is willing to utilize resources
+             in this way - typically when speed is more important than cost.    
+        </p>
+        <!-- The Checker is part of the programming environment.
+             Therefore it is not described under 
+             "What are the visible run-time processes?"
+        -->
+        <p>When you discover a real-life situation
+             where there is more than one way to meet a goal,
+             you should examine the competing sub-plans 
+             to determine how and why they are different.
+           Then give the post-conditions different statements
+             to distinguish them.  
+           Otherwise, if you have two task frames with the same post-condition,
+             the ontology will not be able to distinguish the task-frames
+             and the one that was defined last will be used in plans
+             and the one that was defined first will be ignored.  
+        </p>
+<!-- ......................................................................... -->        
+     <h4>What if the process requires some iteration?</h4>
+        <p>
+           The first question to ask is: 
+           Which actor is repeating an action?
+           If the Speaker is repeating an action, 
+           the iteration should be expressed in a 
+           <a href="FrameTypes.html#DialogFrame">dialog frame</a>.
+           For example, the process may require the user to enter a series
+           of order items.
+       </p>
+       <p>     
+           On the other hand,
+             if a role (not the speaker) is repeating an sequence of steps,
+             the iteration should be expressed in a
+             <a href="FrameTypes.html#RoleFrame">role frame</a>
+             using a "For each ...", "While ..." , or "Until ..." block
+             as appropriate to the situation.
+           Most repetitions are caused by the need to process each of the items
+             in a collection of items.
+        </p>
+        <p>In the following example, 
+           the Speaker will ask for order items until the customer
+           indicates they are done ordering.  
+        </p>
+<pre class="example">
+---
+Dialog: The Speaker asks for order items.
+Context: Customer is ordering.
+Key:
+. S is Speaker.
+. C is Customer.
+---
+S: What would you like to order?             (Speaker initiates dialog.)
+. Show [menu].
+---
+C: I want a [menu item].                     (ways to order ...)
+C: Please get me a [menu item].
+C: I would like a [menu item].
+C: Give me a [menu item].
+C: May I have a [menu item] * ?
+S: Got it. What else would you like?         (Iterate.)
+. Add [menu item] to [order].
+---
+C: That's all I want *.                      (ways to say "done")
+C: That's enough.
+C: That's all.
+C: No more *.
+C: I am done *.
+S: Okay. That will be [order total].
+. Show [order].
+. Switch context to "Customer is paying."
+---
+</pre>
+         <p>In the following example,
+            the cook steams the milk until it reaches the required temperature. 
+            An "Until ..." block is used for the iteration.
+         </p>
+<pre class="example">
+---
+Role: Cook.
+Action: Steam milk to [temperature].
+. Measure milk into steamer cup.
+. Place thermometer into steamer cup.
+. Until thermometer reading exceeds [temperature]:
+. . Steam the milk in the steamer cup.
+. . Read the thermometer in the steamer cup.
+. Withdraw milk from steamer.
+. Poor steamed milk into hot drink container.
+---
+</pre>
+  </blockquote>
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% --><!-- ......................................................................... -->
+<hr/>
+<a name="BuildingInterfaces"></a>
+<h3>Building Interfaces</h3>
+  <blockquote>
+     <h4>Interfaces - Talking to external actors</h4>
+       <p>
+          The system level interface to an external actor (an external system)
+          sends a <i>work order</i> 
+          enclosing a Hum command to the actor.
+          If that actor is coded in Hum,
+          it will use the action statement as a goal.
+          It will then form a plan and execute the plan.
+       </p>
+       <p>We do not want the external actor calling back 
+            for additional information at this point.
+          In order for the plan to be complete,
+            all of the needed information must be in the instruction
+            sent to the external actor.
+          This means that the instruction should contain all of the needed nouns. 
+          If the actor requires information about other objects in the environment,
+            the actor may ask the system questions.
+          This is allowed, but it will slow things down and should be avoided.    
+       </p>
+       
+          
+     <h4>Interfaces - Accepting goals from external systems.</h4>
+         <p>
+            If the external system is unable to interact with the Speaker,
+              it should send all of the data needed to instantiate the plan
+              along with the nouns referenced in the goal.
+            Again, this means that the instruction sent 
+              should contain all of the needed information.
+         </p>
+         
+     <h4></h4>    
+     <h4>Interfaces - Talking to external resource managers.</h4>
+         <p>
+            The Coordinator asks Resource Managers for bids
+            when assigning actions.
+            Therefore, all Resource Managers, including external managers,
+            must implement the <i>Bidding Interface</i>.
+            The following dialog frame shows the dialog
+            between the Coordinator and a Resource Manager
+            with no constraints, and therefore, no negotiation.
+         </p>  
+<pre class="example">
+---
+Dialog: Coordinator asks Resource Manager (Pool) to bid on work indicated by a command.
+Context: Bidding with no constraints, no negotiation.
+Key:
+. S is Coordinator.
+. P is Pool.
+---
+Context: Request for quote.
+(The supervisor initiates the dialog.)
+S: Please bid on job.       
+---
+P: Here is bid for job.     
+. (Coordinator compares bids and likes this bid best.)
+S: Your bid is accepted. Please proceed with job.
+. (Pool assigns job to an actor.)
+. (Actor completes the work normally.)
+P: Job is finished.        
+---
+P: No resource available for job.  
+. (The Coordinator assigns work to a different pool.)
+---
+P: Here is bid for job.          
+. (Coordinator compares bids and prefers another bid to this one.)
+S: Your bid is not accepted.     
+. (Pool releases anything it reserved for job.) 
+---
+</pre>
+    <p class="AUTHOR">
+       Above will change as the dialog idea matures. 
+    </p>            
+    <p class="AUTHOR"> 
+       Think about bidding with constraints and negotiation.
+    </p>
+  </blockquote>
+<!-- ......................................................................... -->
+<hr/>
+<a name="ConstructingTestsAndSimulations"></a><h3>Constructing Tests and Simulations</h3>
+  <blockquote>
+     <h4>You can pre-test a business process design by running a simulation.</h4>
+         <p>
+            A weasel word here is "pre-test". 
+            The only real test of a business process is to run it for real.
+            But you can <i>pre-test</i> a process design with this recipe:
+            <ul>
+               <li>Run the old business process in the simulator.</li>
+               <li>Run the new business process in the simulator.</li>
+               <li>Compare results.</li>
+            </ul>
+         </p>
+         <p>Here is an example. 
+            Suppose we are thinking about adding drive-through delivery
+            to our stores.
+            This will require several changes to our practices.
+            We need to assess how it will affect the overall operation
+            and get a picture of the customer experience.
+         </p>
+         <p class="AUTHOR">
+            This example will have to wait until we have a running system.
+          </p>
+     <h4></h4>
+     <h4></h4>
+  </blockquote>
+
+
+<!-- ......................................................................... -->
+<hr/><a name="FixingDialogProblems"></a>  
+<h3>Finding and Fixing Dialog Problems</h3>
+  <blockquote>
+     <h4>A dialog frame is a set of production-rules.</h4>
+         <p>
+            If you are having trouble programming or trouble-shooting a dialog,
+            this might help.
+            Remember that a dialog is a set of production-rules.
+            The general form of a production rule is (stimulus-pattern: response).
+            When the state of the dialog matches the stimulus-pattern, 
+            the response is performed.
+            The response might alter the state of the dialog,
+            and that altered state might match another stimulus-pattern,
+            triggering another response.
+         </p>
+     <h4>Dialogs are based on heuristics - guess work.</h4>
+         <p>
+            You should expect your dialogs to evolve over time.
+            Users will not always ask a question using the pattern you expect.
+            You will need to examine the dialog diaries frequently 
+              when the dialog goes into production
+              so that you can augment or adjust the vignettes.
+         </p>
+  </blockquote>
+<!-- ......................................................................... -->
+<hr/>
+<a name="FixingOntlogyProblems"></a>
+<h3>Finding and Fixing Ontology Problems</h3>
+  <blockquote>
+     <h4>Synonyms - When a term has multiple meanings.</h4>
+         <p> 
+            A noun will match an object when the object is instantiated
+              with the same noun or any of its sub-types, 
+              or any of the noun's synonyms.
+            This can lead to the same ambiguity that exists in natural language.
+            In general, this is a desirable feature because it enables
+              <i>polymorphism</i>
+              - the ability to apply a statement generically.
+            
+         </p>
+         <p>      
+            Polymorphism allows Hum to be just as expressive 
+               and just as robust as written English.   
+            It also permits ambiguity and with ambiguity, misunderstanding.   
+            Most of the time, the system will match statements correctly.
+            But misunderstandings can occur when an object is allowed to have
+              a different interpretation than you intended.   
+         </p>
+         <p> 
+            The best way to avoid misunderstandings is to 
+              <b>keep the ontology narrow</b>.
+            If a noun has more than one super-type, 
+              misunderstandings become more likely.
+            Although multiple super-types are allowed,
+              they indicate ambiguity 
+              and should set off alarms in your head.  
+            The meaning of a noun is likely to be consistent
+              if you stick to a single domain of discourse.    
+         </p>
+     <h4>Keep each ontology small and narrow.</h4>
+         <p> 
+            You will want to keep each ontology as small as possible.
+            This will make it easier to maintain internal consistency.
+            If you allow an ontology to become too large,
+              you may have trouble maintaining and extending the ontology.
+            It will simply take more time to review the existing frames
+              and sort them out in your mind.
+         </p>
+         <p>       
+            If you keep the ontology narrow,
+              you can easily avoid situations where the meaning of a noun
+              depends on context - because there will only be one context.
+            How can you keep an ontology small and narrow?
+            In general, stick to a single subject area, 
+               a single business process area,
+               a single actor's domain of expertise.                     
+         </p>
+         <p> 
+            If you are programming business processes,
+               you might consider limiting each ontology
+               to the work performed within a single department.
+            This practice will tend to keep the ontology narrow 
+               and make it easier to validate with your subject matter experts.         
+         </p>
+         <p class="AUTHOR"> 
+           With the new run-time, actors are distributed and operate autonomously.
+           Each actor will have (will need) its own ontology.
+           That means this section needs to be rewritten.
+           (It was written when the run-time controlled each actor directly.
+           	And therefore, 
+            it seemed to make sense to have all the process knowledge
+            in a single ontology that represented something like a business-unit.
+           )
+         </p>
+     <h4>How do we share information across ontology files?</h4>
+         <p> 
+            The information most in need of sharing is in the dictionary frames.
+         </p>
+         <p class="AUTHOR"> 
+            TBD: Design a way to share dictionary frames.
+         </p>
+  </blockquote>
+
+</body>
+</html>

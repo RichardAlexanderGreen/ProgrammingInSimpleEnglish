@@ -1,0 +1,98 @@
+<html>
+<head>
+  <title>Quad Data - a four dimensional database  </title>
+    <link href="styles.css" rel=STYLESHEET TYPE="text/css">
+</head>
+<body>
+<h2>Quad Data - a four dimensional database</h2>
+<p>
+Any data item can be identified with a three-level key:
+<pre class="EXAMPLE">
+    value = fc( object-id, attribute-id, time )
+</pre>
+</p><p>
+In most business databases the time dimension is igored
+and we get the current-time view:
+<pre class="EXAMPLE">
+    value = fc( object-id, attribute-id )
+</pre>
+</p><p>
+The typical implementation in a relational system
+stores a tuple where the position 
+of the data is mapped to an attribute-id:
+<pre class="EXAMPLE">
+    ( object-id : value1, value2, value3, ... )
+    maps to schema:
+    class: ( id : attribute1, attr2, attr3, ...   )
+</pre>
+The tuple represents the "state-vector" of the object
+at the current time.
+</p><p>
+This concept can be extended to include time
+by adding a time-stamp to the key:
+<pre class="EXAMPLE">
+    ( object-id, time-stamp : value1, value2, value3, ... )
+	
+	event-log = fc( object-id, time-stamp )
+</pre>
+The time-stamp can be related to a specific event.
+<br/>Thus both the time and the cause may be known.
+</p><p>
+Keeping the current-time view and the history in the same table
+is usually too cumbersome. 
+So, a typical optimization is to store the current-view
+in one table and the historical view in another,
+with the event-log on hand to provide context and audit trail:
+<pre class="EXAMPLE">
+    current view: ( object-id : value1, value2, value3, ... )
+    history view: ( object-id, time-stamp : value1, value2, ... )
+    causal event: ( time-stamp : who, did-what, where, when, ... )
+</pre>
+</p><p>
+Relational systems assume that the table schema are static (change infrequently).
+Basically, the database table must be closed 
+while any schema changes are put into effect.
+This works well enough as long as the schema does not change too frequently
+and is well-understood.
+</p><p>
+But, what if the schema is not well-understood or it changes frequently?
+The usual solution to this problem is to add the attribute to the key.
+The relational realization of this concept is to model the tuple after the function:
+<pre class="EXAMPLE">
+    value = fc( object-id, attribute-id )
+    becomes the triple:
+    ( object-id, attribute-id : value )
+</pre>
+	Or, if we add the time dimension:
+<pre class="EXAMPLE">
+    value = fc( object-id, attribute-id, time )
+    becomes the quad:
+    ( object-id, attribute-id, time-stamp : value )
+</pre>
+And that 4-tuple is what we call a "quad".
+The micro-fact that it represents is:
+<br />"Attribute A of object O was assigned value V at time T." 
+-- <code>quad: ( O, A, T : V) </code>
+<br />
+In a relational database we can achieve this idea with a table schema like:
+<pre class="example">
+quad: ( object, attribute, timeStamp1 : value, timeStamp2 )</code>
+event: ( timeStamp : who,  what,        when,      where,   why  )
+event: ( timeStamp : role, instruction, date-time, session, goal )
+</pre>
+... where timeStamp1 identifies the event that caused the value to be assigned,
+and timeStamp2 identifies the event that caused a different value to be assigned.
+</p>
+<p class="AUTHOR"> 
+   hmmm? What if the second event assigns the same value as the prior event?
+   <br />Suggestion: If the second event occurs in a process that could,
+     in principle, change the value of the attribute we treat it as updated
+     even though the value is not changed. 
+  Perhaps this means that the value is confirmed?
+  There is a small problem of meta-physics here.    
+  But the operational meaning is that
+    we will not mark an attribute as changed 
+    until its "setter" method is called.
+</p>
+</body>
+</html>

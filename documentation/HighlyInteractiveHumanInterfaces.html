@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+  <title>Highly Interactive Human Interfaces</title>
+  <link href="styles.css" rel=STYLESHEET TYPE="text/css">  
+</head>
+<body>
+
+<h2>Highly Interactive Human Interfaces (HIHI)</h2>
+
+<h3>Overview</h3>
+
+<p>
+  View Frames are essentially passive dialogs 
+    following the venerable metaphor of paper forms and form letters.
+  These are interactive to the extent that immediate action can occur in response
+    to the submittal of a form. 
+  However, view frames are not <i>highly</i> interactive.  
+</p>
+
+<p>
+  Dialog Frames support highly interactive graphical user interface (GUI) dialogs.
+  Dialogs are intended to allow an exchange resembling a normal verbal exchange.
+  However, the notation as currently designed (2007.08.01) 
+    is relatively constrained.
+  The following paragraphs discuss a programming convention 
+    enabling signals from sensors.
+</p>
+
+<h3>User Gestures:</h3>
+
+<p>  
+  Dialog frames already support output gestures.
+  The speaker's avatar (the avatar representing the system) 
+    can be directed to smile, frown, shrug, et cetera.
+  Basically, the avatar is an actor and can be programmed to accept
+    any instruction one cares to invent.
+  Hence, any gesture the avatar can perform in the graphical environment 
+    is feasible.  
+</p>    
+
+<p>    
+  The pattern notation used in dialog frames 
+    might be extended to respond to various sorts
+    of non-verbal input gestures.
+  Pointing to an object or touching an object is the most obvious gesture.
+  More subtle gestures involve standing in at the head of a queue
+    or in front of a service counter.
+  Simply looking the avatar in the eye is a gesture.
+  With suitable body interfaces we could sense such gestures.
+  </p>
+  <p> 
+  A sensor can send signals which can be interpreted at some level.
+  The resulting signal can then be sent to the human interface actor.
+  The actor could then select the appropriate dialog vignette.    
+  
+  Until we are regularly writing for virtual reality, 
+    it should be recognized that voice recognition 
+    will obviate the need to recognize user gestures in most cases.    
+</p>
+
+<p> 
+  <b>Widgets:</b> 
+    The notation currently provides no way to sense user inputs 
+      beyond those provided by text-boxes, check-boxes, radio buttons, buttons, 
+      and selection lists. 
+    In certain cases, 
+    it is likely that GUI widgets will be needed 
+      to simulate analog controls such as sliders.
+</p>
+
+<p><b>Sensors:</b>
+   Here is the programming convention 
+     that enables sensors and defines the response to a signal.
+   A sensor is monitored by an actor. 
+   The actor is sent an instruction that instructs it to monitor the sensor
+     and report events back to the caller via a dialog frame vignette.  
+</p>
+
+<pre class="example">
+---
+Task: Enable sensors.
+Post: Sensors are all enabled.
+Pre:
+. (none)
+Action:
+. Steering Wheel: Sense angle of turn.
+. Brake Pedal: Sense braking force.
+---
+Role: Steering Wheel.
+Action: Sense angle of turn.
+. Report angle of turn as "Angle of turn is now *." to context "Steering".
+---
+Dialog: Accept data from sensors.
+Context: Steering.
+U: Angle of turn is now *.
+S: (There is no response at this level.) 
+. Steersman: Respond to rudder [*].
+---
+Role: Steersman.
+Action: Respond to rudder angle.
+. Yaw angle per second. (We may prefer a more logarithmic response.)
+
+Action: Respond to brake deflection (percent of deflection).
+. Apply reverse thrust force (percent of capability).
+
+
+</pre>
+
+</body>
+</html>

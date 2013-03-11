@@ -1,0 +1,27 @@
+     
+     table { background: CYAN }
+     
+     body  { background: LIGHTYELLOW;}
+     
+     code  { background: LIGHTBLUE;   padding:0 } 
+     
+     form  { background: LIGHTYELLOW; padding:9 }
+  
+     pre         { background:LIGHTPINK;   padding:9; border:5px DOUBLE RED;}
+     pre.toc     { background:LIGHTYELLOW; padding:9; border:5px DOUBLE GREY;}
+     pre.show    { background:LIGHTYELLOW; padding:9; border:5px DOUBLE GREY;}    
+     pre.syntax  { background:LIGHTGREEN;  padding:9; border:5px DOUBLE GREEN;}
+     pre.example { background:LIGHTBLUE;   padding:9; border:5px DOUBLE BLUE;}
+     pre.bad     { background:CYAN;        padding:9; border:5px BOLD CYAN;}
+
+  
+     p.advice { color: BLACK;   background:YELLOW; padding:9; border:5px DOUBLE YELLOW; }
+     p.AUTHOR { color: DARKRED; background:LIGHTGREY; font-style:ITALIC; padding:9; border:5px DOUBLE DARKRED; }
+     p.EDITOR { color:BLACK;    background:LIGHTPINK; font-style:ITALIC; padding:9; border:5px DOUBLE BLACK;}   
+  
+  <!-- Intended Usage:
+       p.advice ... Paragraph gives advice to reader.
+       p.AUTHOR ... Author is noting a problem with text that needs to be resolved.
+       p.EDITOR ...	Editor is noting problem or asking question of the author.
+  -->
+  

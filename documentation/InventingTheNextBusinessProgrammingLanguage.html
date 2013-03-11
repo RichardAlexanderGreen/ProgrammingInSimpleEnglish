@@ -1,0 +1,1757 @@
+<html>
+<head>
+  <title>Inventing the Next Business Programming Language</title>
+  <meta name="keywords" content="business process, framework, workflow"/>
+  <meta name="keywords" content="multi-agent systems, electronic commerce, workflow,Service paradigm, Service-oriented architecture"/>
+  <meta name="author" content="Richard Alexander Green"/>
+  <meta name="description" content="
+  It is time that we had a better programming language for business. 
+Our program statements have been speaking to mechanized actors that are, to be charitable, only somewhat smarter than a programmable calculator. 
+Business programming notations should include fundamental business concepts as built-in capabilities. 
+To achieve this, we need to raise the actors' level of intelligence.
+"/>
+    <meta name="keywords" content="business programming">
+    <meta name="keywords" content="workflow">
+    <meta name="keywords" content="agent-oriented architecture">
+    <meta name="keywords" content="Smalltalk">
+    <meta name="keywords" content="object-oriented analysis">
+    <meta name="keywords" content="object-oriented programming">
+    <meta name="keywords" content="object-oriented design">
+    <meta name="keywords" content="natural language processing">
+    
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+     table { background: LIGHTBLUE; }
+     
+     body  { background: LIGHTYELLOW;}
+     
+     code  { background: LIGHTBLUE;   padding:0 } 
+     
+     form  { background: LIGHTYELLOW; padding:9 }
+  
+     pre         { background:LIGHTPINK;   padding:9; border:5px DOUBLE RED;}
+     pre.toc     { background:LIGHTYELLOW; padding:9; border:5px DOUBLE GREY;}
+     pre.show    { background:LIGHTYELLOW; padding:9; border:5px DOUBLE GREY;}    
+     pre.syntax  { background:LIGHTGREEN;  padding:9; border:5px DOUBLE GREEN;}
+     pre.example { background:LIGHTBLUE;   padding:5; border:1px DOUBLE BLUE;}
+     pre.bad     { background:CYAN;        padding:9; border:5px BOLD CYAN;}
+
+  
+     p.advice { color: BLACK;   background:YELLOW; padding:9; border:5px DOUBLE YELLOW; }
+     p.AUTHOR { color: DARKRED; background:LIGHTGREY; font-style:ITALIC; padding:9; border:5px DOUBLE DARKRED; }
+     p.EDITOR { color:BLACK;    background:LIGHTPINK; font-style:ITALIC; padding:9; border:5px DOUBLE BLACK;}   
+     
+     comment { color: GREEN; }
+     listingcaption { color: GREEN; font-style:ITALIC;  }
+     
+     author {  }
+     date   {  }
+     btitle  { font-style:ITALIC }
+     pub    {  }
+     
+     
+</style>  
+
+</head>
+<body>
+<h1>Inventing the Next Business Programming Language</h1>
+<blockquote>
+"The best way to predict the future is to invent it." 
+<br> --Alan Kay, 1971 meeting of Palo Alto Research Center and Xerox staff 
+</blockquote>
+
+<h4>Abstract</h4>
+<table>
+  <tr>
+     <td>
+It is time that we had a better programming language for business. 
+Our program statements have been speaking to mechanized actors that are, to be charitable, only somewhat smarter than a programmable calculator. 
+Business programming notations should include fundamental business concepts as built-in capabilities. 
+To achieve this, we need to raise the actors' level of intelligence.
+
+</p><p>
+
+Automating business processes means automating workflow.  
+We need notations that express the business process
+workflow directly and clearly.
+A typical business process involves collaboration 
+among communities of actors that share a common vocabulary. 
+In addition, 
+these actors share a common corporate memory, 
+utilize many of the same resources, 
+communicate via work orders, 
+and carry on conversations that last for years. 
+A business also requires bookkeeping.  
+All  these concepts can and should be 
+built into the run-time system.   
+We can move the business programming focus
+from the data process
+to the business process.
+
+</p><p>
+
+A programming language is a coordinated set of notations. 
+Each notation speaks to a specific interpreter. 
+Ideally, each notation should be quickly and correctly interpreted by both humans and machines. 
+This paper demonstrates how we can use natural language to produce a set of notations that is readable by both humans and machines. 
+These notations provide the means to program the <i>agency,</i> 
+the community of actors collaborating to run the business.
+     </td>
+  </tr>
+</table>
+
+</p><p>
+
+
+<!-- .................................................................... -->
+<h2>Motivation</h2>
+
+</p><p>
+
+For many years, my hobby has been the design of a programming language that would allow most programming ideas to be expressed in notations similar to natural written language. I called that project <i>Simple English</i>. At the same time, my work life has involved writing programs to automate business processes. A deep study of problems involved in business automation led me to the conclusion that there are serious flaws in the languages that most of us use for business programming. The most serious and pervasive flaw is that those languages were designed to speak to a computer that essentially functions as a programmable calculator. What we need is a language designed to speak to a business operation.
+
+</p><p>
+
+<h3>We need a better language for business programming.</h3>
+
+</p><p>
+
+The programming language that we, as business programmers, use at work
+has a profound effect
+on the quality of our work life
+and productivity.
+In many sciences, new notations stimulate progress. 
+A programming language is essentially a coordinated set of notations.
+As change agents, we should always be actively engaged in creating notations
+that facilitate clear expression of our thoughts.  
+
+</p><p>
+
+Current programming languages are anemic and surprisingly primitive
+when you consider the fact that they are the product of 50 years of evolution.
+They are basically designed to shuffle small amounts of data from place to place.
+
+</p><p>
+
+Because our procedural statements are speaking to a mechanized actor that is
+basically a programmable calculator,
+the procedural notation reflects the fact that the actor has a very limited vocabulary.  
+A business programming language 
+should include fundamental business concepts as built-in capabilities. 
+We need to raise the actor's level of intelligence 
+as well as the level of discourse that we see in our programs. 
+We need to make the thing we a speaking to smarter.
+Fortunately, that is not too difficult when we set our minds to it.
+
+</p><p>
+
+For starters,
+we can delegate many day-to-day data shuffling tasks to the system.
+Most of the code we write to complete these tasks
+follow highly predictable design patterns.
+We should not need to program such things in this day and age.
+The system can be designed to obviate the need 
+for such low-level code.
+Most data shuffling and bookkeeping tasks 
+can be removed from our workload.    
+
+</p><p>
+
+Curiously, the term <i>electronic computer</i> is a misnomer.
+A more accurate term would be <i>electronic data shuffler</i>.
+Although we routinely refer to our systems as "the computer," 
+business arithmetic, per se, is rarely needed, poorly done, and poorly served
+by our current programming systems.  
+Our languages do not include date, time, unit of measure, or monetary currency
+as base types. 
+One can argue that these concepts are supported 
+by program libraries (class libraries), 
+but those that I have evaluated are less than adequate.  
+As an example: Consider the function that you would need to write 
+in order to calculate the number of business days between two dates.
+However, you should not need to invent that function.
+Many business processes require that calculation.
+It is one of many that can and should be built into our programming language
+but has been missing.   
+
+</p><p>
+
+ <!-- .................................................................... -->
+<h3>What do we need in a language designed for business programming?</h3>
+
+</p><p>
+
+The essence of business automation involves the mechanization
+of business process workflows.
+A business process necessarily involves the coordination of communities of actors.
+What does this imply for the design of a future programming language?
+It implies that our set of notations
+should clearly express workflow concepts. 
+Such concepts include goals, tasks, actors, actions, and work orders.
+
+</p><p>
+
+What does this context imply for the design of our run-time system?  
+It implies that the run-time system should, among other things, provide 
+for simple and secure communications among actors.
+The messages sent between business actors are, in effect, work orders. 
+The messages should be recognized as work orders, 
+with built-in resource management including 
+inventory management,
+resource assignment, and cost accounting. 
+
+</p><p>
+
+Current programming languages do not provide sufficient support
+for even the most fundamental type: numbers.
+In business programming, numbers represent measurements.
+A measurement involves a quantity, a precision, and a unit of measure.
+For example, we might say that a vehicle consumes 7.5 liters per hundred kilometers
+plus or minus 1.4 liters. 
+The run-time system should accurately calculate 
+with numbers that represent measurements
+and correctly track the precision of the results.
+Answers with spurious precision should become a thing of the past.
+We should be able to display a number 
+in the unit of measure that the particular corporate culture prefers
+without having to program the conversion from other units of measure ourselves.
+The run-time system should have that capability built-in.     
+
+</p><p>
+
+ <!-- .................................................................... -->
+<h2>How does the proposed programming language address business needs?</h2>
+ <!-- .................................................................... -->
+<h3>Task frames provide a notation for plans and workflows.</h3>
+
+</p><p>
+
+One of the tasks in business programming involves sorting out business workflow.
+A better choice of notation can reduce the time spent on this.
+Here is a simple example.
+Suppose we want to bake a cake.
+We need a plan. 
+Baking a cake is a simple matter; it involves only a few steps.
+Some business processes involve hundreds or thousands of steps.
+But we can tackle any problem, regardless of size or complexity,
+by starting with the final goal
+and working backwards.
+This is a powerful technique for solving even the most complex problems.  
+
+</p><p>
+
+Listing <a href="#goal">(below)</a> <!--goal--> shows a <i>task frame</i> with a notation designed to facilitate that process.
+We state the name of the task, the post-condition (goal), the preconditions that must be observed before the post-condition can hold, and any actions (preferably one action) that must be performed to make the transition between the state where the preconditions are true and the state where the post-condition is true. This is conceptually comparable to a state-transition diagram or a precedence chart; but it is executable, readable, and the semantics are more explicit.
+
+</p><p>
+
+<listingcaption>This task frame identifies two preconditions 
+<br/>that must be met prior to the final action that achieves our goal.
+</listingcaption> 
+<a name="goal"/>
+<pre class="EXAMPLE">
+Task: Bake a cake according to recipe.
+Post-Condition: Cake is baked according to recipe.
+Preconditions:
+. Oven is preheated to the temperature given in the recipe.
+. The recipe's batter is in a prepared cake pan.
+Actions:
+. Baker: Bake the pan in the oven for the time given in the recipe.
+</pre> 
+
+</p><p>
+
+The task-frame notation provides a way for us to 
+break a complex problem down into smaller problems.
+For each precondition, 
+we prepare another task frame that defines
+what is needed to achieve that condition.
+The task frame in Listing <a href="#goal">(above)</a> <!--goal--> identifies two preconditions.
+That means that we need two more task frames
+showing how those preconditions might be met.
+Note that the work to meet those preconditions
+can be executed concurrently.
+Parallel processing is implicit in the notation.
+Listing <a href="#next-layer">(below)</a> <!--next-layer--> shows two task frames that define the next layer of the plan. 
+
+</p><p>
+
+<listingcaption>The two task frames shown here define the next layer in our plan.</listingcaption> 
+<a name="next-layer"/>
+<pre class="EXAMPLE">
+Task: Preheat the oven according to the temperature given in the recipe.
+Post-Condition: Oven is preheated to the temperature given in the recipe.
+Precondition:
+. The oven's gas burner is lit. (We are using a gas-fired oven.)
+. The oven's thermostat is set to the temperature given in the recipe.
+Action:
+. Timer: Wait 5 minutes.
+
+Task: Prepare the recipe's batter.
+Post-Condition: The recipe's batter is in a baking pan.
+Preconditions:
+. The recipe's batter is in the mixing bowl.
+. The cake pan is greased. 
+Actions:
+. Baker: Pour the batter from the mixing bowl into the cake pan.
+</pre> 
+
+</p><p>
+
+Eventually, we discover preconditions that have no prerequisites,
+or the prerequisite might be a signal that arrives as an external event.
+The preconditions with no prerequisites are identified with <i>annotations</i>
+in square brackets
+that tell the plan checker that it need not expect a task frame
+for those preconditions. 
+(The plan checker is a component in the programmer's assistant 
+[in the interactive development environment, or IDE].)  
+Listing <a href="#assumed">(below)</a> <!--assumed--> shows a precondition that is marked [Assumed].
+This indicates that no task frame is required to define that precondition.
+Since the task frame has no other preconditions, 
+the action statement can run immediately when the plan is executed.
+
+</p><p>
+
+<listingcaption>This task frame shows a single precondition. The annotation, [Assumed], tells us that the precondition has no prerequisite.
+The action statement can execute immediately when the plan is started</listingcaption> 
+<a name="assumed"/>
+<pre class="EXAMPLE">
+Task: Mix the ingredients according to the recipe.
+Post-Condition: The recipe's batter is in the mixing bowl.
+Preconditions:
+. The ingredients required by the recipe are on hand. [Assumed.]
+Action:
+. Baker: Stir each ingredient into the batter in the mixing bowl.
+</pre> 
+
+</p><p>
+
+<h3>Natural language is object-oriented.</h3>
+
+</p><p>
+
+In a natural language, nouns represent variables.
+People assign objects in the environment to the nouns 
+when they interpret a natural language statement.
+Similarly, the nouns in the task-frame statements indicate the input 
+that will be needed when the system executes the plan.
+   The system's pretty printer furnishes hyperlinks for those nouns.
+   The links connect each noun to its definition and where-used list.
+
+</p><p>
+
+The system learns which words are nouns by reading 
+<i>dictionary frames</i>.
+The dictionary frame in Listing <a href="#dictionary">(below)</a> <!--dictionary--> 
+defines most of the nouns identified 
+in the task frames shown here. 
+The nouns are defined in terms of their supertypes.
+The base vocabulary provides a foundation of supertypes
+that identify basic business process concepts including
+container, resource, material, part, account, person, customer, worker, employee,
+product, location, workspace, equipment, bill of materials, and measurement.
+The community will add to the base vocabulary over time.
+And thus, the thing we are programming will get smarter and smarter.
+
+</p><p>
+
+<listingcaption>This dictionary frame defines some of the nouns that we are using in our statements. Most of the supertypes are predefined in the base vocabulary</listingcaption> 
+<a name="dictionary"/>
+<pre class="EXAMPLE">
+Dictionary: Baker's vocabulary.
+. A mixing bowl is a container.
+. A cake pan is a pan.
+. A pan is a container.
+. A pan is portable equipment. (multiple inheritance)
+. A recipe contains a bill of materials.
+. A cake is a product.
+. An oven is a kind of equipment.
+. A counter is a workspace.
+. A temperature is a measurement.
+</pre> 
+
+</p><p>
+
+Supertypes and subtypes
+enable inheritance and polymorphism in statements of all sorts.
+Since a noun may also have more than one supertype,
+the language supports multiple inheritance.
+For example, a cake pan is a pan, and a pan is a container, and it is also portable equipment.
+Therefore, statements that apply to containers and statements that apply to portable equipment also apply to cake pans.
+
+</p><p>
+
+In addition, appropriate side effects may be invoked.
+For example, if an instruction uses a noun with "resource" as one of its supertypes,
+resource accounting may be automatically invoked as a side effect.
+If a container is moved, 
+we know that the objects we had put into the container earlier
+are still in the container and that they have moved also.
+
+</p><p>
+
+Note that roles have no supertypes.
+Roles don't need supertypes because an actor may know multiple roles.
+For example, a robot baker may "understand" action statements 
+for both the baker and "fetch and put" roles.
+Therefore, not only can the robot mix the batter and pour it into a cake pan,
+the same robot can also move the cake pan into the oven.
+
+</p><p>
+
+ <!-- .................................................................... -->
+<h3>Actors and Agencies</h3>
+
+</p><p>
+
+The task frames in Listings (below) <!--goal-->, (below) <!--next-layer-->, and (below) <!--assumed--> mention two roles: the baker and the timer.
+In <i>real mode</i>, a role can be performed by a human or a robot.
+In <i>simulation mode</i>, both roles would be performed by a sim-bot.
+I have coined the term <i>sim-bot</i> to describe a software actor 
+that simulates the actions of an actor in a simulator.
+A simulator is a software environment 
+that may be used to debug a business process
+or to check a hypothesis about how a change in a business process
+will function.
+It has a simulated clock.
+Generally, you would run the simulated clock at a rate that allows
+an entire year of activity to be simulated in less than one hour.
+
+</p><p>
+
+When the time comes to run an action,
+a resource manager (or a team of resource managers)
+assigns an actor to fill the role specified for the action statement.
+You can think of a resource manager as an agency. 
+An actor may come from a pool of actors that advertise
+the capability to fill the role.
+Listing <a href="#baker">(below)</a> <!--baker--> shows an <i>action frame</i> that defines the capabilities of the baker role. 
+
+</p><p>
+
+<listingcaption>This role-action frame defines the procedures for two action statements</listingcaption> 
+<a name="baker"/>
+<pre class="EXAMPLE">
+Role: Baker.
+Action: Bake the pan in the oven for the time given in the recipe.
+. Open the oven door.
+. Place the pan in the oven.
+. Close the oven door.
+. Oven: Bake for the time given. (We have a smart oven.)
+
+Action: Pour the batter from the mixing bowl into the cake pan.
+. Pick up a rubber spatula in one hand or gripper.
+. Pick up the mixing bowl with the other hand or gripper.
+. Use the spatula to push the batter out of the mixing bowl into the pan.
+. (A special-purpose machine might do this some other way.)
+</pre>
+
+</p><p>
+
+An <i>action frame</i> defines a procedure for each action
+that an actor may be asked to perform.
+The action statements define the actor's <i>public interface</i>.
+The <i>instructions</i> indicate the capabilities that the actor needs.
+When the action is requested, only the action statement is passed to the actor.
+The actor may actually perform the action using a procedure
+other than the one in the action frame.   
+In that context,
+the procedure shown may be considered documentation
+or pseudo-code. 
+However, we expect that future implementations of the actors as robots
+will translate the instructions into the robot's command language.
+Or the instructions could be <i>native</i>. 
+
+</p><p>
+
+ There is no reason why a command language 
+ for a robot or any system of moderate capacity
+ could not be written in the language we introduce in this paper.
+A command language for a robot or any system of moderate capacity could be written in the language this paper introduces.
+ (This paper does not show all of it, but it is <i>Turing-complete</i>.) 
+The entire framework 
+for the current implementation requires less than 40MB
+of storage for the ".image" and ".app" files.
+No attempt has been made to optimize the code's footprint. 
+If it were translated to Erlang or C and run on a minimal operating system,
+it could be made very small indeed.
+
+</p><p>
+
+In the action frame in Listing <a href="#baker">(above)</a> <!--baker-->, the baker has delegated a step to the oven. 
+An oven is another role with a repertoire of statements that it "understands." 
+But an oven is a piece of equipment. 
+How does that "understanding" come about? 
+This gives us an opportunity to discuss how we might communicate with external systems as actors.
+
+</p><p>
+
+Suppose that the oven has a primitive command language that looks like this:
+</p>
+<listingcaption>Command Language for a Smart Oven </listingcaption>
+<a name="oven-commands"/>
+<pre class="EXAMPLE">
+TURN ON      (Turn the oven on.)
+TURN OFF     (Turn the oven off.)
+TEMP 999     (Set the thermostat to the given temperature.)
+TIME 999     (Wait some minutes before executing the next step.)
+</pre> 
+
+</p><p>
+
+To be useful, the oven also needs some communication channel. 
+Let's assume that it will accept these instructions on an IP channel.
+We will build an "adapter" as shown in Listing <a href="#oven-adapter">(below)</a> <!--oven-adapter-->.
+
+</p><p>
+
+<listingcaption>This role-action frame illustrates an adapter for the Smart Oven</listingcaption> 
+<a name="oven-adapter"/>
+<pre class="EXAMPLE">
+Role: Oven.
+Action: Turn on.
+. Send "TURN ON" with return.
+
+Action: Turn off.
+. Send "TURN OFF" with return.
+
+Action: Set temperature to T degrees Celsius.
+. Send "TEMP T" with return.
+. (By convention, a single capital letter indicates a variable.)
+
+Action: Bake for M minutes. 
+. Send "TIME M" with return.
+
+To: Send string with return. ("String" is a primitive data type.)
+. IP: Connect to oven's network-address.
+. IP: Send string with end-of-line.
+</pre> 
+
+</p><p>
+
+We communicate to external actors 
+by translating our statements into the command language of the actor
+and then sending those translated commands 
+by whatever channel and protocol the actor enables.
+We've built an adapter for the "oven" role
+that translates from our natural language statements
+into the machine's command language.
+
+</p><p>
+
+Actually, the entire run-time system works like that. 
+Each actor has a network address (an IP address or DNS name).
+Requests flow through a <i>messenger service</i> 
+that guarantees sequential delivery, privacy, and an audit trail.
+
+</p><p>
+
+ <!-- .................................................................... -->
+<h3>Job Tickets and Resource Accounting</h3>
+
+</p><p>
+
+When a client requests a goal or action,
+the system generates a job ticket.
+The job ticket makes it easier to track the progress of the work 
+and provides an electronic turn-around document
+that records the resources consumed and utilized.  
+The job ticket goes to the Coordinator.
+The Coordinator is an actor that monitors the progress of a plan.
+A plan is a set of task frames.
+When the time comes to request an action,
+the Coordinator sends the job ticket to a resource manager 
+along with the requested role and action.
+The resource manager allocates an actor that knows the role
+and sends the job ticket to that actor.
+If an actor delegates an instruction,
+it sends a (subordinate) job ticket to its resource manager
+along with the requested role and action.  
+That resource manager may dispatch the work to another actor. 
+If the same actor can perform that role, 
+it may dispatch the task back to the actor that attempted to delegate the task.   
+
+</p><p>
+
+When the assigned actor completes an action,
+the actor returns the job ticket with a record of the resources used,
+including its own time.
+The job ticket records resources until the goal or action request
+that started the whole sequence is finally fulfilled.
+Then the Coordinator sends the job ticket to the Bookkeeper.
+The Bookkeeper (another actor) records the job ticket 
+and maintains useful sums (accounts).
+By default, the Bookkeeper maintains sums 
+categorized by resource type,
+action statement, goal statement,
+client, role, and actor.
+A specific business may want to add a category to the breakdown.  
+
+</p><p>
+
+
+The Bookkeeper is usable right out of the box.
+But while resources are summed, they are not priced.
+The enterprise can extend the basic implementation with appropriate pricing rules.
+
+</p><p>
+
+When an instruction mentions a resource 
+we expect that the resource consumption or utilization
+will be tracked.
+In simulation mode,
+when the sim-bot recognizes
+an instruction that indicates that a resource is consumed or utilized,
+it will automatically record the resource used on the job ticket.
+In real mode,
+it is the real actor's responsibility to record resource usage
+on the job ticket.    
+
+</p><p>
+
+The Simulator calculates cycle times from probability profiles provided by the Bookkeeper.
+The Bookkeeper derives the probability profiles from the data that it collects.
+When no history exists, the simulator may use cycle-time distributions provided in annotations
+that are appended to action statements
+or instructions.
+
+</p><p>
+
+The Simulator may be driven by customer demands recorded in the Messenger's logs.
+This enables a simulation of customer demand based on history.
+When no history exists or we wish to create a new demand pattern,
+the simulation may be driven from the user interface with conventional load-testing tools.
+
+</p><p>
+
+
+ <!-- .................................................................... -->
+<h3>User Interfaces</h3>
+
+</p><p>
+
+In many cases, business process automation involves robots talking to robots.
+In that context, there are no UI (user-interfaces), only API (application program interfaces).
+However, a complete language also needs notations for user interfaces.
+Two types of notations are necessary. One for dialogs and one for electronic forms.
+
+</p><p>
+
+<h4>User-Interface Dialogs</h4>
+
+</p><p>
+
+You may have been wondering where the impulse to "bake the cake" came from. 
+That brings us to the topic of user dialogs. 
+In a future world, 
+we can expect that the nature of the user interface will change. 
+The user may speak to a robot or an avatar 
+instead of typing instructions or pushing buttons. 
+Therefore, we need a notation that is appropriately conversational. 
+We've combined the notational conventions of a stage play 
+with a 
+chat-bot  <a href="#chatbot">[_]</a>
+notation for this purpose. 
+In Listing <a href="#menu">(below)</a> <!--menu-->, the "U:" shorthand identifies the user's speech, 
+and the "S:" shorthand identifies the system's speech. 
+Several "U:" prior to an "S:" indicate alternative ways of saying the same thing.
+
+</p><p>
+
+<listingcaption>This dialog frame illustrates a dialog for a first meeting between a user and an avatar. Imagine an avatar dressed in a baker's costume</listingcaption> 
+<a name="menu"/>
+<pre class="EXAMPLE">
+Dialog: Cake Choice.
+Context: First Meeting.
+
+U: Hello *.
+S: Hello, I am the baker. [Gesture: Smile.]
+But I only know how to bake cakes. [Gesture: Apology.]
+May I bake a cake for you? I know four recipes. [Gesture: Expectation.]
+
+U: No *.
+S: OK. Good-bye. [Gesture: Sleep.]  
+
+U: What kind of cake can you bake?
+U: What recipes do you know?
+U: Can you do a * cake?
+U: What * cake * ?
+U: Can * cake * ?
+S: I know how to bake a chocolate cake, white cake, carrot cake, 
+or sponge cake. [Gesture: Expectation.]
+
+U: I would like * [cake-type] *.
+U: I want * [cake-type] *.
+S: OK. Your [cake-type] cake will be ready in about two hours. [Gesture: Happy.]
+We will deliver it to [user address street] when it is ready. 
+
+. Goal: Bake a cake according to [cake-type] recipe.
+. Runner: Deliver cake to user's address.   
+. (Lines that begin with a dot are actions, not conversation.)   
+</pre> 
+
+</p><p>
+
+A dialog like that shown in Listing <a href="#menu">(above)</a> <!--menu-->
+can be implemented by a Web page, 
+an avatar in a virtual world (a projected image),
+a telephone voice-recognition program,
+or a robot mannequin behind an actual (real-life) store counter,
+or even by a real-life human being behind a real-life store counter.
+The main trick is to allow the user some freedom of expression.
+To enable that freedom of expression,
+the dialog notation adapts the technology and strategies of the 
+AIML <a href="#AIML">[_]</a>
+(chat-bot) system.  
+
+</p><p>
+
+Note the instruction in the dialog (Listing <a href="#menu">(above)</a> <!--menu-->) where it says:<br>
+<code>  Runner: Deliver cake to user's address. </code>
+<br> This assumes that we know our user. 
+I suggest that this will generally be the case
+and that dialogs should be treated as long-running
+with the state of the dialog preserved over time.
+This would, among other things, create a friendly dialog.
+In the dialog shown in Listing <a href="#hello-again">(below)</a> <!--hello-again-->,
+we assume that the system remembers prior conversations.
+In essence, we pick up the conversation from where we left off.  
+
+</p><p>
+
+<listingcaption>This dialog frame shows a dialog for a second meeting. 
+Dialog sessions are long-running</listingcaption>
+<a name="hello-again"/>
+<pre class="EXAMPLE">
+Dialog: Baker's menu.
+Context: Returning customer.
+
+U: Hello.
+S: Hello again! 
+I hope you enjoyed the [cake-type] I did for you last time.
+What can I do for you today?
+</pre> 
+
+</p><p>
+
+<h4>Rethinking Sensors</h4>
+
+</p><p>
+
+Although the dialog notation is built around the technology 
+of a chat-bot pattern language,
+it does not assume that the conversation is necessarily
+over the Internet.     
+In fact, we try to avoid coupling the notation 
+to any specific user-interface technology.
+That requires that we rethink the nature and role of user-interface sensors.  
+
+</p><p>
+
+The keyboard is the oldest sensor. 
+It is a surrogate for the user's voice.
+The mouse is newer.
+It acts as a surrogate for the user's hand.
+Still newer sensors include the joystick, the Wii wand,
+and touch screens.
+But these are still surrogates for the user's hand.
+There are even some experiments using video cameras and image processing
+that attempt to recognize the position and configuration of the hand itself!
+
+</p><p>
+
+Although current voice-to-text capabilities are crude and not overly reliable,
+we can expect this technology to gradually displace the keyboard.
+We can expect other technologies to gradually displace the mouse.  
+
+</p><p>
+
+How do we make a notation relatively future-proof?
+For starters, we can avoid technology-specific gestures 
+such as  "mouseover," "click", "double click" and "command-V." 
+These gestures can be translated into dialog input instead.
+
+</p><p>
+
+But what should we do about analog input?
+For example, what if a slider, joystick, or wand really is the simplest way
+for the user to communicate intent?
+We can still accommodate this by having the Scribe translate
+the input into a statement that is not coupled to the actual sensor.  
+
+</p><p>
+
+How do we achieve technology independence?
+We have a role called "Scribe."
+An actor assigned to the role of Scribe 
+mediates user-interface sensors.
+The Scribe translates the user's input
+into dialog input.
+The simplest way to avoid technology dependence
+is to simply not mention the technology in the dialog patterns.
+A slider move, joystick position, button push, voice input, 
+wand position and orientation, accelerator sensor, 
+or even a nerve signal can be translated into a speech act,
+and we can focus on the essence of the conversation
+rather than the distraction of the user interface.   
+
+</p><p>
+
+To illustrate how this could be made to work,
+let's consider a context where analog sensors are common.
+Imagine a space-flight simulator. 
+The simulator might be part of a game or it could be an elaborate training environment
+used to train an astronaut.
+The simulator might include a joystick that is used to direct pitch and roll movements.    
+The dialog shown in Listing <a href="#pitch-and-roll">(below)</a> <!--pitch-and-roll--> could be used to respond
+to joystick input in a space-flight simulator.  
+The Scribe will be sampling the joystick position continuously
+and translating the angular displacements into the intended rates.    
+The dialog will be invoked whenever the position of the joystick changes significantly.
+
+</p><p>
+
+
+<listingcaption>This dialog illustrates a strategy that adapts analog input and removes our dependence on specific sensors</listingcaption>
+<a name="pitch-and-roll"/>
+<pre class="EXAMPLE">
+Dialog: space-flight Simulator.
+Context: Pitch and roll rate.
+
+U: Make the pitch and roll rates P and R degrees per second.
+S: (Don't talk. Just do it.)
+. Pitch-Thruster: Produce P degrees per second change in pitch.
+. Roll-Thruster: Produce R degrees per second roll rate.
+</pre> 
+
+</p><p>
+
+
+ <!-- ............................................... -->
+<h4>User-Interface Forms</h4>
+
+</p><p>
+
+We can expect that future systems will gradually reduce the need 
+for the fill-in-the-blank user-interface style.
+But the paper form and its electronic equivalent
+may be with us for some time,
+and we need a compatible notation that represents these forms.  
+The language includes a <i>view-frame</i> notation.
+The view-frame notation is basically a markup notation 
+adapted primarily from the JSPwiki markup notation.
+Dialog frames may use a subset of the markup
+to indicate emphasis and format.
+Listing <a href="#view">(below)</a> <!--view--> shows an example of the markup in a view frame for our Bake-A-Cake enterprise.  
+The idea here is something like an online form with radio buttons. 
+
+</p><p>
+
+<listingcaption>This view frame illustrates the use of markup to control emphasis and indicate widgets. In this case, the widgets are radio buttons</listingcaption> 
+<a name="view"/> 
+<pre class="EXAMPLE">
+View: Cake Menu.
+!! Bake-A-Cake Menu
+
+~ Please select the type of cake you want us to bake from the following choices. ~
+
+(1) Chocolate Cake (2) White Cake (3) Carrot Cake (4) Sponge Cake
+
+Use icing to spell out: [cake message category].
+
+     [A] Deliver to my premise at: [user's address]
+     
+. (1) ==> Goal: Bake a cake according to the chocolate-cake recipe.
+. (2) ==> Goal: Bake a cake according to the white-cake recipe.
+. (3) ==> Goal: Bake a cake according to the carrot-cake recipe.
+. (4) ==> Goal: Bake a cake according to the sponge-cake recipe.
+. [A] ==> Runner: Deliver the cake to [user's address].
+. (The cake message category includes "nothing.")
+
+</pre> 
+
+</p><p>
+
+If the view in Listing <a href="#view">(above)</a> <!--view--> is rendered as HTML, 
+the user will see a second-level heading with the words "Bake-A-Cake Menu," 
+followed by the advice "Please select the type of cake..." 
+in italics 
+and a set of four radio buttons with labels.
+Below the radio buttons, the user will see a checkbox and an address provided in a previous conversation.
+The two exclamation points in front of the first line indicate a second-level heading.
+A tilde (wavy dash) on each side of the advice signals italic font.
+Parentheses enclosing a single character indicate a radio button.
+The pattern "(1) Chocolate Cake" indicates radio-button number one
+with the label "Chocolate Cake."
+The lines that begin with dots (periods) indicate instructions to the system.
+In this case, the instructions map each radio button to a different goal statement.  
+Square brackets enclosing a single character indicate a checkbox.
+Square brackets enclosing the identifier for an attribute indicate that the value of the attribute will be substituted when the frame is rendered.
+If the attribute names a category, a select widget (example: a pull-down list)
+will be rendered instead of a text-box widget.
+If the attribute names an entity,
+ the attributes of the entity will be listed as pairs of labels and text boxes 
+ inside a group box.
+ 
+ </p><p>
+ 
+I have to admit that the view markup,
+in its own way,
+is just as esoteric as HTML.
+I would argue that it is less intrusive
+and closer to achieving WYSIWYG (What You See Is What You Get)
+than HTML or LaTex. 
+I wanted a markup notation that is concise, almost predictable,
+and with a minimal effect on the text shown the user. 
+But <i>natural language</i> and <i>markup</i> are contradictory terms. 
+
+</p><p>
+
+
+ <!-- ............................................... -->
+<h3>Short-Term Memory, Long-Term Memory</h3>
+
+</p><p>
+
+We need a design that enables our systemÕs short-term and long-term memory to operate automatically with minimal programmer direction 
+and without intruding itself into descriptions of the business process.  
+We want program statements to be about business processing, not data processing.  
+
+</p><p>
+
+Each work-in-progress session has a <i>whiteboard</i> 
+where it keeps a dictionary of noun-value pairs
+to track the values that have been assigned to the nouns
+in the statements that are to be executed during the <i>session</i>.
+A session may be a <i>goal session</i>, an <i>action session</i>, 
+or a <i>dialog session</i>.
+The system maintains the whiteboard for the duration of the session.
+The whiteboard provides a kind of short-term memory.  
+
+</p><p>
+
+Note that <i>short-term</i> versus <i>long-term</i> is relative. 
+Sessions may be long-running.
+A work order can be in progress for weeks or even months at a time.
+Also, a dialog session may last a very long time
+if we want the application's Speaker to provide a sense of continuity.
+
+</p><p>
+
+A <i>world-base</i>, 
+a kind of 
+temporal database
+<a href="#TemporalDatabase">[_]</a><a href="#Date2002">[_]</a>, 
+provides the system's long-term memory.
+In business programming, a world-base will generally belong to a corporation.
+In that sense, it represents a corporate memory.
+However, it may belong to any kind of community,
+or it may belong to a simulated world.
+When we run a simulation, 
+a world-base records events that occur in the simulated world.
+Obviously, we want to keep the real-world data separate from the simulated-world's data.
+We might copy some part of the real-world data into the simulated world
+and then set the simulation running with the start of the simulation set 
+to an appropriate date and time.
+
+</p><p>
+
+When all actions in a task frame run to completion,
+the post-condition in the task frame has, by definition, come true. 
+This is a business event worth recording.
+We populate the post-condition statement with noun-values 
+and send it to the world-base "for the record."  
+
+</p><p>
+
+An <i>entity</i> is a uniquely identifiable thing in the world.
+When we instantiate an entity or provide a value for any of its attributes,
+the whiteboard will detect the change
+and send a message about it to the world-base.
+The message records the change and the context of the change.
+The logical data structure looks like this 4-tuple:<br>
+<!--verb|  (entity, attribute: value, w5) |
+<br> in which the "w5" refers to the context of the change 
+in terms of the journalist's five questions:<br>
+<!--verb|  (w5: who, what, where, when, why)|
+<br>The five questions are assigned these meanings:
+ <!--begin<!--itemize-->
+ <!--item who: data source (user or client identifier) 
+ <!--item what: statement causing the change 
+ <!--item where: the identifier for the actor mediating the change 
+ <!--item when:  UTC   <a name="#UTC"/>   (Universal Time Coordinated) 
+ <!--item why: job ticket 
+ <!--end<!--itemize
+
+ <br> <!--verb|-----|
+<br> <!--verb|  who: |data source (user or client identifier) 
+<br>  <!--verb| what: |statement causing the change 
+<br> <!--verb|where: |the identifier for the actor mediating the change 
+<br> <!--verb| when: |UTC (Universal Time Coordinated) <a name="#UTC-->
+<br> <!--verb|  why: |job ticket 
+ <br> <!--verb|-----|
+<br>
+-->
+</p><p>
+
+Our strategy for the persistence layer is simple. 
+We record everything as it occurs and decide what to purge later.
+This strategy allows us to almost completely remove the usual database
+tasks from the business programmer's workload.
+The question changes from "What should we record?" to "What should we purge?"  
+
+</p><p>
+
+Corporations and government agencies have record-retention policies.
+These policies will define 
+which items recorded in the world-base should be purged and when.
+Because the world-base is a temporal database,
+ it will be a relatively simple thing 
+it will be a relatively straight-forward matter 
+to purge business event records and outdated attribute values
+based on their type and age.
+
+</p><p>
+
+<h3>Summary</h3>
+
+</p><p>
+
+This set of coordinated notations constitutes a programming language.
+The business vocabulary built into the language makes the language rich.
+The run-time system is designed to properly reflect the fact that a business process
+is carried out by communities of actors. 
+      collaborating to meet mutual goals.
+
+</p><p>
+
+
+ <!-- ............................................... -->
+<h2>Opportunities</h2>
+ <!-- ............................................... -->
+
+</p><p>
+<!-- .................................................................... -->
+
+<h3>Development Environment</h3>  
+I have implemented all the code for the Hum project in Smalltalk.
+Currently, I use the 
+Squeak Smalltalk
+<a href="#Squeak">[_]</a>
+system.
+However, I have had no success with the GUI (Graphic User Interface) frameworks
+in Squeak.
+I think I will try 
+VisualWorks
+<a href="#VisualWorks">[_]</a> 
+IDE (Interactive Development Environment)
+from 
+Cincom
+<a href="#Cincom">[_]</a> 
+for the user interface in the Programmer's Assistant
+and Speakers (user-dialog actors) implemented in Smalltalk.
+I am looking forward to the day 
+when the 
+Croquet Consortium
+<a href="#Croquet">[_]</a> 
+produces a more stable and usable API
+that might be used for virtual-world interfaces.     
+
+</p><p>
+<!-- .................................................................... -->
+
+<h3>Run-Time Framework</h3>   
+The current implementation is primarily a test bed.
+I create simple programs as tests and run them in a simulator.
+I find it quite difficult to debug concurrent processes 
+running inside a single Squeak image.
+It would be much easier to debug concurrent processes
+where each actor has its own image.
+Each actor would then be running on top of a kind of application server.
+The 
+Swazoo
+<a href="#Swazoo">[_]</a>
+framework might provide a reasonable base for a distributed actor architecture.
+
+</p><p>
+
+I am also considering the 
+Erlang
+<a href="#Erlang">[_]</a>
+architecture for the distributed run-time system
+because it solves a number of problems right out of the box.   
+However, adding another language is likely to create a large number of problems.
+Indeed, it may create more problems than it solves.
+
+</p><p>
+<!-- .................................................................... -->
+
+<h3>Multiplayer Games</h3>   
+
+</p><p>
+
+Although the frame notations were designed for business programming,
+they can be adapted to multiplayer games.
+My rationale is that business life is a kind of multiplayer game.
+The goals, scoring, and moves in business are, of course,
+different and require much longer attention spans.
+One of the technological differences 
+is that a modern multiplayer game requires a landscape    
+(a scene graph <a href="#SceneGraph">[_]</a>)
+and the means to render it at run-time in real time.
+
+</p><p>
+<!-- .................................................................... -->
+
+<h3>Record-Retention Policy</h3>  
+
+</p><p>
+
+The "Persist Everything" strategy replaces the question of  
+"What should we record? and when?" 
+with "What should we purge? and when?"
+In a business context, organizations have record-retention policies.
+Record-retention policies might be expressed using 
+a notation in a configuration file on the world-base.
+I cannot say that I have given this  record-retention notation a lot of thought.
+In my experience, most organizations use relatively simple
+policies that they apply to very general categories of data.
+For example, financial journals may be retained for seven years.
+Asset data may be retained for the life of the asset.   
+
+</p><p>
+<!-- .................................................................... -->
+
+<h3>Voice Technology</h3>  
+
+</p><p>
+
+Recall that the Speaker is the "voice" of the system
+and the Scribe is the "voice" of the user.  
+The current implementation simply displays prompts on the screen 
+and takes input from the keyboard.
+The Speaker and Scribe (user-interface actors) 
+will eventually use text-to-voice and voice-to-text technologies.
+The expected user patterns that are documented in dialog frames
+might be used by a voice-to-text technology 
+to disambiguate voice input.
+
+</p><p>
+
+Our notations allow most statements to be written in a natural language.
+That means that one could, in theory, dictate the program to a kind 
+of robot stenographer.  
+
+</p><p>
+<!-- .................................................................... -->
+
+<h3>Collaboration</h3>
+
+</p><p>
+
+All these technological opportunities are potentially moot
+because a language without an active community is irrelevant.
+We need social technology in addition to our software technology.
+To make the thing we are programming more intelligent,
+we need simple and effective means for the community to add intelligence
+to a community knowledge-base.
+That means that we need social systems, not just software systems<a href="#Bazaar">[_]</a>.
+
+</p><p>
+
+Consider the question of source code control.
+What is the appropriate unit for check-out and check-in?
+The most obvious choice would be the role-action frame (or frame set).
+A less obvious choice would be a subtree of the task frames.
+
+</p><p>
+
+We also need some strategy for merging dictionary frames.
+The community needs something like the expertise that the Cyc project deploys when merging ontologies<a href="#Cyc">[_]</a>.
+ While Cyc and OpenCyc provide something resembling a comprehensive thesaurus,
+ our business systems need operational definitions.
+Anyone who has served on a standards committee will testify that
+definitions, even operational definitions, are surprisingly hard to coordinate.
+
+</p><p>
+
+While a source repository, wiki, and blog may be essential facilities,
+the governance framework is actually more important.
+Linux, Python, GNU, Apache, Mozilla, Cyc, and Java 
+are all successful community projects.
+Each one has a slightly different charter and governance structure.
+Which model would be the best?
+I leave that as an open question. 
+
+</p><p>
+
+<!-- .................................................................... -->
+<h2>Acknowledgements</h2>
+
+</p><p>
+
+This paper would not be the same without the advice and help of
+my sister and editor Jeanette Green.
+She has done what she could  
+to teach me to write in a less clunky style.  
+
+</p><p>
+
+Smalltalk
+<a href="#Smalltalk">[_]</a>
+architecture
+strongly influenced the overall concept of the system.
+The 
+"Design Principles Behind Smalltalk"
+<a href="#SmalltalkArchitecture">[_]</a> 
+article by Dan Ingalls
+showed me that the persistence problem
+was an artifact of the unit-record paradigm.
+I have been studying and experimenting with automated persistence ever since.    
+
+</p><p>
+
+Ideas behind the task frames come from state-transition diagram techniques
+and an analysis technique called "disassembly."
+The task-frame implementation owes a little something to 
+Prolog
+<a href="#Prolog">[_]</a> 
+although there is no "cut," and the back-chaining idea
+is probably ancient.
+
+</p><p>
+
+James Martin's 
+Action Diagram
+<a href="#ActionDiagram">[_]</a>   
+notation 
+probably had the largest influence on the 
+notation used in action frames.	
+Of course, COBOL was the first mainstream language 
+with statements that resemble written English.
+Once upon a time, I used a preprocessor called Flex 
+(very similar to 
+RatFor
+<a href="#RatFor">[_]</a>  
+)
+that had a similar syntax for defining procedures and sub-procedures.
+
+</p><p>
+
+After studying several parsers and implementing one based 
+on 
+BNF
+<a href="#BNF">[_]</a>   
+notation,
+I decided that this kind of thing was potentially counterproductive,
+because natural language does not work that way.
+But the frame notation does include domain-specific language here and there, 
+and some type of pattern recognition
+is needed to make that work.
+So far, I have made do with hand-coded parsers.      
+
+</p><p>
+
+The whiteboard concept used for short-term memory
+is similar to the blackboard 
+employed in the 
+OPS5
+<a href="#OPS5">[_]</a>  
+expert system,
+except there are no data triggers running frames.
+The whiteboard's persistence mechanism runs from a data trigger.
+But persistence is meant to be hidden from the program and programmer.
+I updated the term <i>blackboard</i> to <i>whiteboard</i> recently
+when I realized that we rarely see blackboards and chalk today.   
+
+</p><p>
+
+The 
+Cougaar Project
+<a href="#cougaar">[_]</a> 
+influenced some bits of my 
+actor-oriented architecture.
+Marvin Minsky proposed the basic concepts in his book
+<i>Society of Mind</i>
+<a href="#Minsky">[_]</a>. 
+
+</p><p>
+
+James Martin's 
+Action Diagram notation 
+<a href="#ActionDiagram">[_]</a> 
+also influenced my ideas about how procedural statements
+should interact with data definitions.
+I am often tempted to build a code generator
+similar to those that translated Action language to COBOL and C.
+But there is good reason to believe that the presence of a code generator
+would actually be counterproductive.
+My experience with code generators leads me to say
+that you're too likely to end up with "the tail wagging the dog"
+when you go that route.       
+
+</p><p>
+
+Dictionary frames have their roots in 
+entity relationship analysis <a href="#Chen">[_]</a>  
+and object-oriented analysis.
+Nouns are mapped to entities and attributes.
+Nouns may also be defined in terms of their supertypes.
+<i>Object-Oriented Systems Analysis: Modeling the World in Data</i>
+<a href="#EntityBook">[_]</a>   
+by Sally Shlaer and Stephen Mellor provides an excellent tutorial and method.
+Also, their book  
+<i>Object Lifecycles: Modeling the World in States</i>
+<a href="#StatesBook">[_]</a>  
+is the probable source of my ideas about 
+when to record business events in the world-base.
+
+</p><p>
+
+I have only recently read 
+<i>Programming Erlang: Software for a Concurrent World</i>
+<a href="#Erlang">[_]</a> 
+by Joe Armstrong.
+My design for the run-time system was already well-established before I learned Erlang.
+But I think that evolution of the run-time system will be strongly influenced
+by the Erlang architecture.
+The 
+Mnesia
+<a href="#Mnesia">[_]</a> 
+database system contains many valuable ideas 
+for implementing the world-base and whiteboard systems.  
+
+</p><p>
+
+The dialog-frame notation is adapted from the AIML notation.
+I have hopes of integrating the 
+OpenCyc
+<a href="#OpenCyc">[_]</a> 
+technology
+so that the Speaker, implemented as a chat-bot,
+might be more versatile.
+
+</p><p>
+
+I examined a number of wiki notations, 
+hoping to find an emerging standard that would be compatible.
+But the view-frame markup borrows from several wiki markup notations
+and adds a set of additional ideas 
+so that all the usual widgets in HTML
+and other electronic-form interfaces would be accommodated. 
+I think that the  
+JSPWiki
+<a href="#JSPWIKI">[_]</a> 
+markup notation 
+had the largest influence on my choice
+of markup styles.       
+
+</p><p>
+
+Data frames support data hierarchy and are partially self-descriptive.
+While this structure is similar to XML,
+those ideas preceded XML by decades.
+Those concepts occur repeatedly in the early literature on electronic bibliographies.
+Using indentation to indicate hierarchy comes 
+from the outline style one learns in basic writing courses.
+
+</p><p>
+
+
+The run-time system is designed to properly reflect the fact that a business process
+is carried out by communities of actors collaborating to meet mutual goals.
+<i>SOA (service-oriented architecture)</i>    
+has the same intent.
+But most of the existing approaches to SOA show a paradigm lag
+because they continue to express the actor interfaces
+as hand-built data-processing channels.
+
+</p><p>
+
+None of the ideas in the frame notations are original or unique.
+The invention consists of a synthesis of these ideas into a set of coordinated notations.
+This set of coordinated notations constitutes a programming language.
+The business vocabulary built into the language makes the language rich.
+
+</p><p>
+
+I have not attempted to explain all of the language and framework features in this article.
+That would require a short book.
+The short book is, of course, online. 
+See <a href="#SimpleEnglishOnline">[_]</a>.
+
+</p><p>
+
+<!-- .................................................................... -->
+<hr>
+<h2>Links and References</h2>
+<h3>Links</h3>
+<ul type="SQUARE">
+
+<li><a name="AgentArchitecture"/>
+    <a href="http://www.jamesodell.com/publications.html">
+      Agent Papers and Publications
+    </a>—papers by James Odell discussing agent-oriented architectures.
+    </li>
+
+<li><a name="AIML"/>
+    <a href="http://www.alicebot.org/aiml.html">
+      AIML: Artificial Intelligence Markup Language
+    </a></li>    
+
+<li><a name="BNF"/>
+    <a href="http://en.wikipedia.org/wiki/Backus–Naur_form">
+      Backus–Naur Form—Wikipedia, the free encyclopedia
+    </a></li>
+
+<li><a name="chat-bot"/>
+    <a href="http://en.wikipedia.org/wiki/Chat_bot">
+      Chatterbot
+From Wikipedia, the free encyclopedia
+    </a>
+    <br>chat-bot is a contraction of "chatterbot"
+    </li>  
+
+<li><a name="Cincom"/>
+    <a href="http://www.cincom.com/">
+      Cincom Systems, Inc. (website)
+    </a></li>      
+    
+    
+<li><a name="Cougaar"/>
+    <a href="http://cougaar.org/">
+      Cougaar Project website
+    </a></li>
+
+
+<li><a name="Croquet"/>
+    <a href="http://www.opencroquet.org/index.php/Main_Page">
+      Main Page—The Croquet Consortium
+    </a></li>    
+    
+ <li><a name="JSPWIKI"/>
+    <a href="http://www.jspwiki.org/wiki/TextFormattingRules">
+      JSP Wiki : Text Formatting Rules
+    </a></li>
+    
+    
+<li><a name="OpenCyc"/>
+    <a href="http://www.opencyc.org/">
+      OpenCyc.org
+    </a>
+    <br>See also, <a href="http://en.wikipedia.org/wiki/Cyc">
+      Cyc—Wikipedia, the free encyclopedia 
+    </a>   
+    </li>
+
+<li><a name="Mnesia"/>
+    <a href="http://www.erlang.org/doc/apps/mnesia/index.html">
+      Mnesia Reference Manual
+    </a></li>
+    
+<li><a name="Prolog"/>
+    <a href="http://en.wikipedia.org/wiki/Prolog">
+      Prolog—Wikipedia, the free encyclopedia
+    </a></li>
+
+<li><a name="Quotations"/>
+    <a href="http://www.quotationspage.com/quote/1423.html"> 
+      The Quotations Page 
+    </a></li>
+    
+<li><a name="RatFor"/>
+    <a href="http://en.wikipedia.org/wiki/Ratfor">
+      Ratfor—Wikipedia, the free encyclopedia
+    </a></li>
+    
+<li><a name="SceneGraph"/>
+    <a href="http://en.wikipedia.org/wiki/Scene_graph">
+      Scene graph—Wikipedia, the free encyclopedia
+    </a></li>
+    
+
+<li><a name="TemporalDatabase"/>
+    <a href="http://en.wikipedia.org/wiki/Temporal_database">
+      Temporal Database—Wikipedia, the free encyclopedia
+    </a>
+    </li>    
+   
+<li><a name="Squeak"/>
+    <a href="http://www.squeak.org/">
+      Squeak Smalltalk
+    </a></li>    
+    
+<li><a name="Swazoo"/>
+    <a href="http://www.swazoo.org/">
+      Swazoo Smalltalk Web Server
+    </a></li>    
+
+<li><a name="UTC"/>
+    <a href="http://en.wikipedia.org/wiki/Coordinated_Universal_Time">
+      Coordinated Universal Time—Wikipedia, the free encyclopedia
+    </a></li>
+    
+<li><a name="VisualWorks"/>
+    <a href="http://en.wikipedia.org/wiki/VisualWorks">
+      VisualWorks—Wikipedia, the free encyclopedia
+    </a></li>
+    
+        
+</ul>
+<!-- .................................................................... -->
+
+<h3>References</h3>
+<!-- Alphbetic by author's last name -->
+<!-- See: http://library.osu.edu/sites/guides/chicagogd.php style guide -->
+<ul type="SQUARE">
+<li><a name="Erlang">
+    <author>Armstrong, Joe</author>.
+    <date>(2007)</date>.
+    <br><btitle>Programming Erlang—Software for a Concurrent World</btitle>.
+    <br><pub>Pragmatic Bookshelf</pub>.</li>
+<li><a name="OPS5">
+    <author>Brownston, Lee with R. Farrell and Elaine Kant</author>.
+    <date>(1985)</date>.
+    <br><btitle>Programming Expert Systems in Ops5: An Introduction to Rule-Based Programming</btitle>.
+    <br><pub>The Addison-Wesley series in artificial intelligence</pub>.</li>
+<li><a name="Chen">
+    <author>Chen, Peter Pin-shan</author>.
+    <date>(1976)</date>.
+    <br><btitle>The Entity-Relationship Model: Toward a Unified View of Data</btitle>.
+    <br><pub>ACM Transactions on Database Systems</pub>.    
+    </li>
+<li><a name="Date2002">
+    <author>Date, C.J. and Hugh Darwen, Nikos A. Lorentzos</author>.
+    <date>(2002)</date>.
+    <br><btitle>Temporal Data and the Relational Model:
+                 <br>A Detailed Investigation into the Application of Interval and Relation Theory to the Problem of Temporal Database Management
+    </btitle>.
+    <br><pub>Morgan Kaufmann Publishers</pub>.</li>
+<li><a name="Smalltalk">
+    <author>Goldberg, Adele and David Robson</author>.
+    <date>(1989)</date>.
+    <br><btitle>Smalltalk 80: The Language</btitle>.
+    <br><pub>Addison-Wesley Series in Computer Science</pub>.</li>
+<li><a name="SmalltalkArchitecture">
+    <author>Ingalls, Dan</author>.
+    <date>(1981)</date>.
+    <br><btitle>Design Principles Behind Smalltalk</btitle>.
+    <br><pub>BYTE August 1981 Special Issue on Smalltalk</pub>.</li>
+<li><a name="ActionDiagram">
+    <author>Martin, James</author>.
+    <date>(1985)</date>.
+    <br><btitle>Action Diagrams: Clearly Structured Program Design</btitle>.
+    <br><pub>Prentice Hall</pub>.</li>
+<li><a name="Minsky">
+    <author>Minsky, Marvin </author>.
+    <date>(1988)</date>.
+    <br><btitle>The Society of Mind</btitle>.
+    <br><pub>Simon and Schuster, New York</pub>.</li>
+<li><a name="OMG">
+    <author>Odell, James (editor)</author>.
+    <date>(2000)</date>.
+    <br><btitle>Agent Technology Green Paper, Version 1.0</btitle>.
+    <br><pub>Agent Working Group OMG Document</pub>.</li>
+<li><a name="EntityBook">
+    <author>Shlaer, Sally and Stephen Mellor</author>.
+    <date>(1988)</date>.
+    <br><btitle>Object-Oriented Systems Analysis: Modeling the World in Data </btitle>.
+    <br><pub>Yourdon Press Computing Series</pub>.</li>
+<li><a name="StatesBook">
+    <author>Shlaer, Sally and Stephen Mellor</author>.
+    <date>(1991)</date>.
+    <br><btitle>Object Lifecycles: Modeling the World in States</btitle>.
+    <br><pub>Yourdon Press Computing Series</pub>.</li>
+
+</ul>
+<!-- .................................................................... -->
+<hr>
+<h2>Appendix</h2>
+<p class="AUTHOR"> 
+  This appendix will not appear in the ESUG paper.
+  It is mainly a vehicle for thinking out loud.
+</p>
+<!-- .................................................................... -->
+
+<h3>Future Features (To-Do List)</h3>
+<ul>
+   <li>Programmer's Assistant
+      <ul>
+         <li>Smart editor
+           <ul>
+              <li><FONT COLOR="BLUE">Bootstrap: Role action frame.</FONT></li>
+              <li>Provide a template for each type of frame.</li>
+              <li>Color code and hyperlink as each statement is completed.</li>
+              <li>Notify views and code critic as each statement is completed.</li>
+              <li>Automatically indent after a colon.</li>
+              <li>Check pattern-match where DSL (domain specific language) is expected.
+                  <br>Nag via nag-window (optional text-to-voice).
+                  <br>It would be fun to give the assistant a personality.
+                 <ul>
+                    <li>Dictionary-frame statements</li>
+                    <li>Dialog-frame instructions</li>
+                    <li>View-frame instructions</li>
+                    <li>"For each", "If-else" in action frames</li>
+                    <li>Task-frame action statements ("role: action" pattern).</li>
+                 </ul>
+              </li>
+           </ul>
+         </li>
+         <li>Views
+           <ul>
+              <li><FONT COLOR="BLUE">Bootstrap: Role action frame.</FONT></li>
+              <li>Color code and hyperlink statements and nouns. 
+             <br>Identify undefined statements. (preconditions, actions.)</li>
+              <li>Show plan tree in an optional window. 
+             (Identify undefined preconditions.)</li>
+              <li>Provide mouse-over action or magnifier in plan tree.</li>
+              <li>Show rendering of view frame in an optional window.</li>
+              <li>Show actor relations (who calls who) diagram 
+                  in an optional window.</li>
+
+              <li></li>
+           </ul>
+         </li> 
+         <li>Code critic
+            <ul>
+               <li><FONT COLOR="BLUE">Bootstrap: Role action frame.</FONT></li>
+               <li>Identify data-flow questions. (missing input.)</li>
+               <li>Suggest near-match statement that might be intended.</li>
+               <li>Nag when a procedure looks overly long.</li>
+               <li>Warn when task frame has more than one action statement.</li>
+            </ul>
+         </li>    
+       </ul>
+   </li>
+   <li>Collaboration
+       <ul>
+          <li>Check-out (Promise to edit a role's action frame. )</li>
+          <li>Check-in</li>
+          <li>Merge two ontologies. 
+              <br>Conversational <i>wizard</i> helps to resolve collisions 
+              and detect possible synonyms.)</li>
+       </ul>
+   </li>
+   <li>Speaker
+     <ul>
+        <li><FONT COLOR="BLUE">Bootstrap: Role action frame.</FONT></li>
+        <li>Clarify view-frame interaction. (Is the view frame a role?)
+            </li>
+        <li>Add vocabulary from OpenCyc (Cyc repository) . </li>
+        <li>Web-site chatterbot implementation.</li>
+        <li>Dialog via avatar in Second Life.</li>
+        <li>Dialog via avatar in Croquet. </li>
+     </ul>
+   </li>
+   <li>Scribe
+      <ul>
+         <li><FONT COLOR="BLUE">Bootstrap: Role action frame.</FONT></li>
+         <li>Correct user's spelling. (Ask: Did you mean ...?)</li>
+         <li>Integrate voice-to-text.</li>
+         <li></li>
+      </ul>
+   </li>
+   <li>Actor's Run-Time Framework
+     <ul>
+        <li>Standard configuration file/message.</li>
+        <li>Swazoo server.</li>
+        <li>Erlang server.</li>
+        <li>Standard Coordinator</li>
+        <li>Standard / Template Resource Manager</li>
+        <li>Data-gram adapter</li>
+     </ul>
+   </li>
+   <li>Code Generators
+     <ul>
+        <li><FONT COLOR="BLUE">Bootstrap: Role action frame.</FONT>  ???</li>
+        <li>Generate Smalltalk skeleton for actor actions.</li>
+        <li>Generate Java skeleton for actor actions.</li>
+        <li>Generate Erlang skeleton for actor actions.</li>
+        <li>Generate AIML equivalent for dialog frames.</li>
+        <li>Generate HTML form for view frame. (WIP)</li>
+        <li>Generate ActionScript (FLEX) for view frame.</li>
+        <li>Generate VisualWorks widgets for view frame.</li>
+     </ul> 
+   </li>
+   <li>Bookkeeper
+     <ul>
+        <li><FONT COLOR="BLUE">Bootstrap: Role action frame.</FONT></li>
+        <li>Fancy display for resource usage by
+              resource type, goal, action, job, location, pool.
+        </li>
+        <li>Static pricing: (Data frame for price by resource type.)</li>
+        <li>Inventory (LIFO, FIFO, ...) pricing.</li>
+     </ul> 
+   </li>
+   <li>Resource Managers
+      <ul>
+        <li><FONT COLOR="BLUE">Bootstrap: Role action frame.</FONT></li>
+        <li>Initialize an inventory. (a standard data format)</li>
+        <li>Dispatch based on bidding. (requires a protocol)</li>
+        <li>Simple re-order point. (Supplier role actions.)</li>
+     </ul>
+   </li>
+   <li>World Base
+       <ul>
+          <li><FONT COLOR="BLUE">Bootstrap: Role action frame.</FONT></li>
+          <li>Query</li>
+          <li>Purge</li>
+          <li>Distributed data—a la Mnesia</li>
+       </ul>
+   </li>
+   <li>Messenger
+     <ul>
+         <li><FONT COLOR="BLUE">Bootstrap: Role action frame.</FONT></li>
+         <li>Store and forward (when some actor is temporarily off-line).</li>
+         <li>Audit Trail
+            <ul>
+               <li>Put sent, received, returned, return-received time stamps 
+                   on the job ticket.</li>
+               <li>Record time stamps with action statement in the audit trail.
+                   </li>
+               <li>Configuration.
+               	   Note: The audit trail is independent of the world-base/s.
+                   (The Messenger may be connecting multiple "worlds.")
+                   </li>
+            </ul>
+         </li>
+         <li>Data-gram layer (optional for speed)</li>
+      </ul>
+   </li>
+   <li>Bootstrap engine
+     <ul>
+        <li>Add statement, frame, block, ... to the base vocabulary. ???
+            <br>Should this be general, or just in the IDE's base vocabulary.
+            <br>Does it make sense to have special-purpose base vocabularies?
+            <br>That idea probably belongs to actor's specialized vocabulary. 
+            </li>
+        <li>Write up the bootstrap strategy.</li>
+        <li>Build bootstrap code-generator. (frame to Smalltalk)</li>
+     </ul>
+   </li>
+   <li>Simulator
+     <ul>
+        <li><FONT COLOR="BLUE">Bootstrap: Role action frames.</FONT></li>
+        <li>Enable concurrent actions.</li>
+        <li>Data generator.</li>
+        <li></li>
+     </ul>
+   </li>
+   <li></li>
+   <li></li>
+   <li></li>
+   <li></li>
+   <li></li>
+   <li></li>
+   <li></li>
+   <li></li>
+   <li></li>
+   <li></li>
+   <li></li>
+   <li></li>
+   <li></li>
+</ul>
+
+</body>
+</html>

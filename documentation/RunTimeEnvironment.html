@@ -1,0 +1,94 @@
+<html>
+<head>
+  <title>Run Time Environments </title>
+    <link href="styles.css" rel=STYLESHEET TYPE="text/css">
+</head>
+<body>
+<h2>Run Time Environment</h2>
+<!-- ........................................................................ -->
+<h3>The nature of plans</h3>
+<p> A <b>plan</b> is a collection of <b>task frames</b> 
+that provide a solution to a <b>goal</b>. 
+The goal is defined by a goal-statement that matches a post-condition in a task frame in some <b>ontology</b>. A plan is instantiated from an <b>ontology</b> that contains the needed frames
+by back-chaining from the task that achieves the end-goal through all of the prerequisite tasks.<br/>
+<br/> &nbsp;&nbsp;&nbsp;<code>Plan fromOntology: o1 onGoalStatement: goalStmt.</code></p>
+<p> Sometimes a plan cannot run until certain pre-conditions are satisfied.The external environment informs the plan of such conditions by invoking <code>... signalCondition: ...</code><br/>For example:<br/> &nbsp;&nbsp;&nbsp;<code>plan signalCondition: 'Customer is at front of order-entry-queue.'.</code></p>
+<p> One checks to see if a plan is able to run by invoking
+ &nbsp; <code>plan isRunnable.</code></p>
+<!-- ........................................................................ -->
+<h3>Helpers</h3>
+<p> One runs a plan by invoking 
+ &nbsp; <code>plan run.</code></p>
+<p>A plan has helpers. Those helpers include:
+<ul>
+   <li>An <b>ontology</b> provides task frames, action frames, dictionary frames,
+   view frames, and dialog frames.
+   <br/>These frames define the meaning of the statements in the plan.
+   The plan itself is made up of a "tree" of task frames.
+   Task frames reference action frames. 
+   All statements contain nouns that are defined in dictionary frames.
+   The system depends on the dictionary frames to identify nouns and data types.   View frames and dialog frames define the user interface.       </li>
+   <li>A <b>blackboard</b> provides the data that a plan requires.   <br/>Basically, each actor has a blackboard
+   which acts as a temporary memory during the execution of a goal or action.
+   A blackboard has a world-base attached.
+   When a data value is needed,
+    the blackboard will first query the <b>world-base</b>.
+   If the world-base does not have a value, the blackboard will query the user.      </li>
+   <li>A <b>world-base</b> is a temporal database attached to one or more 
+   operating environments.
+   </b>
+   The world-base acts as the long term memory for a confideration of actors.
+   The basic idea is that the confideration is acting in the context 
+   of a real or imagined world.
+      </li>
+   <li>
+   A <b>dialog actor</b> (DialogActor) may query users (clients) for needed data values.   <br/>Note: If a simulation is running, the user is a simulated entity.
+   In that case, the simulated user will provide values from some distribution.   Generally, the needed data values are defined in View frames in the ontology.      </li>
+   <li>A <b>resource manager</b> (ResourcePool) assigns actors to perform the instructions found in Role frames.
+   <li>An <b>actor</b> may ask the blackboard for data values that it needs.
+   <br/>In general, an actor is passed the values it needs to perform a request.
+   However, if needed data is not passed with the request, 
+   an actor can ask the requestor for needed data items.       </li>
+</ul></p>
+<!-- ........................................................................ -->
+<h3>Environment</h3>
+<p> A plan executes in an environment. The environment includes:
+<ul>
+   <li>The Goal - The plan is derived from the goal.</li>
+   <li>The Resource Manager - and the resources that the resource manager controls.</li>
+   <li>The Ontology - which defines the entire basis of the plan.</li>
+   <li>The Speaker - which operates the channel for communication with the client-user (or a simulated user).</li>
+   <li>The World State - remembers the current state of all the entities in the world including all the state of all the blackboards and work-in-process (running plans).</li>
+   <li>The Bookkeeper - the bookkeeper records the durations 
+       and resource usage for the plans that are run in the environment.
+       (For modularity, the Bookkeeper's data-store
+          is separate from the World State.)
+       </li>
+   <li>One or more <b>goal generators</b>.
+       The real-world or virtual world connection generates goals.
+       Plans are derived from the goals.
+       The plans are executed in the run-time environment (a kind of work-flow engine).
+       Results are recorded in the by the World State and Bookkeeper.
+       </li>
+</ul></p>
+<!-- ........................................................................ -->
+<h3>How are goals generated?</h3>
+<p> 
+Different kinds of environments generate goals in different ways.
+The <b>goal generator</b> depends on the nature of the environment: simulation, real-world, or game.
+</p><p> If the environment is a <b>simulation</b>, 
+ the Simulator will drive the environment.<br/>The Simulator will generate goals and plans and then execute the plans in the simulated environment.The Simulator needs some specification that defines the generation of goals.
+Some kind of schedule or event-generation specification is required.
+A schedule could be a simple list of times and goals.
+A event-generation specification could be a set of goals with the distribution of arrival times broken down by calendar days and hours.
+The event-generation specification could generate a schedule.
+The schedule could then be examined and re-run if needed.</p><p> It the environment is a <b>real-world environment</b>, 
+  some connection to the real-world is required.<br/>For example, if the business process is operating on a web site, 
+  the Speaker will need to operate the dialog frames via the web.The dialog frames may then lead to a goal which defines a plan to execute.When the plan needs user-provided data at for initialization, 
+  the Speaker will ask the on-line user.When the plan completes, 
+  the Speaker will inform the user (on-line or via e-mail).The Speaker resembles a web servlet in this context.The plan's run-time environment resembles a work-flow engine.(Multiple plans may be operating simultaneously 
+     and plans may be long-running processes.)</p><p> If the environment is a <b>game</b>, 
+  the situation  resembles a combination of real-world and simulation.<br/>The environment needs a connection to the gamers. It also needs to generate events related to the simulated world of the game.
+Those events could be generated by schedulers or by "sensors" that detect the actions of the gamers in the virtual world of the game.</p><p> </p>
+</body>
+</html>

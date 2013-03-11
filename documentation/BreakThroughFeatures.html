@@ -1,0 +1,433 @@
+<html>
+<head>
+  <title>Break Through Features in Hum  </title>
+  <link href="styles.css" rel=STYLESHEET TYPE="text/css">
+
+</head>
+<body>
+<h2>Break-Through Features in Hum</h2>
+<p>
+  Innovation is often a matter of combining several well-known ideas
+    into a synergistic configuration.
+  All of the features that we mention below have probably been manifested
+    in other frameworks. 
+  We list them as break-through features, not because they are original,
+    but because they each have an important synergistic effect.
+</p>
+<p>		
+  The essential break-through of the Hum framework
+    is the fact that the system 
+    allows the programmer to focus their attention 
+	on capturing business process knowledge.
+  In older 3GL and 4GL frameworks,
+    the programmer is distracted by the mechanics of data processing.
+  In the Hum framework,
+	we eliminate as many distractions as possible.
+</p>  
+<p>
+  Here is a list of the features we believe to be most effective
+    in allowing the programmer to capture business process knowledge
+    quickly and in a ready-to-use form.
+</p>
+  
+<ul> 
+  <li><b>Natural Language Syntax</b>
+      <br/>Of course, the most visible feature of Hum
+			 is that the syntax of the programming language is very close 
+			 to the natural syntax of written English.
+		 The main effect of this feature is that modules are human-readable.
+		 The statements of the language are easy to type 
+           because they contain very few special characters.
+		 In fact, the statements can even be entered via verbal dictation.	 
+		 English-speaking programmers should be able to learn the notations 
+           quite quickly.
+		 <a href="#1">[more]</a>
+  </li>
+  <li><b>Natural Modules </b>
+  <br/>The task frames and role frames
+	     create high-level, readable descriptions.
+	   They are relatively natural modules for thinking out loud.
+		 <a href="#2">[more]</a>
+  </li>
+  <li><b>Semantics of Business and Other Multi-Person Games</b>
+      <br/>Most software applications are business applications.
+	      The Hum framework understands the fundamental semantics
+            of business processes.
+		  It contains built-in, well-integrated features for managing resources
+            of every type.
+		 The framework does most of the accounting needed in a business application
+           automatically and additional special accounting is easily added.	 	 
+		 <a href="#3">[more]</a>
+  </li>
+  <li><b>Real-Life Arithmetic</b>
+	  <br/>The framework does not warp real-life arithmetic
+			 into the limited system used by computers.
+		   The framework tracks the actual precision of its arithmetic
+              and does not produce spurious precision.
+		   It understands the nature of the numbers involved in the arithmetic
+		     because it knows
+             which are measures, which are counts, and which are probabilities.
+		 <a href="#4">[more]</a>
+  </li>
+  <li><b>Transparent Persistance </b>
+      <br/>Because persistance is managed by the system,
+             the programmers can focus their attention 
+			 on capturing business process knowledge.
+		   The system automatically assures that needed data is remembered,
+		     that statistics are maintained,
+		     that events are logged,
+		     that accounts are kept.	 
+		 <a href="#5">[more]</a>
+  </li>
+  <li><b>Simulation Is Built-In </b>
+      <br/>Actually running a process is a necessary part of discovering
+  	       what might be wrong with it.
+		   However, for initial validations of the knowledge capture 
+             or business process design, 
+			 it is sufficient to run the process in a simulated world.
+		   The team will very quickly discover many of the missing bits.
+		   Eventually, the process will have to be run in a lab setting
+             to assure that the instructions given to real-world actors
+			 are complete and correct.	 
+		 <a href="#6">[more]</a>
+  </li>
+  <li><b>Interfaces are Isolated </b>
+      <br/>The business process will involve a number of actors.
+	       When the actors are robots or sim-bots, the communication channel
+             is relatively simple (in computer terms).
+		   When the actors are humans a human-interface actor handles the channel.
+		   In either case, the interface is not part of the business process.
+		   It is handled separately.
+	 
+	       When a plan-tree is built from the task-frames,
+	         there will be a number of run-time parameters 
+			 in the plan.
+		   Some of these parameters can be provided by the environment,
+			 others will need to be provided by the client.
+	       <!-- And, so ...? -->
+		 <a href="#7">[more]</a>
+  </li>
+</ul>
+
+<a name="1"></a>
+<h3>Natural Language Syntax</h3>
+<p>
+  Of course, the most visible feature of Hum
+    is that the syntax of the programming language is very close 
+    to the natural syntax of written English.
+  The main effect of this feature is that modules are human-readable.
+  The statements of the language are easy to type 
+    because they contain very few special characters.
+  In fact, the statements can even be entered via verbal dictation.	 
+  English-speaking programmers should be able to learn the language quite quickly. 
+</p>
+<p>
+  We call the programming language "Hum";
+     and it is a dialect of written English.
+  While it has many of the features of natural language,
+    it is still an artificial language.
+  The syntax conventions are only slightly different from those found in written English.
+  But the rigid syntax and algebraic forms 
+  associated with computer programming languages
+  are absent.
+</p>
+<p>	
+  There are only a few statement types and a small number of key words 
+    and punctuation tricks.
+</p>
+  <p><b>Sentences:</b> 
+  Sentences end with a period. 
+  This is the same convention as written English.
+  If a statement is continued from line to line, 
+  the interpreter finds the end of the statement 
+  by looking for the terminating period.
+  Another convention is that each sentence starts on a separate line.
+  This convention is optional in many programming languages.
+  In Hum, it is manditory.
+  </p>
+  <p><b>Comments:</b> 
+  One punctuation trick is that comments are enclosed in parends.
+  (The convention of enclosing comments in parends is borrowed from written English.)
+  In general, comments are treated as white-space by the interpreters.
+  </p>
+  <p><b>Indentation:</b> 
+  The structure of Hum programs is indicated by indenting statements.
+  This is conceptually similar to the Python programming language.
+  The indentation indicates where statement-blocks (blocks of statements) begin and end.
+  A major difference is that indentation is created by typing periods at the left margin.
+  A recommended practice is to create indentation by typing period, space, period, space.
+  However, what matters to the interpreter is the number of periods preceeding the line.
+  This is probably the most visible feature of Hum programs.
+</p>
+
+<a name="2"></a>
+<h3>Natural Modules</h3>
+<p>
+  Statements in Hum are collected into "frames". 
+  The frames provide a way of "chunking" the process descriptions.
+  People working away from a computer 
+  may write the frames on index cards.
+</p>
+<p>
+  Task frames and role frames
+    create high-level, readable descriptions.
+  They are relatively natural modules for thinking out loud about processes.
+</p>
+<p>
+  Dialog frames and view frames use a simple mark-up notation to express ideas about document format. 
+  This wiki-like mark-up notation is the most esoteric of Hum notations.
+  Yet it is a far simpler notation than HTML, RTF, and XSLT.
+  We designed it to stay as close to written English conventions
+    and "what you see is close to what you get" as we could.
+</p>
+<p>
+   Data frames use a simple "name-value" notation to store data.
+   The structure of a data frame is hierarchic like XML but without the verbosity
+     and esoteric notation.
+   To be fair, XML is meant to serve many purposes, 
+   	while a data frame has only one purpose.  
+</p>
+<p>
+   In Hum, the "ontology" of a world
+     is defined as a collection of frames.  
+   The relative meaning of a word is defined in Dictionary frames.
+   Dictionary frames provide a way 
+     of advising how a word is related to other words.
+   The usage of a word is shown in the other frames 
+     where the word is used in statements. 
+   Task frames define the states and state-transitions in a system.
+   Role frames define the capablities of various roles.
+   Instructions define the interfaces 
+     between the system and the actors assigned to roles.  
+</p>
+
+
+<a name="3"></a>
+<h3>Semantics of Business and Other Multi-Person Games</h3>
+<p>
+  Most software applications are business applications.
+  The Hum framework understands the fundamental semantics
+    of business processes.
+  It contains built-in, well-integrated features for managing resources
+    of every type.
+  The framework does most of the accounting needed in a business application
+    automatically and additional special accounting is easily added.
+</p>
+<p>
+  The essence of business is staging and allocating a set of resources 
+  and adding value beyond the original cost of the resources.
+  Hum is a business system
+  and provides built-in mechanism for tracking, allocating, and accounting
+  for resources.
+</p>
+<p>
+  The steps in a business process are performed 
+  by actors assigned to roles.
+  These actors are resources and may be involved in the utilization and/or consumption
+  of other resources.
+  The system automatically keeps cost accounts and inventory accounts
+  as the steps are performed.
+</p>
+<p>
+  The system includes a integrated accounting system.
+  Additional accounting, 
+  beyond the cost and inventory accounting provided by the system,
+  may be added by adding task steps directed to the Book-Keeper role.
+</p>
+<p>
+    It is worth noting that this book-keeping function is also usable
+      in some multi-person games.
+    Cost-accounting can keep track of health and damage accounts.
+    Inventory accounting can keep track 
+      of the objects and qualities carried by a player. 
+</p>
+<a name="4"></a>
+<h3>Real-Life Arithmetic</h3>
+<p>
+  The framework does not attempt to warp real-life arithmetic
+    into the limited system used by computers.
+  The framework tracks the actual precision of its arithmetic
+    and does not produce spurious precision.
+  It understands the nature of the numbers given it because it knows
+    which are measures, which are counts, and which are probabilities.
+</p>
+<p>
+   To help you understand the problem with computer arithmetic,
+   allow me to pose a simple question:
+   "What is .111 times .20 and what is 111. times .20 ?
+   You know that .022 and 22. are the correct answers 
+   because the precision of the inputs constrains the precision of the outputs.
+   But a computer might tell you the answers 
+   are .02219999999999999 
+     and 22.1999999999999 respectively
+   - which is the decimal equivalent of the results it is holding 
+   internally in its binary equivalent of scientific floating-point format.
+</p>
+<p>
+   If you try to fix the problem by setting the decimal display format
+   to display two decimal places,
+   you would get .02 and 22.20 
+   - These answers may look better but they are still not correct.
+   The .02 is not correct because it truncates part of the data.
+   The 22.20 is not correct because it provides spurious precision.
+</p>
+<p>
+  The framework uses a variation on fixed-point arithmetic
+  and tracks the precisions of the inputs
+  to assure that the precision of the output is not over-stated.
+</p>
+
+<a name="5"></a>
+<h3>Transparent Persistance</h3>
+<p>
+  Because persistance is managed by the system,
+    programmers can focus their attention 
+    on capturing business process knowledge.
+  The system automatically assures that needed data is remembered,
+    that process metrics are collected,
+    that events are logged,
+    that accounts are kept.	 
+</p>
+<p class="AUTHOR"> 
+   Sometimes business people do not want records to be maintained indefinitely.
+   "Records Retention Rules" define when records should be deleted.
+   <br/>Q: Where and how might we enter records retention rules?
+   <br/>. To make that work we need to define a "type" of record.
+   <br/>. An event message signature is sufficient to define a type of record.
+          Also, an event has a specific date and so date-based rules make sense.
+   <br/>. Entity data could be deleted when some rule determines that the data
+            is probably no longer relevant.
+          For example, customer data might be irrelevant 
+            if the customer has not purchased anything for some duration of time.         
+</p>
+
+<a name="6"></a>
+<h3>Simulation Is Built-In</h3>
+<p>
+  Actually running a process is a necessary part of discovering
+    what is wrong with it.
+  However, for initial validations of the knowledge capture 
+    or process design, 
+    it is sufficient to run the process in a simulated world.
+  The test team will very quickly discover many of the missing bits.
+</p>
+<p>  
+  Eventually, the business process will have to be run in a lab or pilot setting
+    to assure that the instructions given to real-world actors
+    are complete and correct.	 
+  To faciliate this kind of testing,
+    the testers may configure the system so that some actors are simulated
+    while others are real-world actors.
+</p>
+<p>
+   This virtual world capability is very similar to the virtual world
+     seen in a multi-person game.
+   If you think about it, business is a kind of multi-person game.
+   The difference might be that the visual world of a game is a fantasy
+     while the visual world of a business is more or less real. 
+   Most of the computing cycles in games 
+     goes into creating a visualization of the fantasy world.     
+</p>
+
+<a name="7"></a>
+<h3>Interfaces Are Isolated</h3>
+<p class="AUTHOR"> 
+  This section has gotten a little mixed-up and needs to be re-written.
+  But it will serve for now.
+</p>
+
+<p>
+  Each business process will involve a number of actors.
+  When the actors are robots or sim-bots, the communication channel
+    is relatively simple (in computer terms).
+  When the actors are humans, a human-interface bot (Speaker) acts as an intermediary.
+  In either case, the interface is not part of the business process.
+  It is handled separately
+    and the details of the interface
+	will not clutter the description of the business process.
+</p>
+<p>  
+  When a plan-tree is built from task-frames,
+    there will be a number of run-time parameters 
+    in the plan.
+  (The parameters [variables] are identified by nouns 
+   which have yet to be assigned to specific instances)
+  Some of these parameters can be provided by the environment
+    from data already known to the system,
+    others will need to be provided by the client.
+  In a web environment, the user may be asked to "fill in the blanks"
+    on an HTML form. 
+  In a voice-response environment, 
+    an interactive question and answer session may provide the specifics needed. 
+</p>
+<p>
+  While Hum has the ability to simulate the operation
+    of a business process in a kind of virtual world,
+    the more important ability is to facilitate the operation
+    of a real-world business process.
+  The most important actors in a business process are the workers
+    and the clients. 
+  In the virtual world, these actors are simulated by sim-bots
+    and the interface between the Supervisor and the sim-bots
+	is relatively simple (for a computer).
+</p>
+<p>
+
+<p>	
+  <b>Human Interfaces:</b>
+  In the real world, many of the workers and clients of the business process
+    are human beings.
+  The business process needs to gather information from clients and workers.
+  It also needs to give instructions to the workers 
+    (and sometimes, to the clients).	  	 
+  These human-interface channels are handled by a human interface bot.
+  (The human-interface bot is an actor assigned the Speaker role)
+</p>
+<p>
+  The capabilities of the bot will be task specific.
+  In some implemenations, it may present a fill-in-the-blacks form to the human 
+    as a way of gathering data.
+  In other implementations, it may use text-to-voice or voice-to-text technology
+    to communicate with humans who are wearing head-sets.
+  When the interface system presents a virtual world, 
+    the bot might present as an avatar with a synthetic personality.
+</p>
+<!--
+<p>
+  <b>Speech Acts:</b>
+  Human interfaces typically involve specialized technologies and conventions.
+  Therefore, we expect that appropriate interface description langauges
+    will be used to create the human interfaces. 
+  While Hum might be extended 
+    to be used as an interface description language,
+    it is not obvious that this idea will produce the best notation.
+  The important thing is that a Hum run-time 
+    has the means to communicate
+    to a number of different types of human interface.
+  This is done using the concept of "speech acts."
+</p>  
+<p>Three types of speech are obviously needed:
+  <br />[1] A query asking a human to provide data.
+  <br />[2] A command asking a human to perform a specific task.
+  <br />[3] A report providing information to a human.	
+  <br />The human-interface actor is required to "understand" each of these types of speech.
+  In traditional programming terms, 
+    each type of speech corresponds 
+    to a different "method" or behavior of the human interface.
+</p>
+<p> 
+  The actual manifestation of each behavior will depend
+  on the nature of the presentation layer.
+  For example: 
+  In a web interface, 
+    the speech acts might be performed by presenting HTML forms.
+  In a voice interface,
+    the speech acts might be rendered by a voice response system.
+  In a virtual world, 
+    elaborate avatars (e.g. Alice bots) 
+    or other visual cues
+    might be used to convey information.
+</p>
+-->
+</body>
+</html>

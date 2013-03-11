@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+  <title>Security in Hum</title>
+  <link href="styles.css" rel=STYLESHEET TYPE="text/css">
+</head>
+<body>
+<h2>Security in Hum</h2>
+
+<h3>Enterprise Security</h3>
+  <p>
+  	Enterprise applications need to secure access to certain features.
+    A party[1] has to be authorized to request a service, control a robot, make a journal entry.
+    In Hum, <i>permits</i> may be required for various actions:
+    <ol>
+      <li>Task level: Define who can invoke a goal in a task frame.</li>
+      <li>Action level: Define who can invoke an action via a dialog.</li>
+      <li>View level: Define who may view the data in the view.</li>
+    </ol>
+  </p>
+  <p> 
+    To keep things simple, if no authorization constraint is declared,
+    then no authorization is required.
+  </p>
+  <p>[1] A party is a person, organization, or actor. 
+  </p>
+
+<h3>Authorization Annotation</h3>
+  <p> 
+    In the example below, 
+      we use an annotation to declare the authorization required
+      to perform the task: "Move customer to new-residence."
+    The annotation: "[Allow call-center.]"  means that actors operating 
+      with a call-center <i>permit</i> will be allowed to invoke this goal.
+  </p>
+  <p>Similarly, the action statement "Change to new-billing-address ..."
+       has the annotation: "[Allow call-center, self-service.]"
+       and that means that the action statement can be invoked
+       when an actor has 
+       <i>either</i> a call-center permit <i>or</i> a self-service permit.
+  </p>
+  <p>Finally, the annotation on the Customer-Address view 
+       indicates that an actor holding any one of three permits
+       is authorized to see a customer's address.
+  </p>
+
+<pre class="example">
+---
+Task: Move customer to new-residence. [Allow call-center.]
+. . .
+---
+Role: Billing. 
+Action: Change to new-billing-address. [Allow call-center, self-service.] 
+. for all the customer's customer-accounts. 
+. . . 
+---
+View: Customer-Address. [Allow call-center, self-service, field-operations.]
+. . . 
+---
+</pre>
+
+<h3>Authorization As Configuration Data</h3>
+  <p>In some programming frameworks,
+       the declaration of authorizations is separated 
+       from the definition of the program.  
+     This is done for two reasons: 
+     <ol type="1">
+       <li>The program may be run in more than one organization 
+            and therefore the permits will vary 
+            from organization to organization 
+            and should not be hard-coded into the program itself. </li>
+       <li>The permits can be changed without modifying the tested code. </li>
+     </ol>
+  </p>
+  <p>Hum supports this concept and keeps things simple.
+     The following example shows a data frame containing authorizations
+       as configuration data. 
+     One simply copies the statement requiring authorization into the data frame
+       and appends the appropriate authorization annotation.
+     This data frame may be one of several 
+       used to configure an operating environment.    
+  </p>
+  
+<pre class="example">
+---
+Data: Authorizations.
+Task: Move customer to new-residence. [Allow call-center.]
+Role: Billing. 
+Action: Change to new-billing-address.  [Allow call-center, self-service.] 
+View: Customer-Address. [Allow call-center, self-service, field-operations.]
+---
+</pre>  
+</body>
+</html>

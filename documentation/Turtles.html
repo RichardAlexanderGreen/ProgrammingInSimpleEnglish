@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+	<title>Turtles</title>
+    <link href="styles.css" rel=STYLESHEET TYPE="text/css">
+</head>
+<body>
+<h2>Turtles</h2>
+<h3>Example Dialog / Script</h3>
+<pre class="example">
+---
+Role: Draftsman.
+Action: Make flower from a spiral.
+. Make 100 turtles facing different directions.
+. Set distance D to 128 mm.
+. Set angle A to 10 degrees.
+. All turtles put pen down.
+. Repeat 6 times:
+. . All turtles move distance D.
+. . All turtles turn angle A to the right.
+. . Divide distance D in half.
+
+Action: Fractile tree.
+. Set P to point at (0,0).
+. Set L to 128 mm.
+. Set A to 30 degrees.
+. Draw fractile branch of length L and angle A at point P.
+
+To: Draw fractile branch of length L and angle A at point P.
+. If L is less than 3 mm:
+. . Do nothing. (Quit the recursion.)
+. Otherwise:
+. . Make turtle at P with pen down.
+. . Turn turtle (A/2) degrees left.
+. . Move turtle distance L.
+. . Draw fractile branch of length (L/2) and angle A at point (turtle location).
+. . Move turtle to P with pen up.
+. . Turn turtle A degrees right.
+. . Move turtle distance L.
+. . Draw fractile branch of length (L/2) and angle A at point (turtle location).
+---
+</pre>
+
+</body>
+</html>

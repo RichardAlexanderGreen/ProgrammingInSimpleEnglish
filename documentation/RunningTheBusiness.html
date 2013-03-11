@@ -1,0 +1,296 @@
+<html>
+<head>
+  <title>Running the Business</title>
+  <link href="styles.css" rel=STYLESHEET TYPE="text/css">
+
+</head>
+<body> 
+  
+<h2>Running the Business</h2>
+
+<h3>Introduction</h3>
+<p>
+  The purpose of this section is to explain how the Hum framework works.
+  In simplest terms, the system forms a plan to meet each goal it is given,
+    and then executes the plan.
+</p>
+<p>	
+  In this section we will explain the normal case 
+  - where there are no planning errors
+    and no exceptions. 
+  In another section, 
+    <a href="FindingTheMissingLink.html">"Finding the Missing Link"</a>,	
+    we will explain how the system detects plans that are incomplete or inconsistent.
+  And later, 
+    in <a href="TroubleShooting.html">"Trouble Shooting"</a>,
+	we will explain how the system detects and handles problems (exceptions)
+	that might occur during the execution of a plan.	
+</p>
+
+<h3>Back-Chaining to Form a Plan Tree.</h3>
+<p>
+  The <a href="DonutShopV01Linked.html">Donut Shop Version 0.1 Listing</a>
+  shows how a business process is defined in a top-down fashion.
+  At execution time, the system is given a goal.
+  The system matches the goal to the post-condition of some task frame.
+  It then forms a <i>plan-tree</i> 
+    by <a href="BackChaining.html">back-chaining</a>
+    through task frames whose post-conditions match the pre-conditions
+    of higher-level task frames.
+  The plan-tree is a tree-graph whose nodes are task frames.	
+</p>
+<p>
+   Since many business processes may share the same sub-processes,
+     the task frames are kept in a shared store that we call the <i>plan base</i>.
+   Many plan-trees could be derived from the same plan base.
+</p>
+<p>   	 
+   Because the plan base could be upgraded while a plan-tree is in-progress,
+     the plan-tree that is associated with a goal
+	 is stored with all of the other data associated with the goal 
+	 and the original plan remains in-effect until the goal is met. 
+   The system will not unilaterally change a plan that is in progress.
+   However, it does provide features that can facilitate such changes.	 
+</p>
+
+<h3>Executing the Plan</h3>
+<p>
+  Any task frame in the plan tree whose pre-conditions are satisfied can be executed.
+  The system executes all such nodes in parallel.
+  As each task frame is completed, 
+    its post-condition is satisfied
+	and this may enable other task-frames to be executed.
+  This process continues until the top-most task frame is executed.
+  When the top-most task frame is executed, its post-condition is satisfied.
+  Since that post-condition matches the goal 
+    that the system was given at the start of the process,
+    the system has met the goal.
+</p>
+
+<h3>What's a Sim-Bot To Do?</h3>
+<p>
+  The Supervisor executes each action
+    by assigning an actor that knows how to perform the action.
+  The Supervisor sends the action to that actor.
+  If the system is operating in real-life, 
+	the actors might be human beings
+	and humans are quite adept at interpreting poorly formed 
+	or ambiguous instructions.
+  The human will figure out the missing bits from the context
+	and by reasoning from experience.
+  However, if the actor is to be a robot or a sim-bot,
+    the instructions must be quite detailed
+	and any needed data must be provided to the robot or sim-bot.
+</p>
+<p>
+  So, what's a simple sim-bot to do? 
+  Recall that the sim-bot's job is 
+    to simulate an action occurring in a business process.
+  Thus, the sim-bot must be able to account for time-spent and resources-consumed.
+  To check for delays, the sim-bot must account 
+    for the time it spends waiting for a resource to become available.
+</p>
+<p>
+  Now we know what the sim-bot needs to know.
+  It needs to know about the duration of the action that it is performing.
+  It also needs to know about the resources that the action affects.
+  One resource that the action consumes is the actor's time.
+  Actions may also affect other resources.
+</p>
+<p class="AUTHOR">Does the preceding describe a plausible deduction? 
+</p>
+<p>
+  In our donut shop scenario, 
+    the role called Coffee-Mixer is making a product. 
+  The product is a coffee-drink.
+  The bill-of-materials (the recipe) indicates
+    certain quantities and types of coffee, milk, and flavors.
+  Since the process of making the coffee-drink is irreversible,
+	the materials used in the process are said to be <i>consumed.</i>
+  We also cannot get the Coffee-Mixer's time back,
+    so that resource is also consumed.	
+</p>
+<p>
+  On the other hand, 
+    the process of moving a donut around
+	could, in theory, be reversed.
+  So, the accounting for a donut involves
+    moving it from one location (inventory) to another
+	until it is delivered to the customer.	
+</p>
+
+<h3>Resources - Allocating, Assigning, Using</h3>
+<h4>Allocating Resources</h4>
+<p>
+  The resources that a process consumes
+    must be in the right place at the right time.
+  So an important part of operating a business
+    is assuring that a sufficient quantity of resource
+	will be where its needed when its needed.
+  And finally, when the resource is used, we need to account for it.
+</p>
+<p>
+  In a typical business operation,
+     resources are allocated in advance,
+	 assigned to specific jobs (work orders),
+	 and the utilization is charged to the job
+	 (or product).
+  If sufficient resources are not allocated,
+    the business process which requires the resource will halt.
+  We can prevent this in a simulation 
+    by assuming that there is a sufficient supply
+    of each resource when needed.
+  Then we can run the simulation
+    and see what resources were needed under the circumstances 
+	assumed for the simulation.
+</p>
+<p>	
+  If we have some uncertainty about future demands,
+    we can run the simulation under a variety of scenarios
+	and see what resources were required in each.
+  That will give us some idea 
+    about how to define flexible rules for allocating the resources.	
+  In real life, this means defining rules about 
+    when we order more materials
+    and how we schedule our workers and equipment.
+</p>
+<h4>Assigning Resources</h4>
+<p>
+  The actors (<i>actors</i>) who perform actions in our business process
+    may come from a pool of actors (a <i>resource pool</i>) 
+	who can perform that <i>role</i> in the process.
+  For example, you may have a person who is trained to perform all of the roles.  
+  But, that person could also come from a pool of one.
+  That means that when that person is performing one action,
+    they cannot be simultaneously performing other actions.
+  They are <i>assigned</i> to that action until the action is completed.
+</p>
+<p>
+  The system keeps track of the pools and the resources in each pool.
+  This puts a constraint on how much work can be done simultaneously
+    and helps to simulate real-life constraints.
+  The system will also track how many resources were in use at each point in time
+    during a simulation.
+  This information can be used to allocate appropriate resources 
+    when running the actual business.		
+</p>
+
+<h4>Using Resources - Job Accounting</h4>
+<p>
+  In some business situations, the resources that are expended on each job 
+    (each order, each contract)
+    must be detailed on the invoice.
+  In other situations, we are only concerned with the totals.
+  In the Hum framework, 
+    we provide time and cost accounting at several levels of two dimensions:
+	task hierarchy dimension, resource hierarchy dimension.
+</p>
+<p>
+  The business process can provide for any additional accounting
+    that their business requires
+    by defining steps for the Book-Keeper role.
+  For example, additional product or product-line accounting could easily
+    be added by associating products (and thus, product lines)
+	with each order item.	
+</p>
+
+<h3>Financial Accounting - Costs, Assets, Activities</h3>
+<p>
+  The system accounts for resources used.
+  To get direct costs, 
+    one associates internal prices (cost per unit used)
+    with each resource.
+  The system will do the needed multiplications and sums.	
+</p>
+<p>
+  The actors in the business process 
+    are typically assigned from resource pools.
+  The direct costs of an action can be calculated 
+    by associating an internal price 
+    (a kind of rental rate) with each resource type or role.
+  The indirect costs associated with a pool
+	can be calculated by associating some rental rate or carrying cost
+	with unassigned resources.
+  In addition, one could set a fixed cost per period 
+    to account for the cost of managing the pool.	
+</p>
+<p>
+  Additional indirect costs can be associated with material inventories.
+  Carrying-cost percentages can be associated with each inventory
+    and used to calculate various financial numbers.
+</p>
+<p class="ADVICE"> 
+The system provides time and cost accounting on the <i>task hierarchy</i>:
+<br />- Enterprise: Cost for the business unit.
+<br />- Goal: The top-most task in a plan. 
+<br />- Task: The task-name of a task frame.
+<br />- Action: An action statement in a task frame. (Assigned to a role.)
+<br />- Step: A step within an action definition. (Assigned to actor.)
+<br />...
+<br />The system also tracks resource utilization, including:
+<br />- Utilization of <i>rentable</i> resources. (actors, plant, and equipment)
+<br />- Draws on <i>parts</i> inventories (disbursed in integer counts)
+<br />- Draws on <i>materials</i> inventories (disbursed in real-number measurements)
+<br />...
+<br />Resource utilization is summed up the task hierarchy.
+<br />In addition, it is summed on the <i>resource hierarchy</i>:
+<br />- Enterprise: Utilization across the business unit.   
+<br />- Resource Pool: a resource pool (inventory location, group of people) 
+<br />- Resource Type: a type of resource (part number, material type, role)
+<br />- Resource Instance: utilization of a specific rentable thing 
+<br />...
+<br />Note: Pools may contain pools forming a hierarchy of pools.
+</p>
+
+<h3>Short-Term and Long-Term Memory</h3>
+<p>
+  <b>Short-Term:</b> 
+  The system needs to keep track 
+    of what is happening during the execution of a plan.
+  In the Donut Shop example, plans probably run to completion 
+    with durations on the order of 20 to 200 seconds. 
+  But in other business situations it may takes many weeks to complete a goal. 
+  Thus, the system needs to keep track of the progress of a plan
+    and all of the accounting associated with a goal
+	for an indefinite amount of time.
+  Thus, "short term" is a relative concept.
+  It refers to the records associated with the execution of a plan.		
+</p>
+<p>
+  <b>Now:</b>
+  The system needs to keep track of the current state of the enterprise continuously.
+  It needs to track how many resources are in each resource pool
+    and of the state of each pool and each resource.
+  Various resource accounts are also accumulating and need to be maintained.	
+</p>
+<p>
+  <b>History:</b>
+  There are rules and regulations applied to an enterprise 
+    that define how long various types of records are kept.
+  In the Hum framework, 
+    every record is kept until it is explicitly purged.
+</p>
+<p>
+  <b>Statistics:</b>
+  Simple statistics such as the mean and standard deviation of a number
+     are often misleading or useless in business analysis.
+  One is better informed by the entire distribution curve (or histogram).
+  Since the system maintains detailed records of all events,
+    it is possible to develop any statistical measure one needs after the fact.
+  However, it may be more useful to have the statistical measures
+    available in <i>real-time</i>.  	
+</p>
+<p> 
+  <b>Instrumentation:</b>
+  Real-time instrumentation enables statistical measures 
+     to be monitored
+	 while the business is operating, 
+     or while a simulation of the business is operating.
+  One enables statistic measures 
+     by informing the "Statistician" that certain bookkeeping measures
+     and ratios of bookkeeping measures are business metrics.
+  The <i>Statistician</i> is an extension of the <i>Bookkeeper</i>.   
+</p>
+  
+</body>
+</html>
