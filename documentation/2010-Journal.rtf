@@ -1,0 +1,906 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf340
+\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fmodern\fcharset0 CourierNewPSMT;\f2\fnil\fcharset0 Monaco;
+}
+{\colortbl;\red255\green255\blue255;\red21\green20\blue255;\red13\green8\blue155;\red142\green11\blue29;
+\red8\green12\blue142;\red11\green33\blue142;\red13\green106\blue12;\red126\green14\blue166;\red134\green23\blue166;
+\red72\green166\blue34;\red19\green21\blue156;\red19\green14\blue174;\red183\green41\blue216;\red29\green137\blue30;
+\red26\green52\blue216;}
+\margl1440\margr1440\vieww20120\viewh16020\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\b\fs28 \cf0 Journal - Notes to self.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 ---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 21-July-2010:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - See: Documents / Simple English /  Thinking Out Loud / Programmers Assistant Use Cases (.html).\
+The use cases show user-system dialogs.\
+Here is an example:
+\f1\fs24 \
+\pard\pardeftab720\li320\sa80
+\cf0 User: Enter a 'Precondition' statement. 
+\f2 \uc0\u8232 
+\f1 PA: Pretty-print each new statement when the period is entered. 
+\f2 \uc0\u8232 
+\f1 Note: Nouns that do not trace back to the post-condition will be highlighted in some way. 
+\f2 \uc0\u8232 
+\f1 Critic: Nag if a noun does not trace back to the post-condition or a resource. 
+\f2 \uc0\u8232 
+\f1 Critic: Nag if the precondition is also a precondition of one of the others. 
+\f2 \uc0\u8232 
+\f1 Critic: Nag if the precondition is in a cycle. 
+\f2 \uc0\u8232 
+\f1 Flagger: Add flags as appropriate. (See paragraph above.)
+\f0\fs28 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 These use cases can be expressed in Hum dialog frame vignettes.\
+Example for above:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f1\fs24 \cf0 U: Enters precondition [statement] in [frame].\
+S: Parsing new precondition statement.\
+. Pretty-Printer: Pretty-print [statement] in [frame].\
+. Critic: Nag if noun in [statement] does not trace back to post-condition nouns in [frame] or reference a resource.\
+. Critic: Nag if this precondition [statement] is a precondition of one of the other preconditions in this [frame].\
+. Critic: Nag is this precondition [statement] is seen in a cycle.\
+. Flagger: Add flags to [statement] as needed. (flag undefined statements, )\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs28 \cf0 They could also be expressed in Smalltalk test cases.\
+- Two questions are on my mind:\
+1. Can I eventually bootstrap the PA, Pretty-Printer, Code-Critic, and Statement-Flagger?\
+. . (I could bootstrap them by providing a Smalltalk generator.)\
+2. If I wrote Smalltalk test cases, how would I represent user-interface actions?\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b\fs30 \cf0 22-July-2010:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0\fs28 \cf0 - See file: BootstrapFrameEdit.\
+This approach looks like it might work.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 25-July-2010:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - Running the HTML rendering helps.\
+Errors and anomalies become more obvious.\
+Roughly 14 Frames, 170 statements (Not counting title lines.), 5000 words.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 11-August-2010:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - After considering several alternatives, I decided to target the run-time to run in the JVM.\
+- Since Java has a mature IDE and compiler, the run-time classes are relatively easy to code in Java.\
+- I think I have a strategy enabling the Hum IDE (currently in Smalltalk) to translate roles to Java classes.\
+- See "Compile Deploy Strategy" (rtf)\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 15-August-2010:
+\b0 \
+- I've spent a few hours coding Hum Run-Time classes in Java (Actor, ResourceManager, Message, Messenger).\
+I find that the code has too many artifacts due to messaging and distributed computing.\
+An additional hazard is that noun-passing is creating a lot of type-casts.\
+This is potentially just as annoying as getters and setters.\
+Perhaps I should try coding in Erlang instead.\
+But Erlang does not (yet) have the depth and maturity of Java.\
+\
+- Another alternative would be to code in Java as if the code would not be running distributed and let a proxy-generator create the in-between.\
+If I code in traditional Java style, \
+I should be able to isolate the distribution problems to a few classes.\
+For the time being, I can think of the kernel classes as proxies.\
+\
+-I can correct some problems by delegating persistence to the World-Base class.\
+---\
+
+\b 28-August-2010 9 a.m. at Cafe Japon:
+\b0 \
+- I've spent two weeks of spare time writing run-time components in Java.\
+An interesting problem, at the moment, is suspending and persisting a frame (actor state) when it calls another frame.\
+If we are compiling Hum to Java or byte-code, \
+the suspension mechanism must record both the source and the object\
+or recompile the source when the code resumes.\
+In either case, the implication is that the object code is modular at the source-line level.\
+It needs to be modular in this way, so that we can restart it at/after any (suspended) line.\
+\
+- I am still very undecided about the UI framework and, in particular, the UI framework to be adopted for the Hum IDE.\
+They all seem so over-complicated and low-level.\
+The Hum view-frame mark-up provides a simple and high-level interface;\
+but, it was only designed for simple data display and data entry.\
+In any case, I need to decide what I would use for the platform.\
+How will I bootstrap the Hum View, Hum Dialog, and Hum IDE?\
+How will I implement the first Scribe?\
+\
+- I will try writing some Java Scribe or IDE code in Test Driven Design style and see what emerges.\
+With a little luck, \
+I might discover a strategy where I can create a higher-level UI framework \
+and then plug one or more Java UI frameworks into it.\
+---\
+
+\b 31-August-2010 at Cafe Zola:
+\b0 \
+- Applying the principle that the statements should reflect the actual intent and not the framework's mathematical concepts, I've decided that the nouns for extents should be width, height, and depth instead of x,y,z. \
+Similarly the nouns for position should North, South, East, West, Up, Down instead of x,y,z.\
+The nouns for rotations are roll, yaw, pitch instead of alpha, beta, gamma.\
+- Using test driven design in Java, I find that writing class and method comments in JavaDoc tends to clarify my thinking about the nature of the Scribe and the UI.\
+The same effect is achievable in Hum and Smalltalk. It is mainly a matter of applying TDD thinking style.\
+- The goal of creating a higher-level UI framework is succeeding. \
+However, it requires a 3D virtual world framework because it is world oriented rather than display oriented.\
+This implies that the target platform might be some Java 3D platform, or something like Qwac (Croquet).\
+If I am going in that direction, I should talk to the Qwac people.\
+(They have changed their company name, so I need to recall the new name for starters.)\
+- I am imagining a virtual workplace where people can see the work-in-progress. \
+The coder may use something like a "cave" with each display representing a view or a panel.\
+That implies that the (virtual) panels are mapped to user displays.\
+- If 3D virtual world glasses were better (lighter, less expensive, better pixel definition, better head following),\
+that might be the ultimate work environment. \
+If I design to that environment, I can meet the hardware technology coming up.\
+This takes me back to my original strategy of working in Croquet.\
+However, it also takes me back to working on a poorly documented and immature platform.\
+- For today, I am going to switch to thinking about how to compile Hum into Java or Groovy.\
+There are advantages to having an executable. It helps to refine thinking, especially about usability issues.\
+---\
+
+\b 01-September-2010 at Bell's Diner:
+\b0 \
+- I've been studying my byte code design and other potential target languages \
+(JVM byte-code, Java, C++, Objective-C, Scala).\
+GCC is also a potential compiler -- It provides a framework used by several languages.\
+It makes surprisingly little difference as long as the target run-time includes the JVM.\
+- To simplify the run-time and distribution, \
+the actors may be implemented as either 
+\b servlets
+\b0  or 
+\b Jabber
+\b0  clients.\
+The calls may be 
+\b REST style
+\b0  to minimize overhead.\
+However, because some sessions are very long-running, the real return has to be via a call-back URL.\
+Using servlets would permit integrators to write clients in many languages.\
+- Hum would have to augment the REST protocol with some minor features to support long-running sessions. In addition to the message and its arguments, the actor's call-back with the caller's permanent ID and the caller's session-ID (job?) need to be included in the HTTP request and response.\
+The caller's IP address may change, \
+so the call-back must be symbolic (http://name/session-ID).\
+- To implement a fully asynchronous system, some kind of Messenger (message-ware) is required.\
+A simple store-and-forward service would be sufficient for starters. \
+Eventually, I would add logs and monitors to the Messenger.\
+\
+
+\b Big Problem: 
+\b0 I am repeating myself -- thinking in circles. \
+I seem to be avoiding the task of writing the run-time.\
+I think that part of the reason for that is that I dislike Java coding because it is so low level.\
+---\
+
+\b 02-September-2010 at   cafeteria:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - I spent part of yesterday and this morning re-evaluating 
+\b Erlang
+\b0 . \
+(It has been a year since my last evaluation of Erlang.)\
+While Erlang is well suited to building distributed systems, it is not mature enough to have a real Eclipse environment. And the run-time is not Mac OS X compatible. The provider's assumption is that the developer community is Emacs, Suse, and C++ based.\
+- Also when I turned Erlang on in my Eclipse workbench, I found that it was running an event-loop (creating a lot of heat with the CPU running at 98% even when Eclipse did not have the focus.)\
+- I could make this work; but I don't think it is worth the time and risk. I don't like having to build my own tools when I could be working in another environment where the tools are ready-to-go off-the-shelf. When I see that an environment comes with "some assembly required" as the first instruction. I tend to go elsewhere because I simply don't have the time and do not want to take the risk. If it were easy to assemble an Erlang run-time for the Mac, someone would have done it by now. The implication is that I would find myself in a swamp if I attempted to build my own Erlang environment for the Mac.\
+\
+- I also spent a lot of time re-evaluating 
+\b Scala
+\b0 .\
+(I've never really evaluated Scala before.)\
+It is a nice language, similar to Groovy in so far as it is vaguely like Java and runs in the JVM. It is also immature. Basically, you find yourself using Java tools to write and debug something that is not quite Java.  This reminds me of the early C++ days when we were using tools designed for C programming and attempting to write and debug C++ code. \
+\
+- After spending two days on Scala and Erlang, I've come back to my original conclusion.\
+That is:\
+- The simple solution is to implement the actors as 
+\b servlets
+\b0 .\
+The next simplest solution is to implement the actors as 
+\b Jabber
+\b0  (XMPP) clients.\
+The Messenger would then be an extension of the Jabber service.\
+- I suppose that if I continue the search for run-time platforms, I might as well look at Jabber again. The Jabber community has a message-ware project that might be leveraged to provide the messaging and resource management platform for Hum.\
+- Since XMPP is language independent (anything that can parse XML might work),\
+I can translate to Hum to Java or Python, or Erlang, or Groovy, or whatever seems best.\
+The same would be true if I used a servlet approach. Servlets are HTTP/HTML, XMPP is also HTTP.\
+\
+- Design Question: Am I better off using 
+\b HTML
+\b0  or 
+\b HTTP
+\b0  servlets as my base? \
+If I go with HTML, a browser might occasionally be used as a test environment.\
+If I go with HTML, the early stage UI could be built using 
+\b HTML5
+\b0  tools.\
+Building in HTML5 could be a distraction because my long-term goal is to built a UI that is virtual world capable. But there is no usable UI standard in the virtual world unless I adopt a gaming platform.\
+\
+- Adopting a 
+\b gaming
+\b0  
+\b platform
+\b0  would tend to confuse the business audience.\
+It would be a useful stealth approach, if that was what I needed. \
+But since the Hum language is not well suited to gaming, \
+it would also not gain any kind of community support.\
+\
+Conclusion? - Write actors inside a HTML frame with HTML5 UI.  The Hum IDE could also be HTML5. An IDE based on HTML5 has the dubious advantage of making it rentable and enabling some types of on-line collaboration.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 03-September-2010 at Afternoon Delight:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - Today I intend to focus on bootstrapping the IDE.\
+So far, I've investigated using Dialog frames with user gestures interpreted by the Scribe.\
+I've also investigated controlling the layout in 3D space (written in Java and later in Hum).\
+Today, I will write layout code (Action frames) for a 2D desktop display using the Windows in a Window user interface paradigm.\
+The 2D framework should be relatively easy to translate to a 3D (multiple floating display) environment when an appropriate platform become available.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 04-September-2010 at Cafe Japon:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - Yesterday I wrote 
+\b user stories
+\b0 .\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf2 (Files: .../Stories/UserEntersAndEditsStatements.rtf, .../Stories/UserNavigatesMenuesAndDiagrams.rtf).\cf0 \
+This was useful because it clarified my thinking about how the interaction between user and Assistant might work and provided some innovations in IDE UI. I also learned something that I had not yet thought about. When a user clicks on a word node in the word relations diagram, the view that is needed is an 
+\b ontology entry
+\b0 , not a dictionary frame because the word may be mentioned in more than one dictionary frame. The ontology entry includes a examples of usage. Once the ontology entry is displayed, the user can navigate to a statement and hence to a frame.\
+\
+- I should spend today writing corresponding 
+\b dialog vignettes
+\b0 .\
+That will provide a test of the vignette notation and define some of the things that the UI (Scribe and Speaker) must do on a platform which uses panels and text as its primary means of communication. For the time being, I've decided to assume a 2D framework. This could be implemented in HTML5 (JavaScript) and other environments with relative ease because there are no innovations in widgets. However, I do intend some innovation in the language of the user interface agents. \
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 05-September-2010 at Cafe Zola:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - I just realized that a diagram is a special kind of view frame. \
+It can be displayed with a Dialog actor's "Show view-frame." action statement.\
+- I am wondering if it might make sense to add diagrams to the view mark-up notation.\
+It would tend to be a specialized notation.\
+But the mark-up already has a somewhat specialized notation for tables; \
+so, this is not unprecedented.\
+- So I created a notation for diagrams.\
+Almost immediately, I found myself wanting to change the Assistant's navigation conventions\
+to accommodate what the diagram notation would easily describe.\
+- This might be a good thing because it would avoid complex diagrams with correspondingly complex semantics. If it turns out that this design constraint produces a tedious UI, it can be corrected later.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 05-September-2010 in Starbucks at Main and Liberty:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - I seem to have learned a few things about bootstrapping the Assistant in the Hum dialog notation.\
+- Now might be a good enough time to work on writing the Assistant's file interfaces.\
+Of course, these should be in Hum Data Frame notation. \
+The notation is not interesting in itself, \
+but it assumes a kind of object reflection is available and that may need some thought.\
+This may prove or challenge the utility of the ontology-entry concepts.
+\b \
+
+\b0 ---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 07-September-2010 in   cafeteria (my lunch hour):\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - I wrote some file interface logic in Hum.\
+It implies another actor that has responsibility for talking to the operating system.\
+That actor has a relatively small set of action-statements (relative to a UI actor).\
+- Thinking about how to drive implementation via 
+\b test-driven-design.
+\b0 \
+Scenario:\
+- When user enters a new precondition in an edit panel, a (dummy) task-frame for the post-condition should appear in the model (ontology). It should also appear on the diagram view (plan tree).\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf3 . Test-1: \
+. . taskFramePanel enterPrecondition: precondition-statement. "Is the panel a model or a view? or a model of a view?"\
+. . self assert: (ontology taskFrames detect: [ :taskFrame | taskFrame postCondition sameAs: precondition-statement ] ).\
+- Test-2:\
+. . self assert: (planTreeDiagram nodes detect: [ :node | node reference isKindOf: TaskFrame and: [ node reference postCondition sameAs: precondition-statement ] ] ).\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 ---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 11-September-2010 in Cafe Zola:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - I spent much of yesterday reviewing message-ware.\
+I think that Java (and web-service) technology adds more layers than are really necessary.\
+A simple TCP/IP socket already has the ability to connect (and set up simple threads).\
+A slightly more advanced URL socket provides a light-weight protocol overlay.\
+The HTTP protocol was designed primarily for document sharing.\
+When HTTP is pushed into RPC usage, it is potentially one layer too many.\
+HTML is a mark-up format, not really a protocol -- However, it is almost treated as such.\
+\
+- Even with all of the layers, the code seems too close to dealing with the transport layer rather than the business problem.\
+Events from the transport layer leak through to the business layer.\
+For example, the business logic might be dealing with a failed connection.\
+\
+- The "How To" literature seems to focus too much on the transport.\
+Perhaps this is necessary. \
+At one time, we thought that students needed to lear assembly language before they learned a higher-level language.\
+However, only hardware drivers and other hard real-time logic is written in assembly these days.\
+\
+- The question begged by this little discourse is: How can we submerge the transport level?\
+One answer is that we simply assume that it will always work.\
+The transport layer should never throw an exception to the business layer.\
+\
+- If this realistic?\
+Prior to the EAI and the internet, the business needed to deal with returned mail (example: Addressee unknown on a returned invoice).\
+But the transport layer (mailroom) can turn that into a business event and it is not an immediate event.\
+The mailroom transport layer is also a kind of business process. (Customer contact. / Supplier contact / Worker contact).\
+\
+- This is all a long-winded way of saying that the Java culture is too focused on the transport layer.\
+The culture is also very like the Unix culture. You can build business applications - Here is a kit. You can find some hammers and screw-drivers over there.\
+It is a Kit Airplane culture. -- Not a full-service airline.\
+\
+- The C# culture is only slightly better because Microsoft provides Visual Studio. \
+This is equivalent to providing better screw-drivers.\
+Also the C# .Net culture is somewhat better served by Microsoft than Java is by Sun (now Oracle).\
+To be fair, the Java culture is self-mutilating because they insist on open source non-proprietary solutions.\
+They are socialists and prefer community action over corporate product offerings even when the corporate offerings are more timely and more feature rich.\
+\
+- Curiously, the socialists seem to be able to organize effectively in a only small number of communities (Apache Foundation, Linux, Python, Postgres).\
+In too many other cases, the "anarchists" seem to prevail.\
+There is a notable lack of progress in some communities due to fragmentation in leadership and competing solution providers (Smalltalk, Java, Cobol).\
+Apache almost failed.\
+Mozilla might not last.\
+\
+- 
+\b Leadership
+\b0  appears to be the crux of the matter.\
+Cobol is broken because the governments created committees to govern it.\
+Smalltalk is broken because Apple decided to go with Objective-C and gave control to the academic communities.\
+(Smalltalk also requires a small amount of learning -- and the software market and hence, software progress, follows the path of least learning.)\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf4 - What this means: If I want my language (Hum) to be successful, I need to assure that the community has 
+\b leadership
+\b0 .\
+Of course, the product also needs to be 
+\b credible
+\b0 . It must work. It must have at least one major application. It must have a community of users.\
+It must be nicely integrate into a viable 
+\b ecology
+\b0 .\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \
+- Java offers an example of a new language that achieved credibility quickly. \
+It had one major application (applets with guaranteed client security.). \
+Java also quickly provided a server-side infrastructure (servlets).\
+The community was C++ refugees.\
+Other contenders were less credible because they failed to provide client security or the browser simply did not support them.\
+\
+- HTML and Javascript have a kind of 
+\b monopoly
+\b0  in the web browser. \
+The dominant web browsers (Mozilla and Internet Explorer) do not support other languages or do not support them very well.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf5 HTTP, XML, HTML, Javascript, and Java create a kind of mutually supportive 
+\b ecology
+\b0 .\cf0 \
+It is almost impossible to talk about Javascript without also discussing the DOM (HTML) libraries.\
+HTML is an extension of XML.\
+HTTP dominates the internet transport protocols (SMTP is almost forgotten).\
+\
+- The 
+\b TurboGears
+\b0  book provides a useful example.\
+TurboGears is not just a SQL bridge. It is a Python ecology with SQL, HTML, and other support.\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf4 - I need to create a 
+\b story
+\b0  where there is:\
+. . a need for something new \
+. . a leader (it could be a company -- example Sun the leader for Java, Netscape the leader for the Browser, Microsoft and Apple leaders for PC)\
+. . a major application (EAI may be sufficient, VR might be a distraction but is has "newness" for laymen/journalists)\
+. . a community\
+. . a self-consistent ecology\
+. . something new for the journalists (a talking IDE, natural language statements)\
+\
+- The competition is mainly IBM-BPEL and JBoss-SEAM.\
+\
+- Ecology 
+\b partners
+\b0  could include:\
+. . Erlang -- robust runtime with built-in distribution ==> Translate Hum action-statements to Erlang. Supervisor is an Erlang service.\
+. . Hadoop -- no-SQL persistence (or Mnesia) ==> World-Base bundles that technology.\
+. . Gemstone -- SQL bridge ==> World-Base bundles Gemstone persistence.\
+. . HTML5 -- Rich User Interface ==> View and Dialogs translate to HTML5 (Javascript).\
+. . Croquet / Qwac -- Virtual world environments ==> Dialogs translate to Croquet/Qwac scripts.\
+\
+- 
+\b Bridging
+\b0  technologies (providing backward/legacy compatibility) could include:\
+. . a JVM compiler or a code-generator to a JVM language (e.g. Java / Scala / Groovy)\
+. . A good book (The C book may have made C the dominant replacement for assembly language. It could have been Forth instead.)\
+. . AIML import.\
+. . Chat Bot interface (running in Web Browser)\
+\
+- It must work. There are some 
+\b hazards
+\b0 :\
+. . Dialogs are a little chancy -- Chat Bots are not necessarily proven.\
+==> mitigation strategy: Provides click-able choices as the dialog progresses. These can be arrayed according to context priority.\
+. . Voice recognition is very chancy where poor implementations abound.\
+==> mitigation: Voice to text in a box. Wait until user accepts the text. (button or "Go.") Assure we can back out when action is taken by mistake.\
+. . A talking IDE is initially amusing, but in the longer run most users turn off the voice and prefer visual cues (example: colored underlines, iconic flags).\
+==> mitigation: Voice turned-off. Assistant commentary in a separate panel. Statement flagger like Eclipse.\
+. . A demonstration application (e.g. Pet Store) that is understandable, yet substantial.\
+==> mitigation: Find a multiple-actor (A2A and B2B) application where the plan tree has some obvious value. \
+	(This is also a kind of existence proof for the need.)\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf6 - Looking for multiple-actor (A2A and B2B) application where the plan tree has some obvious value.\
+. Metering is A2A -- Plan Tree is probably obtuse. Book-keeping might be inconsequential. (nah)\
+. Retail -- Plan Tree might work (prerequisites include order, credit, manufacture, packing, shipping). \
+	A2A and B2B are easily included in the scenario.\
+. Manufacturing -- Plan Tree echoes assembly. Bookkeeping is resource driven. Solution is easy to relate to problem space. \
+	A2A and B2B are easily included in the scenario.\
+	\cf7 Futuristic Automotive: Electric chassis, multiple bodies (van, sport, pick-up, camper), seating options, entertainment options, highly modular.\
+	- Plan goal: Delivery has prerequisites including rep, shipping. Shipping precondition is manufacturing and transportation. Manufacture echoes assembly.\
+	- Sales order entry provides rich view opportunity.\
+	- Virtual show-room could provide VR dialog opportunity. (But I have a problem with landscape notation and no way to test VR dialog.)\
+	- Multiple actors include shipping (vendor), component suppliers (chassis, body, seating, entertainment systems).\cf6 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 ---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 12-September-2010 at home:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 \
+- Once again I have identified a colossal goal.\
+It might also be a distraction from creating a usable IDE and run-time.
+\b \
+---\
+27-September-2010 at Bell's Diner:\
+
+\b0 \
+- Spent last week learning Scala and went to Scale code retreat on Saturday, 25-Sept.\
+My purpose was to learn more -- I was thinking that Scala's Actor library would provide a usable run-time for Hum's actors.\
+\
+- I discovered that the Scala tool-set is just barely mature enough to be usable after some set-up and tuning.\
+I was not able to test the Actors and Remote Actors tool set.\
+However, it looks like it is (just barely) strong enough to compete with Erlang.\
+\
+The other alternative might be Erlang.\
+Erlang has the advantage that it is relatively pure, and compared to Scala, a relatively simple language.\
+However, I have no hands-on experience with Erlang at this time and my hands-on time with Scala is relatively limited.\
+A hazard for me is that both languages have relatively immature IDE.\
+Scala's IDE in Eclipse is usable but lacks many features that the Java IDE provides.\
+\
+- Erlang's IDE in Eclipse is less mature and I found it to be unusable.\
+There is an Erlang mode for Emacs, but then you have to adapt your keyboard training to Emacs conventions.\
+I am also not impressed with the level of documentation for the Emacs Erlang plug-in.\
+It gives me the impression that it is the typical Unix DIY kit (some assembly required).\
+\
+- The potential advantage of Scala is that it "compiles" to both virtual machines, Java JVM and Microsoft.Net pseudo code.\
+The advantage of Erlang is that it is designed from the ground up to be concurrent and distributed.\
+Perhaps I am needlessly over-working the problem.\
+Since I am planning on using a code generator, the intermediate language may be immaterial except for 
+\b \cf8 demonstration purposes
+\b0 \cf0 .\
+The advantage of generating a JVM language is that it is "familiar" to a large number of second-stage adopters\
+and some managers may believe that gives them a backwards path.\
+\
+- I should probably try to get back to writing boot-strap code.\
+. I might be able to improve my "IDE" in Squeak (HTML pretty-print) \'85 But why would I be doing that?\
+\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 27-September-2010 in   cafeteria (my lunch hour):\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 \
+- On Saturday night I started a 
+\b SourceForge project
+\b0  \'85 mainly to see if it would be worth the time required to maintain it.\
+The wiki is kind of crude.\
+I have not tried the other tools yet.\
+\
+- One of the problems I need to figure out: \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 How should I restructure Hum so that it can be developed by multiple developers?\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 \
+I am thinking that the simplest way to do that would be to make the IDE a kind of web-browser based tool.\
+This might be written in HTML5 with 
+\b JavaScript
+\b0  for the active logic.\
+Perhaps I can generate the needed JavaScript from bootstrap code.\
+That would imply that I need to implement the code generator (template-driven) for action-blocks.\
+\
+Since I really don't like JavaScript much, perhaps I should out-source the fundamental coding.\
+\
+It would be nice to have a off-net mode also \
+- for people like myself who prefer to connect intermittently, and\
+- for people who do not want their product on someone else's host.\
+\
+Aside: Found myself thinking (typing) out loud: There are just so many \'85 things I can do.\
+\
+If I write a code generator, the next thing I will need is a build tool (make, Ant, Maven, DIY).\
+That makes me think I will need a test tool also.\
+The simplest way to do that is to generate the test logic also \'85 in an appropriate (usable) platform.\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf9 THE WANDERING MIND:
+\b0 \cf0 \
+This Journal \'85 makes me think about a possible "app" \'85 a 
+\b private journal
+\b0  that accepts (and time-stamps) short entries from or in a mobile device.\
+Kind of like Twitter but a way to record private thoughts rather than social chitchat.\
+Mobile devices have sufficient storage to store a surprising amount of data these days, \
+so recording off-net with USB or network download later could be an extension to the basic version.\
+\
+The simplest version would simply record the entry with a timestamp (and possible location like I am doing here).\
+A more business-oriented version might accept timesheet (job ticket) entries - 
+\b punch clock
+\b0  analogy.\
+\
+It would be similar to twitter, except that you really would be just talking to yourself.\
+\
+Or you could be talking to "
+\b R. Sigmoid Freud
+\b0 " the robot psych.\
+When the Freud thinks it might be helpful, it makes a suggestion, or (more likely) poses a question.\
+\
+A Facebook like web site called "Clique".\
+No more than 7 members in a clique.\
+Principle activity is criticizing other cliques.\
+Business model: For a few dollars more, you can find out what other cliques are saying about yours.\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 Crowd Sourcing:
+\b0 \
+- Take white-board photo and make it into a cleaner diagram, outline.\
+- Take white-board photo and clean it up to make it presentable.\
+\
+T-shirt / bumper strip : "Friends don't encourage friends to code in: _____"\
+\
+Politics: It is probably too late for me to go out with "The best government money can buy \'85 vote: REPUBLICAN" \
+To be fair there should also be: "The best government money can buy \'85 vote: DEMOCRATIC"\
+because neither party's candidates are immune from being bought. \
+---\
+
+\b 28-September-2010:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 \
+Perhaps, I should call it "Programmers Apprentice" instead of "Programmers Assistant."\
+This might inject some humor and make programming more fun.\
+The Apprentice could be given a personality.\
+It might say: "What shall we do today, oh Master?" with variations.\
+The Apprentice might be addressed by a name given by the owner.\
+Say "Grasshopper"  or "Scribe" or "Poo" -- The owner should select a name that is easily recognized by the speech recognition system.\
+\
+Meanwhile, back in reality.\
+The standard for the code generator might assume that noun-values have already been assigned to local, immutable fields.\
+(I've said fields instead of variables because immutable variable sounds like an oxymoron.)\
+Hyphenated terms will be represented by camel-case. (example: camelCase)\
+\
+Action statements ending with the phrase "\'85 giving noun." are the exception because no value is assigned from the caller.\
+The return statement must return a field with a matching name.\
+\
+This brings "null" values to mind.\
+Equivalents in real-world terms have semantic as opposed to mathematical meanings.\
+Example: "
+\b Unknown
+\b0 " has a different meaning than "
+\b no match
+\b0 " or "
+\b none
+\b0 ".\
+This would imply that function returns operate on two levels.\
+The value returned by the operation has a different meaning than the success of the operation.\
+(Of course, this is one reason for "try \{ \'85 \} catch \{ \'85 \} finally \{ \'85\}".\
+The other reason has more to do with defensive code \'85 example: "No such file."\
+\
+Perhaps, the action notation needs a 
+\b success-check convention
+\b0 .\
+\
+. Examine preconditions giving average noun-count-average. [Watch for none.]\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 . If none:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 . . Say: "No preconditions \'85".\
+. Else:\
+. . If noun-count-average is greater than 5:\
+. . . Say: "Looks a little complicated.".\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\i \cf10 . (Above is conditional dialog where vignette is driven by what event?)\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\i0 \cf0 \
+. Open existing file with name. [Watch for no-such-file.]\
+. If no-such-file:\
+ . . Say: "Sorry, there is no such file in:  [file-directory]. Do you want to create a new file?" \cf10 (This is trouble-shooting logic.)\
+\cf0 \
+\
+I am not very comfortable with the whole idea of success checking.\
+When work is delegated to an actor in a business context,\
+  one expects the delegate to do what was asked.\
+In the past, I've indicated that exceptions are routed to a "
+\b trouble-shooter
+\b0 " (actor).\
+The advantage is that the caller does not need to micro-manage the situation.\
+I also believe that the majority of business exceptions will be due to resource availability.\
+Example: Equipment breakdown, worker sickness, and stock-out due to statistical fluctuations in demand.\
+This should isolate most exception handling in the resource manager.\
+\
+But there might be a place for 
+\b success checking
+\b0  in 
+\b dialogs
+\b0  like that above and in 
+\b bootstrap code
+\b0 .\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 2010-September-30 at Bell's Diner:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 -  I am presenting "Inventing the Next Business Programming Language" next week at AACS.\
+I need to spend some time rehearsing -- remind myself of the 3 main points I want to make on any given slide.\
+Perhaps I should also translate to Apple Insight.\
+My emphasis is changing -- just slightly.\
+"""\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf11 If you know which words in a sentence represent the nouns that are in the business vocabulary,\
+those words represent variables.\
+The whole sentence is the method signature. \
+You can translate it directly into any programming language.\
+The only issue becomes assuring that the nouns are used consistently\
+and that they have been instantiated on the actor's local memory.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 """\
+This is not so much a change. It is just a deeper explanation.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 2010-October-05 in   Cafeteria:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - Presentation is tomorrow.\
+- I took some time to study Hum Compiler -- writing action-statements to produce Hum-Byte-Code (not Java VM byte code).\
+The advantage of a Hum byte code is that it would be relatively compact.\
+A disadvantage is that it obfuscates the intent somewhat -- although some would consider that an advantage.\
+- Thinking-out-loud: Perhaps the byte-code should have built-in digital signatures. \
+Digital signatures will not prevent attacks by itself. But it is one more thing that should be part of the run-time.\
+Pushing features like this into the run-time (into the VM) increases the integrity of the run-time and removes these distractions from the business coder's work-load. \
+- At the very least, the Hum code-distribution system should assure that code is signed.\
+An additional layer of protection could be obtained by having the Messenger push and check signatures.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 2010-October-07 in   Cafeteria:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - Presentation went extremely well.\
+- Discovered that some audience members don't really "get" the Task Frame.\
+Perhaps I need to re-label Task Frame as "Plan Frame".\
+Perhaps I should add a slide annotating the Post-Condition as "Goal" and preconditions as "Prerequisites" and the action-statement as "Transition".\
+Also, I need to return at least one slide that show noun-continuity.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 2010-October-08 in   Cafeteria:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - I tweaked the presentation \'85 added slides and improved some text coloring.\
+- It occurs to me that Hum can compile nicely to JSM because it is NOT dynamically typed.\
+- I feel a strange urge to write a FAQ page.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 2010-October-09 in Afternoon Delight:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - To really 
+\b demonstrate
+\b0  the language, I need to make the IDE demo-able.\
+That means that it can indicate, or even demonstrate, the intended capabilities of the Apprentice.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf12 Dashboard:\
+
+\b0 . Drag panel.\
+. Minimize / restore / maximize panel.\
+. Menu.\
+. Tool-bar.\
+. Minimize / restore the dashboard.\
+
+\b Panel:\
+
+\b0 . Pan and zoom panels.\
+. Take a panel to full-screen\
+
+\b Code View:\
+
+\b0 . Hyperlink nouns.\
+. Pretty-print code. \
+. Un-do and versioning.\
+. Trigger critic.\
+. Trigger diagram updates.\
+
+\b Diagrams:\
+
+\b0 . Color indicates missing elements.\
+. Color indicates unused elements.\
+. Hover highlights name.\
+. Click triggers code view open.\
+
+\b Voice:\
+
+\b0 . Turn voice on/off.\
+. Voice the critic.\
+. Turn voice recognition on/off.\
+. Map voice commands to menu actions.\
+
+\b Collaboration:\
+
+\b0 . Virtual world.\
+. Shared edit panel.\
+. Model ontology like GIT.\
+. Merge code like GIT.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 ---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 2010-October-09 in Ann Arbor Library (Main):\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - GIT is said to have a graph model.\
+Is there a way to visualize the graph?\
+See GOURCE -- It is very nice.\
+- To make Hum GIT-compatible, I need to design a way to break an ontology down into files.\
+I think that ontologies can be mapped to directories, roles to files, view-frames to files, dialogs to files, and dictionary-frames to files.\
+I think that all of the task-frames may need to be in a single file.\
+It might be possible to allocate plan-trees to files. \
+- An alternative is to make every task-frame into a file.\
+That alternative might make it easier to share improvements in sub-trees.\
+\
+- The note above about plan-trees reminds me that I have no examples where an ontology contains multiple plan-trees.\
+Perhaps I should build an example to test for unexpected interactions or side-effects.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 2010-October-11 in   Cafeteria:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - Spent most of Sunday creating a web site on Google Sites.\
+This could be a distraction. Fortunately, it can only be a distraction when I connect to the web.\
+On the other hand, it seem useful in that I am crafting / simplifying my presentation of various ideas.\
+Similar to refactoring.\
+- Also did a little web surfing to investigate the idea of using GIT, GITHUB, GORCE, Blender (3D) and COBALT (3D). \
+GIT provides a code collaboration environment that appears to be superior to many others.\
+GORCE provides a very nice visualization environment that shows an open-source repository evolving and the number of participants.\
+- I also spent some time (yet again) looking for plausible VR platforms.\
+Blender has a Python API that could make it possible to use VR as a cheap and portable substitute for multiple displays (too much hardware to tote).\
+COBALT is a VR platform built on Squeak Smalltalk. It would be very useful if the documentation were better.\
+- A possible alternative would be to bootstrap my own VR API in Hum and then let the actor call COBALT or Blender or ???\
+I am in somewhat dangerous territory.\
+The old saying is that \cf13 "There is no problem too complex that it cannot be hidden behind a layer of abstraction."\cf0 \
+The danger is that you eventually have to deal with the complexity and build a solution.\
+The abstraction just allows you to delay.\
+- In the long run, I need to figure out how to out-source different actors.\
+It would save me a lot of time if I could find someone to build the UI.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 2010-October-13 in   Cafeteria:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - Nothing Tuesday! Busy with my day job and not working nights!\
+But I was awake and could have got in an hour last night.\
+Anyway, here are some TO-DO items:\
+. Create a web presence (pretense?) for Harmony And Logic.\
+. Add Google Sites URL to my "Inventing the Future" URL.\
+. Translate the Smalltalk diagram writer into JavaScript (out-source that? . . . \cf14 What is it worth to me to out-source coding?\cf0 )\
+. In theory, it should be worth about \cf14 $3 per line of code.\cf0 \
+\
+- Is there a way I can create a self-actuating revenue stream? (See Opportunities folder under Documents).\
+. . That might provide me with more freedom to write what I want to write.\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf15 - For a variety of reasons, I am thinking that it is critical that I learn Erlang!\
+. . It is well suited to building Hum Run-Time.\
+. . It could provide a doorway to a better job.\
+. . It might provide a doorway that allows me to return to Consulting.\cf0 \
+\
+- I need to spend a little more time designing the code generator for Hum.\
+This will allow me to write Actor code in any target language (including the Hum byte-code).\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 2010-October-27 in Bell's Diner:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - My talk to 1DevDay yielded questions about BPEL and RDF and "It is like SOA, right?"\
+I added a slide with the run-time architecture.\
+- Saw a presentation for a "No SQL" database 
+\b Riak
+\b0  -- which is written in Erlang.\
+I was warned that Mnesia has poor recovery behavior.\
+It is similar to an old-fashioned ISAM system in that it tends to need a rebuild.\
+- I have been studying Erlang. I continue to be impressed.\
+It has almost all of the facilities needed by the Hum run-time.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 2010-November-01 in   Cafeteria:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - I've spent enough time now studying Erlang.\
+I am now prepared to write a Erlang by Emersion article or blog entry.\
+I am thinking of using the Meter Data Management scenario as the use case.\
+However, I will change the current process somewhat to enable real-time pricing.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 2010-November-02 in   Cafeteria:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - When I wrote MDM actor interfaces with the idea of producing them in Erlang,\
+I produces a rather different design that when I was thinking in Hum.\
+Did the choice of language or the wish to simplify or some other factor produce the difference?\
+- On reflection: When I wrote the interfaces with Erlang in mind, \
+I re-engineered the process as a real-time process \
+and ignored what I knew about existing metering system.\
+I was also simplifying some aspects with the idea of writing a tutorial.\
+- But there are also some 
+\b tool influences
+\b0 :\
+. . Erlang encourages one to think in real-time event-driven terms.\
+. . . Thinking in Erlang encourages more literal (machine-oriented) thinking.\
+. . Hum encourages one to think in top-down request-response terms.\
+. . . Hum encourages more process-oriented (step by step) thinking.\
+- If I tried to write the same "meter to bill" scenario in Hum, \
+I might produce a different result. I will have to try it now.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 2010-November-10 in   Cafeteria:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - Starting to learn Erlang.\
+- Had "Simple English" book idea this a.m. driving to work:\
+Programming is about defining interactions between actors.\
+user and system, system and system.\
+Start with dialogs.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 2010-November-16 at home:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - I was somewhat bemused yesterday when I discovered that Erlang has no iteration statements.\
+It is generally done with recursion. (Hopefully with tail-recursion.)\
+---}

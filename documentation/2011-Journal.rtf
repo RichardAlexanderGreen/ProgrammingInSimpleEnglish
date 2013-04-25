@@ -1,0 +1,1416 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf340
+\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fmodern\fcharset0 CourierNewPS-BoldMT;\f2\fmodern\fcharset0 CourierNewPSMT;
+\f3\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue255;\red255\green0\blue0;\red255\green0\blue255;
+\red58\green119\blue53;\red89\green89\blue89;\red0\green128\blue0;\red28\green31\blue255;\red5\green5\blue5;
+\red255\green47\blue59;\red0\green255\blue255;\red43\green147\blue41;\red42\green141\blue40;\red0\green158\blue0;
+\red15\green44\blue147;\red147\green14\blue23;\red147\green18\blue23;\red10\green10\blue126;\red25\green126\blue20;
+}
+\margl1440\margr1440\vieww15780\viewh15840\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\b\fs28 \cf0 2011 Journal - Notes to self.\
+
+\b0 ---\
+
+\b 04-March: at Lunch\
+
+\b0 - I've been working on learning Erlang since early November (4 months now).\
+I am now ready to think about translating Hum statements into Erlang\
+and using Erlang to implement the Hum run-time.\
+- Since I've been writing a simulator in Erlang,\
+I find myself reviewing my ideas about how the event stream will be implemented in the Hum Simulator.\
+- Actors will be simple Erlang processes. \
+- Events have a different meaning in Erlang and Hum.\
+This can be a source of confusion.\
+In Hum, "event" is generally a business-event handled in a dialog frame.\
+In Erlang, an "event" involves event-managers and event-handlers.\
+Multiple event-handlers can subscribe to the same event.\
+While this may be useful for implementing parts of the Hum run-time,\
+it will not be useful for implementing Erlang actors.\
+It may however, be useful for implementing the Hum Simulator.\
+---\
+
+\b 04-March: at Lunch\
+
+\b0 - I need a good 
+\b code generator
+\b0  or template language.\
+The code generator has to emit prolog, declaration, epilog, and method code fragments \
+and then assemble them into a compilation unit (Erlang module) at compile time.\
+- Prolog: Comment with original Hum code, plus -module() -exports([]) -include() -import() \
+- Declarations: -record( state, . . . )\
+- Epilog: Erlang does not have a trailing \} -- So might not be needed.\
+- Method code: One for each Action Statement.\
+---\
+
+\b 06-March: at home\
+- Glue code: 
+\b0  The Actor needs to be registered with the Hum Messenger.\
+. . That can be done via actor:init() -- But what will call the init()?\
+. . Use supervisor:start_child/2 to start the actor -- And that will call the init().\
+. . The supervisor:start_child/2 function may be invoked by a UI that is part of the Hum run-time.\
+. . Most actors also need to register with a Hum Resource-Manager.\
+. . The Hum Resource-Manager role resembles the Erlang application supervisor role.\
+. . . Perhaps the Hum Resource-Manager should be written as a Erlang supervisor.\
+. . Is there also a strong resemblance to an Erlang application?\
+
+\b - What is a Hum Application?
+\b0 \
+. . A user thinks of an application as a coordinated set of UI.\
+. . In Hum, that corresponds to the set of dialog patterns (the protocol) exposed to the user or client.\
+
+\b - What is a Hum Service?
+\b0 \
+. . The client of a service needs to know the service's API (the protocol).\
+. . From the client's point of view, the service is has a name and a protocol.\
+
+\b - What is the Hum unit of start/stop?
+\b0 \
+. . The minimum configuration is a Dialog Agent, a Coordinator, a Resource Manager, and at least one Actor.\
+. . Hum applications also need a Bookkeeper and a WorldBase.\
+. . That implies that the corresponding Erlang application would start a supervision tree like this:\
+. . . Application: hum_app\
+. . . . Root Supervisor: hum_root_sup\
+. . . . . Messenger (singleton: gen_server)\
+. . . . . Dialog Agent (need an instance for each running session)\
+. . . . . Coordinator (need an instance for each running goal)\
+. . . . . Bookkeeper (singleton: gen_server)\
+. . . . . World Base (singleton: gen_server)\
+. . . . . Resource Manager (Is also a supervisor)\
+. . . . . . Actor-1. (ordinary process started via supervisor:start_child/2 -- All ordinary Hum actors will have same ChildSpec)\
+. . . . . . Actor-2.\
+. . . . . . Actor-3.\
+--- \
+
+\b 08-March: at Frita Batidos\
+
+\b0 - Went to Craftsman's Guild - Speaker is into Moore's Law for Software. Contact him by e-mail or next meeting.\
+---\
+
+\b 08-March: at Frita Batidos\
+
+\b0 - I am conflicted: Should I continue to work on the MDM in Erlang project?\
+- - If I continue, I will have a demonstrable skill that I might be able to sell.\
+- - But I will also be distracting myself from my main goal: To write the run-time for Hum.\
+- - I suppose it might be worthwhile to write a project plan for each goal so that I have a better idea of the deliverables and the time involved.\
+---\
+
+\b 09-March: at Frita Batidos\
+
+\b0 - So I estimated 106 hours to write the Hum run-time in Erlang and 86 hours for the next version of the MDM in Erlang.\
+- At 10 hours a week: 11 weeks for Hum run-time, 9 weeks for the MDM.\
+- Either project should be sufficient to educate me and prove out some knowledge of Erlang.\
+- The MDM demonstration seems more likely to lead to some consulting work.\
+- But, life is short.\
+. . 9-11 weeks would be done by June.\
+. . 9+11 = 20 weeks would be done by September.\
+- A possible but 
+\b dubious
+\b0  advantage of doing Hum first is that I might run MDM in it as a proof of concept. \
+- -  See: Installation.txt (Hum ontology for the MDM installation process.)\
+---\
+
+\b 13-March: at Home\
+
+\b0 - Looking at the Erlang code for the Blackboard and the Calculator,\
+. .  brings me to think that the Blackboard is just a metaphor for the run-time memory state.\
+. . The concept was useful when I was writing an interpreter; \
+. . . but it seems redundant when writing the run-time and thinking about byte code.\
+---\
+
+\b 14-March: at Lunch\
+
+\b0 - The recurring problem with code generators is that the tail wags the dog.\
+- While I can implement Hum Actors as Erlang modules in a relatively straight-forward way,\
+. .  there is some risk that the Erlang capabilities and constraints are leaking backward into Hum.\
+- In this case, the problem is that the Blackboard seems redundant (overhead) in the context of an executing action session.\
+- But the Blackboard still makes sense in the context of a long-running dialog session.\
+** Ah ha! I forgot that 
+\b action sessions can be long-running
+\b0  also.\
+. . . I still need some way to persist the session state -- blackboard and instruction-pointer and job-ticket.\
+- Normally, when byte-code based systems try to persist state (like Smalltalk) \
+. . they store the entire "image" (data, code, and multiple thread instruction-pointers).\
+- That means that a Hum byte-code machine (VM) must do the equivalent \
+and store (blackboard, job-ticket, current byte code for the role, and the instruction-pointer).\
+- Design Question: The job-ticket is ubiquitous - it is part of the state - perhaps it should be part of the function of the Blackboard.\
+THINK ABOUT THAT.\
+---\
+
+\b 14-March: at Home\
+
+\b0 - NO. WRONG KIND OF COHESION. \
+- The call to an actor passes noun values and the job ticket. \
+- The response includes the updated job-ticket and any "giving . . . " value.\
+- While the blackboard happens to be updated at the same time, it is not the same kind of thing.\
+- The job ticket has a different personality (behavior) from the blackboard.\
+- value = fc( entity-ID, attribute-name )\
+. job-ticket = job + resources-used\
+. resources-used = [ \{ resource, measure, action, sub-job \} ]\}\
+. job = client, client-session, goal-invoked, original-w5\
+. action session data = job-ticket + blackboard + instruction-pointer\
+---\
+
+\b 16-March: at Lunch\
+
+\b0 - What to do next?\
+. . \
+---\
+
+\b 28-March: at Lunch\
+
+\b0 - The sim_asset => asset_mgr => messenger => quad stack 
+\b seems
+\b0  to be working well.\
+- But I have not actually 
+\b audited
+\b0  it to make sure the entries in the repository are actually there.\
+- So I will write a little 
+\b audit list
+\b0  from the sim_asset program to randomly pick a few items to look-up in quad.\
+- And that means that I have to provide some 
+\b access routines in quad.
+\b0 \
+---\
+
+\b 29-March: at Home\
+
+\b0 - Audit tests are failing. But the problem may be in the test logic, not quad \
+-- quad_test:test() seems to run okay.\
+But I must extend it to include tests of the check/1 function.\
+---\
+
+\b 11-June: at Compuware (Cloud Dev Day)\
+
+\b0 - White writing the 
+\b \cf2 mdm8
+\b0 \cf0  (version 0.8 of the MDM case study), \
+I realized that sometimes you need a way to specify a single actor or a subset of actors.\
+For example, when a service sends a notice or action to its transformer or when a transformer sends a notice to its circuit.\
+- That means that I may need to extend the instruction statement syntax.\
+Currently the pattern looks like this:\
+<role> : <action-statement>.\
+I am thinking about extending the pattern to allow this form:\
+<role> <actor-selector> : <action-statement>.\
+The <actor-selector> tells the resource manager that it must limit the assignment to an actor with the given attributes.\
+Example:\
+	
+\fs24 ---\
+	Role: Electric Service.\
+\
+	Action: Propagate \ul demand\ulnone   for \ul interval\ulnone  to my \ul transformer\ulnone .  \cf3  (How does "my transformer" get populated?)\cf0 \
+	. Secondary-Transformer [ActorID =  \ul transformer\ulnone ] : Add demand into \ul transformer-load\ulnone  for \ul interval\ulnone .\
+	---\
+	Role: Secondary Transformer\
+	\
+	Action: Add demand into \ul transformer-load\ulnone  for \ul interval\ulnone .\
+	. . .\
+	\
+	Action: Propagate \ul demand\ulnone  for \ul interval\ulnone  to my \ul circuit\ulnone .  \cf3 (How does "my circuit" get populated?)\cf0 \
+	. Circuit [ActorID = circuit] : Add demand into \ul circuit-load\ulnone  for \ul interval\ulnone .\
+	---
+\fs28 \
+Of course this causes more coupling between roles \
+and also requires that actors specify attributes in addition to the roles that they know.\
+>>>>> See also: 
+\b \cf2 RealTimeDesign.txt 
+\b0 \cf0 (try out extensions to the Hum language)\
+---\
+
+\b 16-June: at Lunch\
+
+\b0 - In 
+\b \cf2 mdm9
+\b0 \cf0 , I tried to use the Erlang event-handler framework (gen_event) to communicate events such as tick.\
+But the event-handlers are components that also need to communicate with each other.\
+In that case, the event-handler framework gets in the way.\
+---\
+
+\b 16-June: at Lunch\
+
+\b0 - What if I use the Hum concepts:\
+. . Messenger will communicate actor to actor. (Messenger logs traffic to a file - for replay later, if needed.)\
+. . Bookkeeper will record usage.  (Stream it to a file for map-reduce handling later.)\
+. . Calculator is not needed in this context.  (integer precision is good enough)\
+. . Simulator generates demand events (??? How will I do that ???)\
+- Add a broadcast function to  Hum Messenger. (This can be used to check the health [current connectivity] of the network.)\
+. . I need to define the semantics. For example, what if an actor is busy with work-in-progress? \
+. . . If the actor is supposed to respond to broadcasts while there is work-in-progress, it means that the actor's implementation must be interruptible.\
+\
+---\
+
+\b 10-July: in South Carolina (vacation)\
+
+\b0 - After many attempts, I've finally found a way to build an Erlang MDM that scales to one million meters in a simple fashion.\
+Along the way, I've learned that Erlang's ETS and DETS and even Mnesia will not scale effectively past about 50,000 instances on my Mac OS X 2 GB system.\
+The reason seems to be that all of these systems depend upon tables held in memory and my applications tend to run out of memory around 50,000 instances.\
+I was able to work around the problem by minimizing the use of memory.\
+---\
+
+\b 10-July: in South Carolina\
+
+\b0 - My original purpose for investigating Erlang was to decide if it could be used as a run-time system for Hum.\
+While Erlang is more robust than Smalltalk for large applications, it acquires that robustness mainly by assuring that data in memory is non-mutable.\
+It is still relatively immature in terms of IDE support. (I would not call the EMACs support an IDE.) I found it to be a relatively tedious and old-fashioned environment for debugging. However, all of those qualities are irrelevant if I am generating the code from my own Hum IDE.\
+- My experience with the run-time is that it can be non-stop, but requires a lot of configuration and optimization to acquire that quality.\
+Also the Erlang community is just as bad as the Smalltalk community in terms of literate code.\
+Again, those qualities (constraints / hurdles) are not so relevant if I am generating code and can hire an occasional expert to get past the documentation problem.\
+- In terms of the environment for writing the Hum IDE and most of the run-time, Smalltalk is still my preferred environment. \
+- My preference for the target run-time would be a byte-code interpreter similar to the JVM (Java Virtual Machine) but with the object-oriented byte-code that I've designed. That would enable a very compact medium for distributing compiled code. (The original source may be included for debug/explanation; but that will increase the code-space by an order of magnitude.)\
+---\
+
+\b 10-July: GSP airport South Carolina\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\i \cf0 - Comparison of run-time options:
+\i0\b0 \
+\ul JVM:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \ulnone - Pro: Larger audience because more people are tracking languages based on the JVM.\
+- Pro: Access to a large code base is assured could make it easier to interoperate with business applications (actors) written in other JVM languages.\
+- Con: Much of that code base is poorly designed for actors and concurrency.\
+- Mitigation: Scala may create sufficient infrastructure for actors and concurrency.\
+- Con: If you follow the crowd, you end up waiting in line.\
+- Mitigation: At least, you are in the line.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \ul \ulc0 Erlang (BEAM):\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \ulnone - Pro: Run-time is designed for robust reliability and concurrency.\
+- Con: A significant amount of wiring (configuration) seems to be required to achieve those qualities.\
+- Mitigation: The wiring can probably be automated.\
+- Mitigation: The configuration can probably be eliminated using a dynamic discovery framework (as intended for Hum).\
+- Con: Not inter-operable to the extent that JVM is.\
+- Con: A relatively small number of companies are providing industrial-strength run-time environments (versus JVM where Oracle, RedHat, and IBM are all investing in JVM-based run-time environments).\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \ul Hum (Rube) run-time (with Hum byte-code):\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \ulnone - Pro: Space-efficient byte-code optimized for the run-time is quickly loaded and interpreted with minimal overhead.\
+- Con: I have yet to write the interpreter and run-time. \
+- Mitigation: The hard part (inter-host communication) is readily available in existing frameworks. The main problem is deciding which one would be best.\
+- Con: Fast interpreters are not so easy to write. \
+- Mitigation: Hum does not need to be fast. It is designed to be easy to write and maintain.\
+. . Also: The interface is the message. The actor can be written in any language. (Message exchange is relatively simple and the transport could/should be pervasive (e.g. XMPP over TCP).\
+- Con: Such code will only run in Hum run-time.\
+- Mitigation: a JVM byte-code could be provided as an alternative. (But would double some support costs.)\
+- Mitigation: One version of the interpreter could run in JVM. (Again, this doubles some support costs.)\
+--- \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 3-August: Mostly Sweetwaters\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 Alternative Next Steps / Next goals (some confusion -- I am thinking out loud):\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf4 * Hum Examples:		|  Help to sell Hum\
+- - Meter Installation		|  Help to prove Hum\
+- - Service Dispatch		|  Help to teach Hum\
+- - Robot Coffeeshop		|  Simplify robotics -- Move to a capable domain\
+- - Toy MDM			|  Study integration needs\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf2 * Smalltalk Enterprise 		|  Make Smalltalk more business-friendly\
+- - Workflow			|  Implement component-based architecture, actor framework\
+- - Resource Manager		| \
+- - Accounting			|  Implement 
+\b Hum
+\b0  components\
+- - Messenger			|  Decouple components from 
+\b Hum
+\b0  assumptions\
+- - Temporal Database	|  \
+- - Dashboard Widgets		|  Demonstrate sale-able expertise\cf0 \
+\
+\cf5 * Finish Hum Implementation	|  Why did I take diversion to Erlang ?   \
+- - Code Generator			| Just write it -- simplest thing that might work    <<<<<<<<<\
+- - Programmers Assistant\
+- - Components (in Smalltalk Enterprise above)\
+- - Virtual Machine			|  Provides a way to make literate code seem proprietary\cf6  \cf0 \
+\
+* Erlang Examples:		|  Demonstrate sale-able expertise\
+- - Toy MDM			|  Demonstrates trade-offs for scaling\
+- - Workflow\
+- - Messenger\
+- - Accounting\
+- - Temporal Database\
+- - Dashboard Widgets\
+\
+\cf3 * Dollar Software			| Rent software for one dollar per day / week / month / year\
+\cf7 - - 
+\b Hum
+\b0  development environment is centralized.    <<<< Also machine learning.\
+- - 
+\b Hum
+\b0  run-time is in the cloud (platform as a service).\cf3 \
+- - Vulcan's Apprentice  <<< How to improve but not compete with Mathematica?\
+- - Visualization Tool      >>> Enable dream-home, dream-car designers\
+- - \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \
+* Social\
+- - Richard's Rant's - Eclectic Cognito\
+- - Constitution 2.0 >>> a kind of moderated wiki / blog / demo\
+- - Boron Micro Fuser \
+- - Grand Old Potty \
+- - Reductem Absurdem\
+\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 7-August 8:40 at Afternoon Delight:\
+Next Steps:\
+Erlang\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - Write lab report on the Erlang Toy MDM experiments.\
+- Publish the Toy MDM experiments with the lab report.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 Hum\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - Rewrite the Hum HTML form generator to generate Seaside code.\
+- Rewrite the Hum HTML dialog agent to run as a Seaside component.\
+- Use Seaside to create a wiki, blog, and a demonstration site.\
+- Use Moose Glamour to write the IDE (go for demonstration using TDD).\
+- Use TDD to build a code generator.\
+- Study Lisp and consider adding features to Hum.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf8 7-August 8:47 at Afternoon Delight:\
+Maybe I need to help Barbara with her goals.\
+
+\b0 - Clear-out upstair back suite.\
+- Make up a budget for retirement\
+\
+
+\b Maybe I need to pay more attention to house maintenance.\
+
+\b0 - Patch roof.\
+- Clean front gutter.\
+- Repair lighting in basement\
+- Check for bats. \cf9 DONE\cf8 \
+- Try to plug potential gap around chimney where bats may be entering.\cf0 \
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 16-August in   Cafeteria::\
+Next Steps:\
+Hum\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - Rewrite the Hum HTML form generator to generate Seaside code.\
+- Rewrite the Hum HTML dialog agent to run as a Seaside component.\
+- Use Seaside to create a wiki, blog, and a demonstration site.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 Prerequisites: \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf10 - Learn Seaside\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 - Put a Hum page on the "free" Seaside server.\
+. . Construct a Hum wiki with the Hum documentation.\
+. . Construct a "Programming in Simple English" blog - to explain Hum design philosophy.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 17-August at MiGANG:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 . Matt Ruma gave good talk about UX design -- will post talk -- see last slide for UX resources.\
+. asp.net/mvc \
+. (see: ScreenCasting with Live Meeting)\
+. \
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 19-August at Barry's Bagels:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 . I want to learn Seaside today.\
+. I hope to work through the "Pharo by Example" chapter "Seaside by Example".\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 01-September at Bell's Diner:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 . I gave XText (a Lex/YACC kind of thing for JVM) a try.\
+. Unfortunately, it produces a rather bloated product.\
+. It pulls in rather large frameworks from ANTLR, Google, and Eclipse.\
+. In addition, it is BNF based.\
+. Since I have decided that BNF is not the future,\
+. . using a BNF based syntax checker/interpreter\
+. . is inconsistent with my design philosophy.\
+. The primary advantage of XText is that it is designed to produce an Eclipse IDE for the language\
+. . and JVM for the target.\
+. For Hum, the Mondrian framework provides a way to build an IDE.\
+. For Hum, the syntax will be pattern based using something like ALICE rather than BNF. \
+. Instead of saying something like " 'includes' expected ", \
+. . the pattern matcher will say "Did you mean . . ." and show the nearest match.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 01-September at Bell's Diner:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 Next Steps (from 7-August above), \cf2 but annotated with rationale.\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 Erlang\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - Write lab report on the 
+\b Erlang
+\b0  Toy MDM experiments.\
+- Publish the Toy MDM experiments with the lab report.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf2 . . Provide some credibility that might lead to some Erlang or AMI contracts.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 Hum\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - Rewrite the Hum HTML 
+\b form generator
+\b0  to generate Seaside code.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf2 . . Provide a tool that creates quick HTML sites.\
+. . Might interest the Seaside/Smalltalk community.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf11 . . Get back into Hum and Smalltalk.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 - Rewrite the Hum 
+\b dialog agent 
+\b0 to run as a Seaside component.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf2 . . Enable Seaside. Implement dialog agent in popular technology.\
+. . The dialog agent provides a way to implement chat bots. \
+. . Enables entertainment angle.\
+. . Might interest the Seaside/Smalltalk community.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf11 . . Reality check: Can I implement dialog agent in typical server-side technology. \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 - Use Seaside to create a wiki, blog, and a 
+\b demonstration site
+\b0 .\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf2 . . Might interest the Seaside/Smalltalk community.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf11 . . Get some CSS practice.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 - Use Moose 
+\b Glamour
+\b0  to write the IDE (go for demonstration using TDD).\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf2 . . Might interest the Moose community.\
+. . Save a little time and will probably be more robust than DIY.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf11 . . Until the IDE is demo-able, I have nothing but vapor-ware.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 - Extend 
+\b ALICE
+\b0  framework to be a code generator.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf2 . . Demonstrate robust, tolerant translation.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf11 . . This will distinguish the IDE from the old paradigm.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf11 . . If I am right, it should prove to be a productivity tool for myself as well.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 - Study Lisp and consider adding features to Hum.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf3 . . What has I thinking?  \
+. . Perhaps, I thought I would learn something new.\
+. . IMO, Lisp is stuck in the 60's focus on optimizing algebraic production rules.\
+. . Clojure (a List dialect) produces JVM and has a web framework called Nior.\
+. . But, it simply moves the production problem into a less transparent framework.\
+. . Noir is concise compared to HTML5. But what isn't? \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 ---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 13-September at Bell's Diner:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - So much to do, so little time.\
+I've started working on the 
+\b HTML form generator
+\b0 .\
+The HTML side of it seems to be written but not tested.\
+The Seaside (server-side Smalltalk) generator is not started\
+but it looks easy enough.\
+The Seaside callback framework appears to be well documented.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 16-September in   Cafeteria:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - I spent part of last night looking at Javascript graphics and UI frameworks. \
+(MochiKit and DoJo and SVG kits)\
+One of the problems with implementing Hum (or any other application)\
+is that there are so many choices of UI frameworks.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf2 I guess I need to define my strategic goals w.r.t. the UI implementation.\
+My problem seems to be a lack of confidence in the Smalltalk (Morphic / Moose / Seaside) implementations.\
+Moose Glamour and Mondrian provide a good enough UI framework for implementing the IDE.\
+Seaside provides a "good enough" framework for implementing a web-based Dialog Agent.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \
+- On Tuesday night, I was at Craftsman Guild meeting\
+and listening to a presentation of CouchDB-App framework.\
+It was a kind of blast from the past.\
+CouchDB-App framework resembles a 1980's 4GL \
+in so far as the procedure code lives in the DBMS.\
+It is more up to date in so far as the UI is designed to run in a browser\
+rather than in a more proprietary framework.\
+\
+- The youngsters were babbling on about no-SQL database.\
+(CouchDB is schema-less but hierarchic [JSON] in operation.)\
+\
+- There was additional babble about map-reduce.\
+Another blast from the past.\
+We used to do map reduce because we had the same problem\
+with a sequentially written data stream.\
+We had to do map-reduce in order to create projections and joins on the data.\
+\
+- There is additional babble about replication and distribution.\
+Replication is nice.\
+Distributed data is something we saw when the data would not fit on a single reel of tape.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 27-September at Bell's Diner:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf2 - Hum26.9 is current version of the Hum prototype.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \
+- I've been thinking about the current state of the art.\
+The programming software industry is stuck in the old paradigm.\
+Evidence: We keep re-inventing the 1980 UI widgets \
+and the screen-to-database stack in slightly newer frameworks.\
+Of course, any new programming framework is expected to provide this capability.\
+But there are no new ideas except in gaming frameworks.\
+The screen-to-database stack is no better now than it was with 20 years ago.\
+\
+- The opportunities that are waiting in the wings include:\
+. . Automatic persistence - removes nuisance work from programming workload. (World Base)\
+. . Translation of UI source to multiple target platforms: (UML, XML, \'85)\
+. . Integrated cost accounting - enables virtual enterprise, removes nuisance workload.\
+. . Automatic audit trail - removes nuisance work from programming workload.\
+. . Distributed actor framework (Amazon, Google, Erlang) - enables virtual enterprise.\
+. . Programmer's Assistant  identifies common programming errors.\
+. . Designer's Assistant  knows common business patterns.\
+. . Automated avatars - Conduct dialogs using chat-bot intelligence.\
+\
+- What is needed to nucleate this change is an accepted standard extensible framework.\
+. . Open source encourages acceptance.\
+. . Financial backing provides credibility.\
+. . Multi-Vendor support defines the relative value of a standard.\
+. . Extensible means that the code generator is open and easy to use.\
+. . Standard framework is transparent, comprehensive, and internally consistent.\
+\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 27-September in   Cafeteria:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 \
+- I am thinking about writing an essay / presentation: \
+. . "Your existing OOPL has no future." \
+. . or "____ will be obsolete in 2020."\
+\
+My 
+\b thesis
+\b0  is that the existing OO frameworks lack essential qualities that will be needed in the future.\
+1. They are simply too low-level.\
+2. The community process does not foster the kind of re-use and common vocabulary that was hoped for.\
+3. Predictable nuisance coding to support persistence, messaging, workflow, instrumentation, audit trails, \
+. . . and translation to UI frameworks, simply adds friction to the process of producing an application.\
+4. The problem space and the solution space tend to be mixed together -- making systems harder to maintain. \
+5. While all of these problems can be overcome with better architectures and better naming conventions,\
+. . . these
+\i  work-arounds 
+\i0 are exactly that.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 27-September at WCC "Java 7 Launch"\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 \
+Speaker (Roger Brinkley) recommends "{\field{\*\fldinst{HYPERLINK "http://www.amazon.com/gp/product/0137142528/ref=pd_lpo_k2_dp_sr_1?pf_rd_p=486539851&pf_rd_s=lpo-top-stripe-1&pf_rd_t=201&pf_rd_i=0596003773&pf_rd_m=ATVPDKIKX0DER&pf_rd_r=1TM1GRDW7TJS0X4Q5G84"}}{\fldrslt Java Performance}}" by Charlie Hunt.\
+\
+See "Java Spotlight" podcast.\
+\
+Java 7 Language highlights:\
+- String can now be used like a real constant (in case statements).\
+- Break-up int with underscore.\
+- java.io.AutoCloseable -- try ( resources ) \{ \'85 \}.\
+- java..concurrent -- fork / join framework\
+. . ForkJoinPool\
+. . ForkJoinTask\
+\
+JDK7 supported in newer versions of NetBeans (7.0.1), GlassFish (3.1)\
+\
+JVM features:\
+- new byte code: invokedynamic\
+- "HotRocket" --> "JRockit"\
+. . JRockit Mission Control Console\
+. . JRockit Flight Recorder Support (soon)\
+\
+JavaFX is the evolution of the Java rich client platform.\
+(Get rid of the scripting language [mostly].)\
+. Back to the Swing model ?\
+. Windows GA expected in October 2011. (CY2012 on Mac OS.)\
+\
+Rumor: IBM WebSphere is finally EE 6 compliant.\
+\
+GlassFish (being the reference implementation) has always been compliant.\
+\
+GlassFish is becoming the underlying infrastructure for WebLogic.\
+\
+GlassFish 4.0 is "open for business" (???)\
+\
+Java EE 7 "moving into the cloud"\
+. The cloud requires Data Center and Tenant roles.\
+. \
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 29-September at Bell's Diner:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - The thing that could really distinguish Hum would be a facility to collect and collate business process solutions.\
+- That would make it a kind of 5GL. \
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 29-September in 255 WCB:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 -  Hmmm: a facility to collect and collate business process solutions.\
+. . The simplest thing that might work would be something like SourceForge with "tags" (keywords) provided by authors and users.\
+. . A more sophisticated solution might analyze the Hum ontologies to create some metric of commonality.\
+. . One metric of commonality would be the percentage of nouns that two ontologies have in common.\
+. . Another metric of commonality might be the percentage of actors two ontologies have in common.\
+. . . (A likely problem is that different organizations may have different names for actors with very similar functions.)\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 4-October at Craftsman Guild (in All Hands Active):\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 See:  "gem rspec-given" -- Given When Then\
+See: backbone.js -- provides MVC in JavaScript \'85\
+See: gist.git.com \'85 David Mosher\
+See: twitter bootstrap github . . . http://twitter.github.com/bootstrap/\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 5-October at Bell's Diner:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - I've started part-time 3x7 this week.\
+Now I should have more time (Monday's and Friday's) to write code.\
+. That means I have to settle on goals and means.\
+. It appears that I decided that the Hum to HTML translator\
+. . was a good place to start.\
+. So that is a goal.\
+. Alternative means include various targets such as: \
+. . Seaside, Google Apps, and JavaScript frames (such as backbone.js).\
+. That means that I have to learn the target framework in addition to writing the translator.\
+. Perhaps, I can write a kind of wrapper that will decouple the translator from the target framework.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 5-October in   Cafeteria:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - I spent an hour this morning porting Hum to Moose.\
+Moose has deprecated some classes.\
+My tests are now failing. \
+This is interesting -- and something I might learn from.\
+But it is also a distraction.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 11-October at Bell's Diner:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - I wrote a new version of the "Practical Ontologies for Enterprise Data Management" yesterday.\
+Problem is that I promised to show a "simple technique" but ended up writing about Hum at the end.\
+I need to decide if I am going to show "simple technique" (the message is the feature),\
+or am I going to show "Hum".\
+Since I only have about 20 minutes, trying to do justice to Hum is not likely to work.\
+But I could do the "message is the feature" in that time, I think.\
+- Today I should probably go back over the new presentation \
+and see what I can do with the "message is the feature".\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 13-October at Bell's Diner:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - Today I need to decide what, if anything, I will propose for the Arlington Erlang day on December 3.\
+I am going to look over the ReadMe.txt that I wrote.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 1-November at   Cafeteria:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - I wrote "ThoughtsOnProgramming.html" over the weekend.\
+It is really about the concept of business programming versus computer programming.\
+Programming a business is different than computer programming.\
+I strayed into consideration of the annotations and conventions needed to supplement the syntax in Hum.\
+I managed to identify 19  situations where some annotation, convention, or protocol is needed.\
+Of those, perhaps 7 would have a common interpreter which simply sets actor parameters.\
+The other 12 would have unique patterns and unique action consequences.\
+- I plan to use the next 20 minutes thinking about the possibility of a common annotation design pattern.\
+- Requirements:\
+. . Catch the annotation on the line. (Done)\
+. . Parse the annotation string -- (Whatever appears between brackets.)\
+. . Interpret (act on) the annotation. \
+. . . At this time, each annotation's action is a test-time or run-time effect.\
+. . . Retention Rules: WorldBase purge component would need to be notified of all retention rules seen in all Dictionary Frames and Action Frames.	\
+. . . . WHAT IF rules in one domain contradict rules in another?  \
+. . . . . Assume for now that maximum retention wins.\
+. . Generating Test Data: \
+---\
+23-November at   Cafeteria:\
+- I keep getting stuck on the UI.\
+. . Lately I've been writing a 'compiler' that translates View frame mark-up into Seaside.\
+. . But I keep getting distracted by JavaScript frameworks and other GUI frameworks.\
+. . . There are some very good JavaScript frameworks out there.\
+. . . Problem is: JavaScript is a rather low-level language and the frameworks are scarcely better than AWT.\
+. . . Nevertheless, there might be some value in using one or more of these frameworks to give Hum a rich interface on the web.\
+. . . . But I really hate reinventing the wheel just to make it roll on a new platform.\
+. . I've also spent a little time studying the Magritte framework.\
+. . Margritte is redundant in the Hum context because it is trying to do the same thing as Hum.\
+- I had another thought last night about programming languages.\
+. . If you want to program a numerically controlled machine (NC machine), you should use a NC language.\
+. . If you want to program a music machine, you should use a music language.\
+. . If you want to program a business, you should use a business programming language (business oriented BO language).\
+. . . But COBOL is a data processing language, not a business programming language.\
+. . . . COBOL was appropriate to the context where it was invented. They needed a data processing language then.\
+. . But as I've argued, the data processing that occurs in a business context is highly predictable, \
+. . . and should be handled automatically by the run-time system and not be a programming concern.\
+- Language metalanguage\
+. . I was exposed to a framework for programming music last night.\
+. . That caused me to think that it might be possible to define a kind of meta language for describing DSL's similar to Hum\
+. . . but with different domains in mind.\
+. . Hum assumes certain capabilities in the run-time. \
+. . Hum also assumes that actors can be programmed to respond to action statements.\
+. . If I wanted to extend Hum into music programming, \
+. . . I would have to add some kind of timer-based synchronization to the run-time and probably into the language constructs.\
+. . . Currently, Hum has the Dialog construct for responding to events (UI and sensor events).\
+. . . . But that would probably be a weak or awkward notation for responding to timer events.\
+. . . . Perhaps I need an additional type of frame to provide a event-response notation.\
+. . . . Or, I could simply 
+\b extend the Dialog notation to make this kind of program readable
+\b0 .\
+- Example:  (U: and S: are clutter because there is no dialog per se. \
+So, just show triggering event followed by production response.\
+---\
+Events: Respond to calendar events.\
+\
+When: End of \ul week\ulnone .  [from Calendar]\
+. MIS: Send summary of current \ul week\ulnone  resource utilization to utilization-subscribers.\
+. MIS: Send summary of current \ul week\ulnone  inventory levels to  inventory-subscribers.\
+. (Above assumes that MIS is connected to appropriate Bookkeeper and we don't have to specify.)\
+\
+When: End of \ul month\ulnone . [from Calendar]\
+. MIS: Send summary of current \ul month\ulnone  resource utilization to utilization-subscribers.\
+. MIS: Send summary of current \ul month\ulnone  inventory levels to  inventory-subscribers.\
+\
+When: End of \ul quarter\ulnone . [from Calendar]\
+. MIS: Send end of \ul quarter\ulnone  balance-sheet to balance-sheet-subscribers.\
+. MIS: Send end of \ul quarter\ulnone  income-sheet to income-sheet-subscribers.\
+. MIS: Send end of \ul quarter\ulnone  cash-flow-report to cash-flow-subscribers.\
+---\
+Events: Respond to conductor / metronome.\
+\
+When: Down-beat. [from Conductor]\
+. Timpani: Boom.\
+. Orchestra: Begin bar.\
+. Dancers: ???\
+\
+When: interval. [from Metronome]  (???)\
+. Orchestra: Tail notes that tail on this interval.     (The instruments pinch-off starts here.)\
+. Orchestra: Start noes that start on this interval.  (The instruments "attack" starts here.)\
+--- \
+29-November at Gallaudet U. Kellog Conference Hotel Bistro\
+- Analyzing the experiment above, \
+I see that this is a variation on 
+\i dialogs
+\i0  with an intermediary 
+\i sensor
+\i0  interpreter. (Something like a Scribe)\
+The difference is that there is no need for a verbal response.\
+Something resembling context or a dialog frame is still useful for categorizing the set of events.\
+A context stack does not seem appropriate, so I think that the frame title "Events: . . ." will provide the categorization.\
+- \
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 30-November at SemTechBiz DC conference (Gallaudet U - Kellog Conference Hotel)\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - I saw two presentations yesterday. So this is "first impression".\
+\
+- In a enterprise context, so called "semantic" technology (knowledge representation using RDF/ OWL2)\
+. . is potentially useful for sorting out the enterprise vocabulary.\
+. The RDF/OWL2 community has tools for checking and querying knowledge represented in this notation.\
+. The current technology differs from earlier technology by using URI (pointers to namespaces) to enhance the data schema.\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 - Hum might contribute to "semantics" by providing a human-readable notation.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 . The dictionary frames are easily translated to RDF-style: (subject predicate object) \
+. . <== (noun is-a noun)\
+. . <== (noun is-attribute-of noun)\
+. . <== (noun is-category-of noun)\
+. The plan frames specify nodes of a precedence diagram. So:\
+. . <== (condition is-a-precondition-of condition).\
+. The procedure frames could be:\
+. . <== (instruction follows instruction)\
+. The tie from nouns to statements:\
+. . <== (noun appears-in statement).\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 1-December at SemTechBiz DC 2011\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 \
+Note from my talk.\
+- I got a question about "thresholds" - events or tasks triggered by data thresholds.\
+. . I need to give it some thought.\
+. . The Events Frame above can capture that idea, but: How would I implement it in the Hum run-time?\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 5-December at Reagan National Airport\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 \
+- I 
+\b skipped the Erlang conference
+\b0  on Saturday.\
+First of all, I did not make a reservation.\
+Then, when I put myself on the wanting list, I did not check it.\
+This is all evidence that I am not sufficiently excited by Erlang as a specialty to make further investments in it.\
+\
+- I am also 
+\b not overly impressed with the "Semantic Technology" thing as a specialty
+\b0 .\
+The technology is basically a rehash of inference via forward-chaining but using an XML format.\
+It would appear that the primary benefit is to enhance a web page's search ranking.\
+However, my data analysis technique seem to be the main skill in creating content.\
+\
+- I have been
+\b  
+\i too tired
+\i0  
+\b0 to spend time on the Smalltalk code for the Hum translators.\
+That may be an indicator that it is time to give it up.\
+On the other hand, it may simply be an indicator that vacation and work do not mix.\
+\
+- I've been tired after each day of being on my feet.\
+But I am also feeling run down - sickly. \
+I was feeling quite run-down on Thursday before we left.\
+I believe I have two abscesses - one in my jaw and one anal.\
+I will see a doctor soon about the anal pain. \
+I want the troublesome tooth removed - hoping that will eliminate one cause of constant infection.\
+Perhaps, "Dr Fear" will do it. He had suggested that it be removed immediately when I saw him to consult about implants.\
+\
+- One of the SemTechBiz attendees is using XText translation.\
+A possible trick would be to translate 
+\b Hum
+\b0  to 
+\b MOF
+\b0  and then use 
+\b XText
+\b0  code to translate to multiple target languages.\
+That might be more efficient that writing a separate translators in Smalltalk for each target.\
+However, my usual reaction would be that if just moves the problem from one language to another.\
+If the XText notation is not significantly more productive than the Smalltalk code, \
+. there is really not much incentive for me to add another layer of intermediate code.\
+\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 7-December at AACS:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - Opportunity: Apple iOS has over 1500 API.\
+. .  Perhaps there might be a way to translate API to Hum role-action statements.\
+- iCloud provides 5GB of free storage.\
+. . iTunes content takes minimal (or zero) space because only links are stored.\
+- See: storyboard tool (part of SDK / XCode).\
+- WebKit also supports disconnected applications.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 9-December at Afternoon Delight:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - This week included a number of discussions at work about "recover-ability".\
+More specifically: How should the software handle a number of failure scenarios.\
+\
+- To a large extent, the programmers and managers did not know the standard (to me) design pattern for a suspense file.\
+This is an example of how our profession does a poor job of transmitting standard design patterns from generation to generation.\
+However, it also reminded me to review the provisions Hum has (should have) for dealing with exceptions.\
+\
+- I wrote a page or two about exception handling strategy in the Hum Programmers Guide.\
+Basically, the resource manager or messenger would notify a "trouble-shooter" agent when a problem occurs.\
+However, I have not really specified in any detail about how the "trouble-shooter" roles would be programmed.\
+So, I can spend a little time on that today in the "thinking out loud" area.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 14-December at   cafeteria:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - Last night's talk about iOS referenced LLVM, \
+. . a VM with a community that uses LLVM as a portable platform for C, C++, and related languages.\
+. . If I understood correctly, the iOS components run in the LLVM.\
+. . Also, Apple is moving to LLVM as its target VM for Objective C.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 . . Apple's XCode IDE compiles to LLVM.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 . . The community (Darwin and GNU people) have created a fairly complete toolset to support and use LLVM.\
+. . But I don't think it is necessarily any better than the JVM.\
+\
+- LLVM got me thinking about the potential for a Hum VM again.\
+. . The advantages of a VM is that it is portable.\
+. . The advantages of a byte-code is that it is 
+\b compact
+\b0 . (It downloads quickly and loads quickly from disk.)\
+. . It also 
+\b obfuscates
+\b0  the code -- But, in an open source world obfuscating the code seems like a throwback.\
+\
+- In my user groups, I am the 
+\b odd duck
+\b0 .\
+. . The most of the
+\b  user group talks are oriented around writing user interfaces.
+\b0 \
+. . I am the odd duck because my interest is writing code at the integration level.\
+\
+- While Hum views and dialogs can indicate the general organization of a user interface,\
+. . it cannot really provide the detail that goes into implementing a 
+\b rich user interface
+\b0 .\
+. . For example, Hum View widgets are all bound to the data (in a blackboard).\
+. . It is not obvious how I would enable a splitter.\
+. . In fact, even a data driven display such as a tree view is not an obvious addition.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 15-December 1:11 a.m. at home:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - I was thinking about the problem of mixing data-entry widgets with view-control widgets.\
+. . It occurred to me that the view notation has this convention for a button: [[button-label]].\
+. . Data-entry widgets control the data on the blackboard which is the model in the MVC pattern.\
+. . View-control widgets control data on a different model, a model of the layout.\
+. . The convention could be that layouts use a "Layout" frame\
+. . . and widgets that are not data widgets use doubled brackets.\
+. See example below. \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f1\b \cf2 ---\
+Layout: IDE Top-Level.\
+[[menu-bar: main-menu]]\
+[[tools: main-tool-bar]]\
+[[pane: main-window]]\
+---\
+Layout: main-window.\
+[[pane: edit-panel]] [[splitter: gutter-splitter]] [[pane: diagram-stack]]\
+. (In this case, I've stacked the diagrams over on the right instead of across the top.)\
+---\
+Layout: Edit-Panel.\
+[frame-name] [frame-type]\
+[[edit: frame content]]\
+[[status:status-line]]\
+---\
+Layout: Diagram-Stack.\
+[[diagram: plan-tree-diagram]]\
+[[diagram: role-relations-diagram]]\
+[[diagram: word-relations-diagram]]\
+[[diagram: dialog-diagram]] \
+---\
+Layout: Tool-Bar.\
+[[tool:Save]] [[tool: Open]] [[tool: New]] [[tool: Un-Do]] [[tool: Re-Do]] [[tool: Run]] [[tool: Find]] [[tool: Merge]]\
+---
+\f0\b0 \cf0 \
+- There does not seem to be much need to put instructions into the layout frames.\
+. . The fact that the widgets are in the layout frame (context) should set a large number of default behaviors\
+. . . and relationships are defined by adjacency.\
+. . However, this kind of "
+\b magic
+\b0 " creates a situation where there is a lot of hidden semantics for the user, a programmer, to learn.\
+. . Of course, 
+\b Hum is full of magic
+\b0  because of we automate persistence, message handling, accounting, simulation, and have our own calculator.\
+- However, what is not obvious in the example above, is how 
+\b data viewers
+\b0  \
+. . such as 
+\f1\b \cf2 [[edit: frame content]]
+\f2\b0 \cf0  
+\f3 and
+\f2  
+\f1\b \cf2 [[diagram: plan-tree-diagram]]
+\f0\b0 \cf0  \
+. . get hooked into the data model.\
+- It is also not obvious how the layout control and data control actions will be programmed.\
+. . layout controllers and data controllers are a different kind of actor than a business process actor.\
+. . They are behaving in a different space.\
+. . That implies potentially different persistence and accounting rules and maybe even different arithmetic.\
+- Of course, one way to work with this \
+. . is to \cf4 assume the UI controls are delegated to the 
+\b Scribe
+\b0  and 
+\b Speaker
+\b0  roles.\cf0 \
+. Those actors may be programmed in any suitable programming notation (generally not the current Hum).\
+. But that implies that we might need to provide some kind of API to the externally programmed agents.\
+. Similarly, things like an IDE should be programmed in a UI-centric notation such as ActionScript or some other ECMAscript framework.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 15-December in   Cafeteria:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - I am vaguely dissatisfied with this outcome.  \
+     
+\i \cf4 . . . assume the UI controls are delegated to the 
+\b Scribe
+\b0  and 
+\b Speaker
+\b0  roles.\cf0 \
+     . Those actors may be programmed in any suitable programming notation (not Hum).
+\i0 \
+It contradicts my belief that programs should be expressed in WYSIWYG and/or English-like statements whenever possible.\
+But I have to recognize that Hum would not necessarily add value by re-inventing capabilities that already exist in UI frameworks.\
+Furthermore, I only have so much time (and less each day).\
+\
+- Another consideration: 
+\b Many programmers start with the UI. 
+\b0 \
+(Many design from the outside to the inside, program front-end to back-end. In fact, I tend to recommend that as a kind of BDD.)\
+If the language UI framework does not provide what they need, the other features may be irrelevant.\
+That means that having a rich UI notation is a double-edged sword.\
+It also means that not having a rich UI will limit the audience. \
+Do I want to limit the audience? (Perhaps so, I can't satisfy everyone -- can't be all things to all people.)\
+\
+- I could work around this limitation by providing 
+\b User Interface Agent (templates)
+\b0 .\
+- To provide a RIA (rich internet application) User Interface Agent,\
+. . I could extend 
+\b ActionScript
+\b0  or some other framework \
+. . to include API that would interact with Dialog, View, Black Board, World Base, or Ontology.\
+- To provide a Virtual World User Interface,\
+. .  I could similarly extend the 
+\b OpenQwaq
+\b0  (Python) API (add capabilities that are notionally and notationally consistent).\
+\
+- I am thinking that all of this shows signs of the 
+\b tail wagging the dog.
+\b0 \
+One of my goals for Hum (Simple English) was and is to allow business or end-user goals\
+to be expressed in a language that is not strongly coupled to the deployment environment.\
+But, as soon as we think about a "splitter" or even "layout", \
+. . we have coupled our thinking to a relatively specific UI framework. (or a set of them that include the same UI patterns)\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 15-December dinner at Japanese restaurant:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 . Thinking about what 
+\b API
+\b0  an external UI will need.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf12 \
+- "Method signature in Smalltalk."\cf0 \
+- For access to 
+\b Dialog Black-Board
+\b0 :\
+\cf12 . . "Get a single attribute value from the dialog black-board."\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf2 . . attributeValue := dialog attributeOfEntity: anEntityName attribute: anAttributeName. \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf13 . . "Get a dictionary of attribute values from the dialog black-board."\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf2 . . attributeValues := dialog dictionaryOfEntity: anEntityName.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \
+- For interaction with 
+\b Dialog vignette
+\b0 :\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf14 . . "Get the dialog's current (top of the stack) context."\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf2 . . contextName := dialog context.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf14 . . "Get a copy of the dialog's context stack."\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf2 . . contextNameStack := dialog copyContextStack.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf14 . . "Provide user input (stimulus) to the dialog."\cf2 \
+. . dialog userSay: aString.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \
+- For interactions to/from a rendered 
+\b view
+\b0 :\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf14 . . "Set the values in a view (from a black board)."\cf2 \
+. . view newValues: aDictionary.\
+\cf14 . . "Retrieve the value from a view (into a black board)."\cf2 \
+. . entityDictionary := view getValues.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 21-December in   Cafeteria:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - Updated code above to correct it and make it self-documenting.\
+- Discussed "Business Programming Language" with JT\
+(If you want to program a computer, use a computer programming language.\
+ If you want to program a business, use a business programming language.)\
+He asked for a copy of a relevant presentation.\
+I sent "Inventing the Future" by email.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 21-December at Japanese restaurant on Fifth:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - Been reviewing spreadsheet: in file "2011-08-22-WBS.numbers".\
+I've actually been making some progress against the WBS.\
+Curiously, most of the progress is built on things that I have already written in Smalltalk.\
+- Lately, I have been feeling that it is important to be able to translate to Java and HTML5.\
+But I've acquired such a dislike for Java and JavaScript, that I don't like the work.\
+It is much easier to translate to Smalltalk and produce code that is readable and consistent with the Hum premise.\
+- I believe that I need to work on a cloud runtime so that I can reality test.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 23-December at Barry's Bagels:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - Thinking about translating to a byte-code:\
+. . The advantages of this approach are out-weighed by the disadvantages.\
+. . It is better to translate to a compiled language and let that compiler produce byte-code.\
+. . While byte-code is more compact than source-code,\
+. . . compression technology can make source-code just as compact for purposes like down-loading.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf15 - I've decided to quit my effort to produce a Hum to Java translator.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 . . Translating to Java is more likely to be counter-productive than useful\
+. . . because programmers tend to treat any kind of code generator as simply a template generator\
+. . . and then they abandon the original source.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf15 - For my purposes, translating to Smalltalk should be sufficient.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 . . I can use Seaside for web UI (at least for current prototyping).\
+. . Seaside, in turn, will generate needed HTML and JavaScript.\
+. . And, of course, Smalltalk is much easier to read and debug than Java.\
+- The translation strategy tends to be the same regardless of target language.\
+. . Role become class.\
+. . Action becomes method.\
+. . Instruction-statement becomes method call.\
+. . A noun becomes instance of Noun.\
+. . A noun value becomes instance of Entity, Identifier, String, Text, DateTime, Category, Measure, Duration, Money.\
+. . Duration is a Measure.\
+. . Money is a Measure.\
+. . An Entity has one or more Attributes.\
+- Noun values are stored in Black Board and/or World Base.\
+. . In order for the World Base to work in a relatively transparent fashion, \
+. . . the framework must assure that entities are properly identified.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf15 - An Entity has a unique identifier -- That means one of its attributes must be an 
+\b Identifier
+\b0 .\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 . . This is so obvious. That is probably why I have not written about it before.\
+. . But there are consequences.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf16 . . . The Programmers Assistant (code critic and dictionary diagram) must flag entities that have no identifier assigned.\
+. . . Views must always display the identifier. (code critic complain if no identifier is included in the widgets).\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf15 - 
+\b Identifiers
+\b0  often have peculiar 
+\b formats
+\b0 .\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 . . Examples: social security number, phone number, credit card number, postal code.\
+. . Worse: There is often more than one acceptable format.\
+. . Examples: zip and zip-plus, generic postal code.\
+. . This matters because the format is sometimes needed to avoid synonym / duplicate entries in a data store.\
+. . It is also an important convention for usability and read-ability.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf15 - 
+\b Child entities
+\b0  often have 
+\b system-generated identifiers
+\b0 .\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 . . But then, what should be displayed?\
+. . I need a convention for indicating a system-generated identifier.\
+. . Clue: Such child entities are often members of a collection, but some are simply in a part-of relation.\
+. . . In either case, we can simply use the time-stamp when the child was added as a subfield of the identifier.\
+. . . . Example: hair of person ==> entity id: ( (person id), '.', 'hair', dtAdded).\
+. . . . Example: an end-point in transformer end-points ==> endPoint id: ( (transformer id), '.', 'end-points', dtAdded).\
+. . That means that \cf17 collections have add/remove buttons. (collection view has [[add]], each instance has [[remove]])\cf0 \
+. . I guess we have a convention for [[add:]] [[remove:]] buttons where an optional component can be added or removed.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 25-December at Home:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - I was thinking about my priorities for home, trailer, bus, and boat design.\
+. . I spend an inordinate amount of time on the bathroom/laundry and especially the 
+\b bathtub design
+\b0 .\
+. . I am thinking that this a luxury that I find missing in my day-to-day life.\
+. . Placing it in the trailer is a kind of back-door way of getting it.\
+. . But a full size bath in a trailer is a bit outlandish, \
+. . . the bath can only be used when the park has a full hook-up for water and sewage.\
+. . Perhaps, I a better bathtub in the house would be a better investment.\
+. . That would be relatively easy to add upstairs because there is lots of extra room where the existing tub is installed.\
+- On the HUM design and code front:\
+. . It looks like I should code an Identifier class in Smalltalk with a TDD approach.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 27-December at Home:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - Amount of code currently written in Smalltalk: (Line counts include .ST metadata.).\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f2 \cf0 . . 9,244 lines  6,001 statements 464 methods 41 classes in SimpleEnglish-Language.st \
+. . 6,133 lines  3,985 statements 350 methods 39 classes in SimpleEnglish-RunTime.st\
+. .   837 lines    465 statements  53 methods 16 classes in SimpleEnglish-UI.st\
+. .   153 lines     52 statements  15 methods  3 classes in Hum-RunTime.st\
+. .    20 lines     10 statements   1 methods  1 classes in Hum-Language.st\
+. .   267 lines     92 statements  21 methods  6 classes in Hum-IDE.st \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f1\b \cf18 . .16,654 LINES 10,565 STATEMENTS 904 METHODS 106 CLASSES TOTAL ==> About 10k Lines of Code.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\b0 \cf0 The counts undoubtably include some empty or unfinished entries. \
+The statement counts are actually a count of the number of periods '.' -- and include periods in comments.\
+My usual LoC / day velocity estimate is 100 LoC/day ==> 10,000 LoC would be 
+\b \cf19 100 days or about 20 work-weeks.
+\b0 \cf0 \
+- Using TDD should increase the amount of working code produced per day and the value of test code is high.\
+Of course, about 25-30 % of the code will be test code; but again, test code is high-value code.\
+I also know that some of the code is redundant -- I've solved some of the same problems in more than one place.\
+- I am wondering if there might be a BDD or Design-Driven approach that might be more productive than others.\
+I am going to experiment in the Bootstrap directory using Pharo (new version 1.3 just downloaded).\
+- The ideal BDD would produce PA (Programmers Assistant), and RT (Run Time) capabilities more or less together.\
+Something like:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f2 \cf0 . BDD\
+. . given: [ pa := ProgrammersAssistant new.\
+             pa nouns: ('portable-object'. 'place-1'. 'place-2').];\
+. . when: [ source := 'Move portable-object from place-1 to place-2.'\
+            statement := Statement from: source.];\
+. . then: [ statement nouns include: 'portable-object'. ];
+\f0 \
+
+\f2 . . then: [ statement nouns include: 'place-1'. ];
+\f0 \
+
+\f2 . . then: [ statement nouns include: 'place-2'. ];\
+. BDD\
+. . given: [ pa := Programmers Assistant new.\
+             pa nouns: ('portable-object'. 'place-1'. 'place-2').\
+             pa addRole: 'Mover'.\
+             source := 'Move portable-object from place-1 to place-2.'\
+             statement := Statement from: source.];\
+. . when: [ pa role: 'Mover' addAction: source.];\
+. . then: [ pa role: 'Mover' hasAction: source.];\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0 \cf0 ---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 29-December at Home:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - I started from scratch on 27th and got a good half-day's work in on 27th and 28th.\
+I have been working at a relatively leisurely rate in terms of the hours put in.\
+At this point I have about 12 test methods and 31 implementation methods in 200 LoC for the Programmers Assistant.\
+My velocity is about 100 LoC per day in this (at home) working environment.\
+- I've taken a different approach. It is TDD and I am not producing classes until I need them.\
+The coding style is more bottom up, data-driven and functional.\
+It remains to be seen if this approach will stand up. But it seems to be producing simpler code so far.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 30-December at Home:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - At 6 p.m. I've got about 500 LoC in good TDD style after working roughly 4 days.\
+So far, so good. I usually get hung up when I try to write UI. \
+And most projects tend to slow down as more code accumulates.\
+We just have to see what happens.\
+- Still looks like 100 days of coding to refractor the whole thing.\
+At 2 days / week ==> 50 weeks! At 5 days / week ==> 10 weeks.\
+- I re-factored today because I realized that class I was calling ProgrammersAssistant was really Ontology.\
+The syntax rules can reside in Ontology while the ProgrammersAssistant code will be user interface.\
+So I renamed the affected classes and variables.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 31-December at Home:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 - I am going to try for some ProgrammersAssistant (UI) TDD / BDD today.\
+---\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 1-January-2012:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 I guess it is time to start a new journal.\
+- I was trying to learn from the OpenQwac / Cobalt virtual world code \
+and discovered that OpenQwac has been deliberately obfuscated. \
+All variable names have been replaced with t1, t2, t3, t4, etc.\
+- But I still have older versions of croquet and cobalt that have not been obfuscated.\
+Unfortunately, they are obscure in their own way because there are multiple unfinished UI in them.\
+---\
+\
+}
