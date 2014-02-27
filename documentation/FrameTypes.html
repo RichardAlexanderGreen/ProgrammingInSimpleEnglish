@@ -118,7 +118,7 @@
 <pre class="syntax">
 ---
 Goal: (declarative sentence)
-Pre:
+Preconditions:
 . (pre-condition - matches some other task's post-condition)
 . (pre-condition)
 . (...)
@@ -133,7 +133,7 @@ Actions:
 <h5>Example</h5>
 <pre class="example">
 Goal: Order delivered to customer.
-Pre:
+Preconditions:
 . Customer has paid for order.
 . Order is ready for delivery.
 Actions:
@@ -147,7 +147,7 @@ Actions:
     The post-condition of the top-most task in a plan tree
     is the <i>goal</i> of the plan.
    </li>
-   <li>The "Pre" statements define the pre-conditions (prerequisites)
+   <li>The "Precondition" statements define the pre-conditions (prerequisites)
     that must be met before work on the "Actions" can begin.
     Some task frames have no pre-conditions
     which means that the work can begin immediately.
@@ -235,7 +235,7 @@ Dictionary:
 A (name) is a (name).
 ("a" and "an" are interchangeable.)
 (name = noun phrase)
-A (name) is described by its (name), (name), (name), (name), and (name).
+A (name) attributes include (name), (name), (name), (name), and (name).
 ---
 </pre>
 <p>Example:</p>
@@ -243,16 +243,11 @@ A (name) is described by its (name), (name), (name), (name), and (name).
 ---
 Dictionary: Coffee-Mech Facts.
 . A coffee-mech is a robot.
-. A coffee-mech is described by its make, model, and software-release.
-. A coffee-mech is identified by its serial-number.
+. A coffee-mech attributes include make, model, and software-release.
 . JavaBot is a synonym for coffee-mech.
 . SN is shorthand for serial-number.
 ---
 Dictionary: Employee Relationships.
-. Relationship: Worker W is assigned mentor M.
-. Relationship: Worker W works in store S.  (many to many)
-. Relationship: Employee E is assigned role R effective on date D. 
-. Relationship: Worker W is assigned to supervisor S when working in role R.
 . A mentor is an employee.
 . An employee is a worker.    (Some workers are employees.)
 . A contractor is a worker.   (Some workers are contractors.)
@@ -267,12 +262,8 @@ Dictionary: Employee Relationships.
     The nouns in an "is a" statement defines a term as referring 
     to an entity-type (class) that is a subtype (sub-class) of a known entity-type.
    </li>
-   <li>The "... is described by ..." statement identifies 
+   <li>The "... attributes include ..." statement identifies 
            the <i>attributes</i> of an <i>entity.</i>
-       </li>
-   <li>The "... is identified by its ..." statement
-       advises the system that an attribute's value is an identifier.
-       (An identifier may be used in data to refer to an instance of an entity.)
    </li>
    <li>
        The "... is a synonym for ..." statement
@@ -281,12 +272,6 @@ Dictionary: Employee Relationships.
    <li>The "... is shorthand for ..." statement
        advises the system that a term may be used as a shorthand
        when entering new statements or data into the system.
-   </li>
-   <li>The ". Relationship:" instruction tells the system that a relationship
-         exists between two or more entities. 
-       The relationship notation provides a template 
-         for "Assert:" <i>instructions</i> and <i>messages</i> 
-         that may be invoked during the running of a plan.
    </li>
   </ul>
   <h4>Acronyms, Synonyms, and Shorthand.</h4> 
@@ -299,8 +284,8 @@ Dictionary: Employee Relationships.
 <pre class="example">
 ---
 Dictionary:
-QOH is shorthand for quantity-on-hand.
-Client is synonym for customer.
+. QOH is shorthand for quantity-on-hand.
+. Client is synonym for customer.
 ---
 </pre>  
   <p><i>Shorthand</i> 
@@ -327,17 +312,7 @@ Client is synonym for customer.
      Thus, you can use synonyms 
        when they make statements and instructions more human-readable.
   </p>
-  <!--
-  <h4>Identifiers, Handles, and Relationships</h4>
-  <p> 
-     In a data frame you might need to describe a <i>relationship</i> between two
-     entities. 
-     Identifiers make that easier.
-     If an entity has an attribute that is used as an identifier,
-     you advise the system using the phrase 
-     "A (entity) is identified by its (attribute)."
-  </p>
-  -->
+
   <h4>Categories and Enumerations</h4>
   <p>
      Enumerations are sets of values that describe a kind of attribute.
@@ -348,7 +323,7 @@ Client is synonym for customer.
 ---
 Dictionary:
 A car may be described by its body color.
-Categories for color include red, green, blue, yellow, orange, brown, 
+Color categories include red, green, blue, yellow, orange, brown, 
 . black, white, grey, purple, mauve, maroon, tan, pink, 
 . (colors that reference something else ...)
 . silver, gold, copper, bronze, ivory, ebony, cobalt, cyan, taupe, charcoal,
@@ -358,17 +333,7 @@ Categories for color include red, green, blue, yellow, orange, brown,
 . sky blue, forest green.
 ---
 </pre>
-<p class="AUTHOR">
-   This probably needs more thought.
-   Is color a member of some semantic set? 
-   <br />(A "quality", a "category")
-   <br />Think about the <b>nature</b> of enumerations.
-   <br />{ dark, light }
-   <br />{ short, tall }
-   <br />{ small, medium, large, very large, extra large }
-   <br />{ hot, warm, cold, freezing }
-   <br />{ liberal, conservative, moderate, radical, reactionary }
-</p>
+
 <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->  
 <hr>  
 <a name="ViewFrame"></a>
@@ -386,71 +351,74 @@ Categories for color include red, green, blue, yellow, orange, brown,
    </p>
    <p>
      A view frame may be used for display or for input or for both.
-     The use depends on the context.
-     
-   </p>
-   <p class="AUTHOR">
-     Should we have different verbs in dialogs to indicate display versus input?
-     <br />Perhaps "Ask [entity]" versus "Show [entity]".
+     A view invoked by "Ask view-name." will update data.
+     A view invoked by "Show view-name." will only display data.    
    </p>
 <pre class="syntax">
 ---
 View: (entity name)
- label: [attribute name]                             &lt;&lt; text field 
- (1) choice one  (2) choice two  (3) choice three    &lt;&lt; radio buttons
- . (1) attribute = value1                            &lt;&lt; attribute set to value
+ label: [attribute name]                              &lt;&lt; text field 
+ (1) choice one  (2) choice two  (3) choice three     &lt;&lt; radio buttons
+ . (1) attribute = value1                             &lt;&lt; attribute set to value
  . (2) attribute = value2
  . (3) attribute = value3
  
- [1] pepperoni  [2] sausage  [3] green pepper        &lt;&lt; check boxes
- . [1] attribute1 [2] attribute2 [3] attribute3      &lt;&lt; elements set true/false
+ [1] pepperoni  [2] sausage  [3] green pepper         &lt;&lt; check boxes
+ . [1] attribute1 [2] attribute2 [3] attribute3       &lt;&lt; elements set true/false
  
- label: [enumeration name *]                         &lt;&lt; combo box
+ crust: [crust]                           &lt;&lt; combo box because crust is a category
  
- description: [text attribute name          ... 5]   &lt;&lt; multi-line box of 5 lines
+ description: [text-attribute 5]          &lt;&lt; multi-line (text area) box of 5 lines
  
   [[ Place Order ]] Send my order to the kitchen.
-. [[ Place Order ]] Deliver [pizza] order.           &lt;&lt; Button sets goal.  
+. [[ Place Order ]] Deliver [pizza] order.            &lt;&lt; Button sets goal.  
 ---
 </pre>
    <h4>View Frame Statements</h4>
    There are two types of lines in a view frame.
    <ol>
-    <li><i>Template lines</i> indicate what will be displayed.
-     This is meant to be nearly WYSIWYG.
+    <li><i>Mark-up lines</i> indicate what will be displayed.
+     Hum`s mark-up notation is meant to be nearly WYSIWYG.
     </li>
-    <li><i>Data mapping instructions</i>, which begin with a dot,
-     indicate how data is mapped to the display.
+    <li><i>Button instructions</i>, which begin with a dot,
+           specify the action to take for a radio/checkbox/or action button.
     </li>
    </ol>
-   View frames use specific "mark-up" notations:
+   View frames indicate data-control widgets with bracket notations:
    <ul>
-    <li>[name] refers to an attribute of the entity (given after "panel:").
+    <li><code>[name]</code> binds to an attribute of the entity (given after "View:").
      <br />The substring "[name]" will be replaced by a form slot (text box).
-     The value is provided by the context or left blank for the user to fill in.
+     <br />The value is provided by the context or left blank for the user to fill in.
+     <br />Use <code>[entity attribute]</code> to resolve ambiguity. 
     </li>
-    <li>(1) indicates a radio button.
-     <br />The attribute and value associated with the radio button is indicated
-     by one of the data mapping lines that follow the template line.
-    </li>
-    <li>[1] indicates a check box.
-     <br />The associated boolean attribute is indicated in the data mapping line
-     that follows the template line.
-    </li>
-    <li>[enumeration *] indicates a (drop down) combo box.
-     <br />The indicated <i>enumeration</i> provides the values for the drop down.
-    </li>
-    <li>[name ... 99] indicates a multi-line text box.
+    <li><code>[name 9]</code> indicates a multi-line text box.
      <br />The name refers to an attribute that is expected to have a text value.
      <br />The number following "..." indicates
      the number of lines to display in the text box.
     </li>
-    <li>[[ Button Label ]] indicates a push-button.
-      <br />The button is mapped to a goal with a mapping line of the form:
+    <li><code>[1]</code> indicates a check box.
+     <br />The associated boolean attribute is indicated in the button instruction
+           that follows the template line.
+    </li>
+    <li><code>(1)</code> indicates a radio button.
+     <br />The attribute and value associated with the radio button is indicated
+     by one of the button instructions that follow the mark-up line.
+    </li>
+    <li><code>[[ Button Label ]]</code> indicates a push-button.
+      <br />The button is mapped to a goal with a button instruction:
       <br /><code>. [[ Button Label ]] Goal-statement. </code>
     </li>
+	<li><code>[pane: view-name]</code> causes another pane to be nested 
+	    within the current pane. The other pane is defined in its own view frame.
+	</li>
+	<li><code>[link: text | URI ]</code> indicates a hyperlink with the given text and URI.
+	</li>
+	<li><code>[link: text ]</code> indicates a hyperlink to a local page with the given text. 
+	    The URI is derived from the text to point to a local page. 
+	    (This is how many wiki links work.)
+	</li>
    </ul>
-
+<!--
    <p class="AUTHOR">
        The current design does not fully anticipate voice input.
        The view frames could be adapted to that use.
@@ -459,10 +427,11 @@ View: (entity name)
          the view frames will interact strongly with dialog frames 
          -- the panel and dialog frames becoming closely coupled.
        In that kind of environment,
-         the view frames might be designed to guide the Speaker
+         the view frames might be designed to guide the <a href="Scribe.html">Scribe</a>
          which is running a series of prompts.
          The view frames might indicate optimum order.    
    </p>
+
    <p class="AUTHOR"> 
        View frames represent "forms". 
        Forms are ubiquitous in our culture with strong conventions. 
@@ -476,6 +445,7 @@ View: (entity name)
        It might be based on existing actors designed to aid people
          with physical handicaps.  
    </p>
+-->
    <p class="ADVICE" style="page-break-before: always;"> 
       The following syntax expands the notation to include something like a wiki mark-up.
       <br />This provides a way to format content 
@@ -501,17 +471,8 @@ Emphasis is indicated as follows:
   a pair of tilde indicates ~italic emphasis~
   a pair of underscore indicates _underscore emphasis_
 
-.Table          (Signals the start of table formatting.)
-. Row            (Row -or- Header Row)
-   This content goes into first column by default.
-. Column
-   This content is in second column of the first row.
-. Row           (Signals start of next row.)
-. Column        (Column -or- Header Column)
-   This content is in first column of the second row.
-. Column
-   This content is in second column of the second row.    
-.End Table      (Signals the end of table formatting.)
+. Table of workers.         (The next line maps attributes to columns.)
+| name | seniority | department | manager |
 
 ___  (Begin line with 3 or more "_" or "-" to indicate a horizontal-rule.)
 
@@ -532,17 +493,6 @@ ___  (Begin line with 3 or more "_" or "-" to indicate a horizontal-rule.)
 <a name="DialogFrame"></a>
 <h3>Dialog Frame Notation</h3>
    <p>
-    In the Hum system, most dialogs are automatically constructed by the system.
-    For example: When given a user goal,
-    the Planner will construct a plan tree from task frames by back-chaining.
-    When the plan tree is complete,
-    the Planner will then determine what data is required to articulate the plan.
-    Some data may be in the world memory and some may be needed from the user.
-    The system's user interface actor will ask the user for needed data
-    using whatever medium is available.
-    If we are in contact with the user via HTML, an HTML page with HTML forms will be sent.
-   </p>
-   <p>
     The purpose of a Dialog Frame is to describe a dialog between the user and the system.
     In the notation, a line starting with "U:" is something the user might say.
     A line starting with "S:" is the system's dialog response.
@@ -552,13 +502,27 @@ ___  (Begin line with 3 or more "_" or "-" to indicate a horizontal-rule.)
      (<a href="http://en.wikipedia.org/wiki/AIML" title="AIML">AIML</a>)
     XML notation for natural language software actors.
    </p>
+   <p>
+    In the Hum system, some dialogs are automatically constructed by the system.
+    For example: When given a user goal,
+    the Planner will construct a plan tree from task frames by back-chaining.
+    When the plan tree is complete,
+    the Planner will then determine what data is required to articulate the plan.
+    Some data may be in the world memory and some may be needed from the user.
+    The system's user interface actor will ask the user for needed data
+    using whatever medium is available.
+    If we are in contact with the user via a browser or IM-client, 
+       an interactive dialog will be conducted by the Planner`s <a href="Scribe.html">Scribe</a>.
+   </p>
 <h5>Example</h5>
 <pre  class="example">
 ---
 Dialog: User enters site.
+
 U: Knock. (User appears at entry.)
 S: Hello. What can I do for you?
 . Show 'Activities'.
+
 U: I would like to [act]. (Browse Catalog, Check Order Status, Cancel Order, Open Account)
 S: An excellent choice! 
 . Show [act].
@@ -570,7 +534,7 @@ U: I want * [product category].
 U: Show me * [product category].
 U: Do you have * [product category]?
 S: Here are the different kinds of [product category].
-. Show [product category] choices.
+. Show [product category].    (Show view that matches the product category.)
 . Add [product category] to context.
 ---
 Dialog: User is looking at specific product category.
@@ -580,9 +544,9 @@ S: Let us see if we have anything indexed that way.
 . Show [product category] items by [artist].
 . (If there are none, the "Show" format will say so.)
 ---
-U: I want to buy [item.title].
-U: I want to buy [item.number].
-S: [item] is now in your shopping cart. 
+U: I want to buy [item name].
+U: I want to buy [item code].
+S: [item name] is now in your shopping cart. 
    You may remove it later if you change your mind.
 . Put [item] in shopping-cart.   
 ---
@@ -603,10 +567,10 @@ S: [item] is now in your shopping cart.
       that follows it will be applicable.
       <br />- Just as humans need context
       to understand the intent of a verbal statement,
-      the Speaker also needs some context.
+      the <a href="Scribe.html">Scribe</a> also needs some context.
       If the same pattern appears in two different contexts,
-      the Speaker will attempt to disambiguate the situation
-      by applying the contexts that are current.
+      the <a href="Scribe.html">Scribe</a> will attempt to disambiguate the situation
+      by applying the contexts that are most current.
       <ul>
        <li>When the system attempts to recognize the user's intent,
         it attempts to match patterns in each context
@@ -619,12 +583,13 @@ S: [item] is now in your shopping cart.
         until a match is found.
        </li>
        <li>If no match is found anywhere,
-        the Speaker will tell the user that it does not understand
+        the <a href="Scribe.html">Scribe</a> will tell the user 
+        that it does not understand
         what they have said
         and suggest that the user try to say it in another way.
        </li>
        <li>In a more advanced implementation,
-        the Speaker may ask questions to disambiguate
+        the <a href="Scribe.html">Scribe</a> may ask questions to disambiguate
         the user's intent.
        </li>
       </ul>
@@ -659,10 +624,10 @@ S: [item] is now in your shopping cart.
              which set <i>goals</i> to be fulfilled by the system
              or <i>actions</i> to be performed by <i>roles</i> 
              	(actors available to the system).
-             Most instructions are directed to the dialog actor (the Speaker).
+             Most instructions are directed to the dialog actor (the <a href="Scribe.html">Scribe</a>).
              For example, in the dialog frame above, 
                the "<code>. Show ...</code>" instructions 
-               are directed to the Speaker.
+               are directed to the <a href="Scribe.html">Scribe</a>.
          </li>
          <li>Each goal will match the name of a task that is defined in a
              <a href="#GoalFrame"> Goal Frame</a>.
@@ -716,7 +681,7 @@ S: Hello, [firstName] *.
 </pre>
 <p > 
   In the example above, the "Assert:" instructions go to the "Assert" actor.
-  Other instructions go to the Speaker by default because no role is indicated.
+  Other instructions go to the <a href="Scribe.html">Scribe</a> by default because no role is indicated.
   Roles are indicated by the instruction syntax 
   <br />"<code>. (role): ...</code>" 
      - with a role-name and a colon preceding the statement.
@@ -739,26 +704,26 @@ S: Hello, [firstName] *.
 <h5>Syntax / Example</h5>   
 <pre class="syntax">
 ---
-Data: (data set name)    &lt;&lt; Indicate a data frame. Give the frame a name/title.
+Data: (data set name)     &lt;&lt; Indicate a data frame. Give the frame a name/title.
 
-Worker                   &lt;&lt; The following data is for a worker (entity). 
-. ID: (string)           &lt;&lt; The system knows an ID should be unique.
-. name: (string)         &lt;&lt; provides the data value for worker's "name" attribute.
-. Home Address           &lt;&lt; "Home Address" is an embedded entity.
+Worker                    &lt;&lt; The following data is for a worker (entity). 
+. ID: (string)            &lt;&lt; The system knows an ID should be unique.
+. name: (string)          &lt;&lt; provides the data value for worker's "name" attribute.
+. Home Address            &lt;&lt; "Home Address" is an embedded entity.
 . . line1: (string)
 . . line2: (string)
-. . postal code: (string)&lt;&lt; "Reader" and "Smart Editor" validate values.
-. age: (string)          &lt;&lt; This value should be a positive integer.
+. . postal code: (string) &lt;&lt; "Reader" and "Smart Editor" validate values.
+. age: (string)           &lt;&lt; This value should be a positive integer.
 
-Site                     &lt;&lt; The following data is for a Site (entity)
-. name: (string)         &lt;&lt; name of site
+Site                      &lt;&lt; The following data is for a Site (entity)
+. name: (string)          &lt;&lt; name of site
 
-. description:           &lt;&lt; The description of the site is in text format.
-"""                      &lt;&lt; Arbitrary text delimited by triples as shown here.
-(text)                   &lt;&lt; The text data starts on the line after the triple.
-"""                      &lt;&lt; A triple (""") or (''') starts and ends the text.
+. description:            &lt;&lt; The description of the site is in text format.
+"""                       &lt;&lt; Arbitrary text delimited by triples as shown here.
+(text)                    &lt;&lt; The text data starts on the line after the triple.
+"""                       &lt;&lt; A triple (""") or (''') starts and ends the text.
 
-. Site Address           &lt;&lt; "Site Address" is an embedded entity.
+. Site Address            &lt;&lt; "Site Address" is an embedded entity.
 . . line1: (string)
 . . postal code: (string)
 ---
@@ -766,7 +731,7 @@ Site                     &lt;&lt; The following data is for a Site (entity)
 
 <h4>Data Frame Statements</h4>
    <p>
-    The comments in the example above follow the "&lt;&lt;" marker.
+    The comments in the example above follow the " &lt;&lt;" marker.
     The comments indicate how the data frame notation works.
    </p>
    <p>
@@ -819,8 +784,8 @@ table of weekly-hours delimited by |
           "table of (entity) delimited by x".
       <br />A "pipe" (|) is often a good choice for a delimiter
       because it makes the table quite readable.
-      However a comma may be more convenient for the typist.
-      A comma will work as long as the data in the rows do not also contain a comma.
+      However a comma may be more convenient for some typists.
+	  A pipe (|) is the default delimiter.
      </li>
      <li>The rows and columns of the table will start and end
       with the indicated delimiter.
@@ -832,6 +797,7 @@ table of weekly-hours delimited by |
      </li>
     </ul>
    </p>
+<!--
 <p class="AUTHOR"> 
   Think about how to represent relationships.
   <br />For example, suppose we have relationships such as:
@@ -839,5 +805,6 @@ table of weekly-hours delimited by |
   <br />"Assert: Store S in in state-province P." (to one)
   <br />"Assert: Male M is married to female F during period P." (association)
 </p>
+-->
  </body>
 </html>

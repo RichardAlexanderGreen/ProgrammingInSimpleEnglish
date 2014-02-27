@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <title>Donut Shop V0.2 Listing</title>
+  <!-- Change from older Task-Post to newer Goal: for plan frames -->
+  <link href="styles.css" rel=STYLESHEET TYPE="text/css">
+  
+</head>
+<body>
+<h3>Donut Shop Version 0.2 Listing</h3>
+<h4>Start With The Goal</h4>
+<p>
+We start with the goal of the business process: "Serve the customer."
+In this case, there are two pre-conditions: The customer must enter an order and pay for it. 
+</p>
+<pre class="EXAMPLE">
+---
+Goal: Customer is served.
+Preconditions: 
+. Customer has entered an order.     <a href="#C1">^</a>
+. Customer has paid for order.       <a href="#C2">^</a>
+Actions:
+. Coffee-Mixer: Prepare the coffee items in the order.    <a href="#1">^</a>
+. Donut-Fetcher: Fetch the donut items in the order.      <a href="#2">^</a>
+. Order-Assembler: Assemble order items into carrier/s.   <a href="#3">^</a>
+. Order-Checker: Give carrier/s to the customer.          <a href="#4">^</a>    
+---
+</pre>
+<p>
+We need to define some of the nouns used above 
+in terms that the system already knows. 
+</p>
+<pre class="example">
+Dictionary:
+. A donut is a product.
+. A donut item is an order item.
+. A coffee item is an order item.
+. A carrier is a container.
+---
+</pre>
+
+<pre class="example">
+---
+Role: Coffee-Mixer.    (Coffee-Mixer is the name of a role.)
+Action: Coffee-Mixer prepares the coffee items in the order. <a name="1"></a>
+. Get a coffee tray from coffee tray stacker.
+. For each coffee item in order:
+. . Prepare the coffee item.                <a href="#5">^</a>
+. . Add coffee item to tray.
+. Compare tray weight to order's expected coffee weight.
+. (This catches most errors.)
+. Move tray to outgoing coffee queue.
+
+To: Prepare the coffee item.                 <a name="5"></a>
+. Fetch recipe's cup from cup-dispenser. 
+. Add flavors shown in item recipe.
+. Add coffee amount shown in item recipe.
+. Transfer cup to coffee staging area. 
+. Book-keeper: Transfer item  materials      <a href="#Book-keeper"></a>
+. . from coffee-maker material-inventory 
+. . to tray.
+---
+Dictionary:
+. A tray is a container.
+. A stacker is a container.
+. A cup-dispenser is a container.
+. A cup is a part.
+. A recipe is a bill-of-material.
+. A coffee staging area is a location.
+---
+Role: Donut-Fetcher.
+Action: Donut-Fetcher fetches the donut items in the order.   <a name="2"></a>
+. Get a donut tray from donut tray stacker.
+. For each donut in the order:
+. . Fetch the donut from the donut rack.   <a href="#6">^</a>
+. . Add the donut to the tray.
+. . Book-keeper: Transfer donut cost       <a href="#Book-keeper"></a>
+. . . from donut-inventory 
+. . . to tray.
+. Compare tray weight to order's expected donut weight.
+. Move tray to outgoing donut queue.
+
+To: Fetch the donut from the donut rack.   <a name="6"></a>
+. Move to appropriate rack.
+. Take donut from the donut rack.<font color="DARKRED">
+(Is this needed? Does the system already know how to do this?)</font>
+---
+Dictionary:
+. A stacker is a container.
+. A rack is a container.
+. An outgoing donut queue is a location.
+---
+Role: Order-Assembler.
+Action: Order-assembler assembles order items into carrier/s.  <a name="3"></a>
+. Bag or box donuts as appropriate to order.                <a href="#7">^</a>
+. Assemble coffee and donuts into appropriate carrier/s.    <a href="#8">^</a>
+. Move carrier/s to order-out queue.
+
+To: Bag or box donuts as appropriate.      <a name="7"></a>	
+. If the order has more than 6 donuts:
+. . Fetch a box from box stacker.
+. . Erect the box.
+. Else:
+. . Fetch a bag from the bag dispenser.
+. . Pop the bag.
+
+To: Assemble coffee and donuts into appropriate carrier/s.   <a name="8"></a>	
+. If order has less than 2 coffee drinks: Select no carrier.
+. If order has less than 5 coffee drinks: Select 4-pack carrier.
+. If order has less than 7 coffee drinks: Select 6-pack carrier.
+. If order has more than 7 coffee drinks: Select 12-pack carrier.
+. Distribute coffee drinks and donuts on carrier.
+. (This does not cover really large orders with more than 12 coffee drinks.)
+
+---
+Dictionary:
+. A coffee drink is a product.
+. An order-out queue is a location. 
+(Actually the system already knows that a queue is a location.)
+---
+Role: Order-Checker.
+Action: Give carrier/s to the customer.     <a name="4"></a>	
+. Match carrier/s to order.
+. Move matched carrier/s to scale.
+. (This catches most errors with carrier sequencing.)
+. If scale weight matches order's expected weight:
+. . Give carrier/s to customer.
+. . Book-Keeper: Transfer order cost to cost-of-goods-sold.  <a href="#Book-keeper"></a>
+. . Book-Keeper: Transfer order price to sales-revenue.      <a href="#Book-keeper"></a>
+. Else:
+. . (Most likely error is that carrier is out of sequence.)
+. . Check for carrier sequence error.
+
+---
+Goal:  Customer has entered an order.         <a name="C1"></a>
+Preconditions: 
+. Customer is at front of order-entry queue.
+Actions:
+. Order-Taker: Provide customer with menu form.
+. Customer: Fill in the menu form.
+. Customer: Submit menu form to order-taker.<font color="DARKRED">
+. (Hmmmm? We have the customer working for us?)
+. (This might make sense in a simulation.)</font>
+. Order-Taker: Validate menu form.
+. Order-Taker: Translate menu form to customer order.
+
+---
+Goal: Customer has paid for order.            <a name="C2"></a>
+Preconditions: 
+. Customer has entered an order. 			  <a href="#C1">^</a>
+Actions: 
+. Cashier: Prepare bill.                      <a href="#9">^</a>
+. Cashier: Explain bill.                      <a href="#10">^</a>
+. Cashier: Accept payment from customer.      <a href="#11">^</a>
+
+---
+Role: Cashier.         
+Action: Prepare bill.                        <a name="9"></a>
+. Sum prices of items in order into order total.
+. Subtract any discounts from total.
+. Add any taxes due to total.
+---
+</pre>
+
+<!-- ................................................................. -->
+<h4>Abstract Methods</h4>
+<p class="ADVICE">
+(The following Book-keeper actions are "native" to the framework.
+ They do not need to be part of a typical business process definition
+ because the system already knows them.
+ They are shown here to illustrate how <i>abstract methods</i> are defined.) 
+</p>
+<pre class="example">
+---
+Role: Book-keeper.                         <a name="Book-keeper"></a>
+Action: Transfer material from inventory1 to inventory2.
+. Get cost of material.
+. Transfer cost from inventory1 asset-account to inventory2 asset-account.
+
+Action: Transfer item from inventory1 to inventory2.
+. Get cost of item.
+. Transfer cost from inventory1 asset-account to inventory2 asset-account.
+
+To: Transfer amount from account1 to account2.
+. Subtract amount from account1.
+. Add amount to account2.
+
+---
+</pre>
+<!-- ................................................................. -->
+<p class="ADVICE">
+  If you are accustomed to programming in other languages, 
+  you may be tempted to write a dialog procedure like the following.
+  However, dialogs should be written in dialog frames.
+</p>
+<pre class="BAD" style="background:CYAN">
+<b>WRONG WAY TO DO DIALOG</b>
+
+Action: Explain bill.                        <a name="10"></a>
+. Say: 
+. . "Here is your bill." 
+. . "Your drinks and donuts are listed separately."
+. If bill shows discounts:
+. . Say:
+. . . "You've earned %bill.discounts in discounts."
+. . . "Your total is %bill.total after discounts and tax."
+. Else:
+. . Say:
+. . . "Your total is %bill.total including tax."
+
+Action: Accept payment from customer.      <a name="11"></a>
+.. Say:
+. . "Would you like to pay by cash or credit card?"
+. If customer responds "cash":
+. . Say:
+. . . "That will be %bill.total please."
+. . Accept cash and makes change.
+. . Provide customer with cash receipt.      <a href="#12"></a>
+. Else:
+. . Say:
+. . . "Your card please."
+. . Run card through reader.
+. . Provide customer with credit receipt.    <a href="#12">^</a>
+
+To: Provide customer with _type receipt.            <a name="12"></a>
+. (Process is indifferent to type of receipt.)
+. Print receipt.
+. Say:
+. . "Here is your receipt."
+. Give receipt to customer.
+---
+</pre>
+<p>The following is the proper dialog frame equivalent to the above.
+   <br />The <i>context</i> determines the variation in dialog and procedure.
+</p>
+<pre class="example">
+---
+Dialog: Explain bill and accept payment.
+Context: Explaining bill, no discounts.
+S: Here is your bill.
+   Your drinks ad donuts are listed separately.
+   Your total is [bill total] including tax.
+. Request payment.  
+ 
+Context: Explaining bill, with discounts.  
+S: Here is your bill.
+   Your drinks ad donuts are listed separately.
+   You have earned [bill discount-total] in discounts.
+   Your total is [bill total] after discounts and tax.    
+. Request payment.  
+
+Context: Request payment.
+S: Would you like to pay by cash or credit card?
+U: * cash.
+S: That will be [bill total] please.
+. Accept cash and make change.
+. Give cash receipt to the customer.
+
+U: * credit.
+S: Your card please.
+. Run card through reader and validate.
+. Give credit receipt to the customer.
+</pre>
+</body>
+</html>

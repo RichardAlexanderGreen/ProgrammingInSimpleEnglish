@@ -3,12 +3,13 @@
 <head>
   <title>Overview</title>
   <link href="styles.css" rel=STYLESHEET TYPE="text/css">
+  <!--copyright 2014 Richard Alexander Green RichardAlexanderGreen@GMail.com -->
 
 </head>
 <body>
 <h2>Overview</h2>
 <p>
-  This section provides and overview of the Hum language and system. 
+  This section provides an overview of the Hum language and system. 
 </p>
 <h3>Goal</h3>
 <p>
@@ -45,7 +46,7 @@
    <li>Dictionary frames - define the <i>operational meaning</i> of nouns.</li>
    <li>Dialog frames - show how to carry on a conversation with a user.</li>
    <li>View frames - show how to present data about a specific subject.</li>
-   <li>Data frames - provide a notation for communnicating data.</li>
+   <li>Data frames - provide a notation for communicating data.</li>
   </ul> 
   Frames are explained in some detail in the
   <a href="FrameTypes.html" title="Frame Types">Frame Types</a>
@@ -60,10 +61,13 @@
   Thus, an actor provides the connection to real-world reality
   or to a virtual reality. 
 </p>
-<p>Actors are assigned to one or more <i>roles</i>.
-   The only requirement for an actor is that it can "understand" 
+<p>Actors may advertise one or more <i>roles</i>.
+   The only requirement for an actor is that it can perform 
    any <i>action statement</i> in the <i>action frames</i> 
-   that are related to an assigned role.  
+   that it advertises.
+   When a specific action is assigned by the run-time 
+   <a href="ResourceManager.html">Resource Manager</a>,
+    it examines the available actors to find one that advertises the needed role.  
 </p>
 <p>Actors may be programmed outside of the Hum system.
    Thus, they might be programmed in any appropriate programming language. 
@@ -80,7 +84,7 @@
 <p>Resources are allocated from <i>resource pools</i> as needed.
    If the resources are parts and material, 
      you can think of such a pool as an inventory.  
-   Actors are resources and they are allocated from pools also.
+   Actors are resources and they may be allocated from pools also.
    If the actors are humans, 
      you can think of such a pool as a staffing pool.
 </p>

@@ -239,7 +239,7 @@
 <pre class="example">
 ---
 <k>Goal:</k> <n>Order</n> delivered to <n>customer</n>.
-<k>Pre:</k>
+<k>Preconditions:</k>
 . <n>Customer</n> has paid for <n>order</n>.
 . <n>Order</n> is ready for delivery.
 <k><k>Actions:</k></k>
@@ -256,7 +256,7 @@
 <pre class="example">
 ---
 <k>Goal:</k> <n>Customer</n> has paid for <n>order</n>.
-<k>Pre:</k>
+<k>Preconditions:</k>
 . Order is completely defined.    (new)
 . Customer has confirmed order.   (new)
 <k>Actions</k>
@@ -264,7 +264,7 @@
 . Cashier: Advise customer that order is in progress.
 ---
 <k>Goal:</k> Order is ready for delivery.
-<k>Pre:</k>
+<k>Preconditions:</k>
 . Customer has paid for order.    (defined above)
 . Coffee items are all assembled. (new)
 . Donut items are all packed.     (new)
@@ -278,25 +278,25 @@
 <pre class="example">
 ---
 <k>Goal:</k> Order is completely defined.
-<k>Pre:</k>
+<k>Preconditions:</k>
 . Customer has asked for service.
 <k>Actions:</k>
 . Order Taker: Ask customer for order items.
 ---
 <k>Goal:</k> Customer has confirmed order.
-<k>Pre:</k>
+<k>Preconditions:</k>
 . Order is completely defined.
 <k>Actions:</k>
 . Order Taker: Ask the customer to confirm the completed order.
 ---
 <k>Goal:</k> Coffee items are all assembled.
-<k>Pre:</k>
+<k>Preconditions:</k>
 . Customer has confirmed order.
 <k>Actions:</k>
 . Coffee Mixer: Assemble coffee items for the order.
 ---
 <k>Goal:</k> Donut items are all packed.
-<k>Pre:</k>
+<k>Preconditions:</k>
 . Customer has confirmed order.
 <k>Actions:</k>
 . Packer: Pack all donut items in the order.
@@ -311,7 +311,7 @@
 <pre class="example">
 ---
 <k>Goal:</k> Customer has asked for service.
-<k>Pre:</k>
+<k>Preconditions:</k>
 . Store is open.
 <k>Actions:</k>
 . Store Manager: Open the store.
@@ -343,18 +343,18 @@
 <pre class="example">
 Order delivered to customer.
 
-1.  Customer has paid for order.
-1.1 . Customer has confirmed order.
-1.1.1 . Order is completely defined.
-1.1.1.1 . Customer has asked for service.
-1.1.1.1.1 . Store is open.
+. Customer has paid for order.
+. . Customer has confirmed order.
+. . . Order is completely defined.
+. . . . Customer has asked for service.
+. . . . . Store is open.
 
-2.  Order is ready for delivery.
-2.1 . Customer has paid for order.    (same as 1.)
-2.2 . Coffee items are all made.
-2.2.1 . Customer has confirmed order. (same as 1.1)
-2.3 . Donut items are all made.
-2.3.1 . Customer has confirmed order. (same as 1.1)
+. Order is ready for delivery.
+. . Customer has paid for order.    
+. . Coffee items are all made.
+. . . Customer has confirmed order. 
+. . Donut items are all made.
+. . . Customer has confirmed order. *
 </pre>        
 <p>  You may have noticed that some of the pre-conditions 
      appear in several goal frames;
@@ -376,7 +376,7 @@ Order delivered to customer.
      and move things around.
 </p>
 <pre class="example">
-<k>Pre:</k>
+<k>Preconditions:</k>
 . Order is completely defined.
 . Customer has confirmed order.</pre>
     <a name="Ontology"></a>    <h4>Ontology</h4>
@@ -384,7 +384,7 @@ Order delivered to customer.
           The Planner already knows and "understands" many business terms.
           It will format statements when they are displayed to indicate
           which terms are known to be nouns.
-          Nouns indicate <i>variables</i> that need to be filled-in
+          Nouns indicate real-life <i>variables</i> that need to be filled-in
           when the plan is <i>instantiated</i>.
        </p>
        <p>    
@@ -399,18 +399,18 @@ Order delivered to customer.
 <pre class="example">
 <b>Order delivered to customer.</b>
 <b>
-1.  <n>Customer</n> has paid for <n>order</n>.</b>
-1.1 . <n>Customer</n> has confirmed <n>order</n>.
-1.1.1 . <n>Order</n> is completely defined.
-1.1.1.1 . <n>Customer</n> has asked for service.
-1.1.1.1.1 . <n>Store</n> is open.
+.  <n>Customer</n> has paid for <n>order</n>.</b>
+. .  <n>Customer</n> has confirmed <n>order</n>.
+. . .  <n>Order</n> is completely defined.
+. . . .  <n>Customer</n> has asked for service.
+. . . . .  <n>Store</n> is open.
 <b>
-2.  <n>Order</n> is ready for delivery.</b>
-2.1 . <n>Customer</n> has paid for <n>order</n>.    (same as 1.)
-2.2 . <n>Coffee items</n> are all made.
-2.2.1 . <n>Customer</n> has confirmed <n>order</n>. (same as 1.1)
-2.3 . <n>Donut items</n> are all made.
-2.3.1 . <n>Customer</n> has confirmed <n>order</n>. (same as 1.1)
+.  <n>Order</n> is ready for delivery.</b>
+. . <n>Customer</n> has paid for <n>order</n>.     
+. . <n>Coffee items</n> are all made.
+. . . <n>Customer</n> has confirmed <n>order</n>.  
+. . <n>Donut items</n> are all made.
+. . . <n>Customer</n> has confirmed <n>order</n>.  
 </pre>        
        <p>The plan above is generic.
           To make it specific, we need to specify which <n>customer</n>,
@@ -433,16 +433,16 @@ A <n>coffee-drink</n> is a <n>product</n>.
 A <n>coffee-drink</n> has a <n>recipe</n>.
 A <n>recipe</n> is a <n>bill-of-material</n>.
 A <n>donut</n> is a <n>product</n>.
-<n>Coffee-items</n> are <n>order-items</n> where the <n>product</n> is a <n>coffee-drink</n>.
-<n>Donut-items</n> are <n>order-items</n> where the <n>product</n> is a <n>donut</n>.
+A <n>coffee-item</n> is an <n>order-item</n>.
+A <n>donut-item</n> is an <n>order-item</n>.
 ---
 </pre>       
-<p class="AUTHOR">ABOVE HAS A WHERE CLAUSE!</p>
+
 <!-- ......................................................................... -->
     <a name="ExecutingThePlan"></a>    <h4>Executing The Plan</h4>
        <p> 
           The Planner builds a plan when it is given a <i>goal</i>.
-          The Planner builds the plan from goal frames found in the frame base.
+          The Planner builds the plan from goal frames found in the ontology.
           The goal must match one of the <i>post-conditions</i>
           in one of the goal frames.
           The goal frame that matches the goal becomes the <i>root</i> 
@@ -490,9 +490,6 @@ A <n>donut</n> is a <n>product</n>.
        <p> In some future world, the actors might be robots.
           For example, robots can be programmed to make coffee drinks
           in a suitably robot-friendly environment. 
-          (For a simple industrial robot, 
-          everything has to be in a fixed position;
-          and, a barrier protects humans from possible injury.)
           Thus, in our scenario, the "Coffee Mixer" role could be assigned
           to a human actor, or to a robot.          
        </p>  </blockquote>
@@ -1062,7 +1059,7 @@ An <n>expresso-drink</n> is described by its <n>name</n> and <n>expresso-drink-r
 <pre class="example">
 ---
 Goal: Sensors are all enabled.
-<k>Pre:</k>
+<k>Preconditions:</k>
 . (none)
 <k>Action:</k>
 . Steering Wheel: Sense angle of turn.
