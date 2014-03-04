@@ -2,7 +2,7 @@
 <head>
   <title>Frame Notations</title>
   <link href="styles.css" rel=STYLESHEET TYPE="text/css">
-  <!--Copyright 2006 Richard A. Green 734-223-6687 -->
+  <!--Copyright 2013 Richard A. Green RichardAlexanderGreen@GMail.com -->
 </head>
 <body>
 
@@ -65,7 +65,7 @@
        <td>... used to build plans.</td>
       </tr>
       <tr>
-       <td align="RIGHT"><a href="#RoleFrame">       Role Frames      </a></td>
+       <td align="RIGHT"><a href="#RoleFrame">       Action Frames      </a></td>
        <td> - provide step-level instructions.   </td>
        <td>... tell actors what to do.</td>
       </tr>
@@ -168,13 +168,13 @@ Actions:
 <hr>  
   
   <a name="RoleFrame"></a>
-  <h3>Role Frame Notation</h3>
+  <h3>Action Frame Notation</h3>
   <p>
-   Role Frames provide the <i>instructions</i>
+   Action Frames provide the <i>instructions</i>
    required to perform a <i>action</i>.
    At run-time, these instructions will be executed
    by an <i>actor</i> assigned the <i>role</i>
-   named in the step.
+   named in the frame header.
   </p>
   <p>
    Since the instructions are written in Hum,
@@ -685,7 +685,7 @@ S: Hello, [firstName] *.
   Roles are indicated by the instruction syntax 
   <br />"<code>. (role): ...</code>" 
      - with a role-name and a colon preceding the statement.
-  <br />This is the same syntax that we use in task frames and role frames
+  <br />This is the same syntax that we use in task frames and Action Frames
     to indicate what role is performing an instruction.
 </p>
 <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->  
