@@ -187,7 +187,7 @@ A business process necessarily involves the coordination of communities of actor
 What does this imply for the design of a future programming language?
 It implies that our set of notations
 should clearly express workflow concepts. 
-Such concepts include goals, tasks, actors, actions, and work orders.
+Such concepts include goals, actors, actions, dialogs, and work orders.
 
 </p><p>
 
@@ -222,7 +222,7 @@ The run-time system should have that capability built-in.
  <!-- .................................................................... -->
 <h2>How does the proposed programming language address business needs?</h2>
  <!-- .................................................................... -->
-<h3>Task frames provide a notation for plans and workflows.</h3>
+<h3>Goal frames provide a notation for plans and workflows.</h3>
 
 </p><p>
 
@@ -240,18 +240,17 @@ This is a powerful technique for solving even the most complex problems.
 
 </p><p>
 
-Listing <a href="#goal">(below)</a> <!--goal--> shows a <i>task frame</i> with a notation designed to facilitate that process.
-We state the name of the task, the post-condition (goal), the preconditions that must be observed before the post-condition can hold, and any actions (preferably one action) that must be performed to make the transition between the state where the preconditions are true and the state where the post-condition is true. This is conceptually comparable to a state-transition diagram or a precedence chart; but it is executable, readable, and the semantics are more explicit.
+Listing <a href="#goal">(below)</a> <!--goal--> shows a <i>goal frame</i> with a notation designed to facilitate that process.
+We define a plan segment with its post-condition (goal), the preconditions that must be observed before the post-condition can hold, and any actions (preferably one action) that must be performed to make the transition between the state where the preconditions are true and the state where the post-condition is true. This is conceptually comparable to a state-transition diagram or a precedence chart; but it is executable, readable, and the semantics are more explicit.
 
 </p><p>
 
-<listingcaption>This task frame identifies two preconditions 
+<listingcaption>This goal frame identifies two preconditions 
 <br/>that must be met prior to the final action that achieves our goal.
 </listingcaption> 
 <a name="goal"/>
 <pre class="EXAMPLE">
-Task: Bake a cake according to recipe.
-Post-Condition: Cake is baked according to recipe.
+Goal: Cake is baked according to recipe.
 Preconditions:
 . Oven is preheated to the temperature given in the recipe.
 . The recipe's batter is in a prepared cake pan.
@@ -261,34 +260,32 @@ Actions:
 
 </p><p>
 
-The task-frame notation provides a way for us to 
+The goal-frame notation provides a way for us to 
 break a complex problem down into smaller problems.
 For each precondition, 
-we prepare another task frame that defines
+we prepare another goal frame that defines
 what is needed to achieve that condition.
-The task frame in Listing <a href="#goal">(above)</a> <!--goal--> identifies two preconditions.
-That means that we need two more task frames
+The goal frame in Listing <a href="#goal">(above)</a> <!--goal--> identifies two preconditions.
+That means that we need two more goal frames
 showing how those preconditions might be met.
 Note that the work to meet those preconditions
 can be executed concurrently.
 Parallel processing is implicit in the notation.
-Listing <a href="#next-layer">(below)</a> <!--next-layer--> shows two task frames that define the next layer of the plan. 
+Listing <a href="#next-layer">(below)</a> <!--next-layer--> shows two goal frames that define the next layer of the plan. 
 
 </p><p>
 
-<listingcaption>The two task frames shown here define the next layer in our plan.</listingcaption> 
+<listingcaption>The two goal frames shown here define the next layer in our plan.</listingcaption> 
 <a name="next-layer"/>
 <pre class="EXAMPLE">
-Task: Preheat the oven according to the temperature given in the recipe.
-Post-Condition: Oven is preheated to the temperature given in the recipe.
-Precondition:
+Goal: Oven is preheated to the temperature given in the recipe.
+Preconditions:
 . The oven's gas burner is lit. (We are using a gas-fired oven.)
 . The oven's thermostat is set to the temperature given in the recipe.
 Action:
 . Timer: Wait 5 minutes.
-
-Task: Prepare the recipe's batter.
-Post-Condition: The recipe's batter is in a baking pan.
+---
+Goal: The recipe's batter is in a baking pan.
 Preconditions:
 . The recipe's batter is in the mixing bowl.
 . The cake pan is greased. 
@@ -298,27 +295,25 @@ Actions:
 
 </p><p>
 
-Eventually, we discover preconditions that have no prerequisites,
-or the prerequisite might be a signal that arrives as an external event.
-The preconditions with no prerequisites are identified with <i>annotations</i>
+Eventually, we discover preconditions that have no prerequisites.
+A precondition with no prerequisites is identified with an "[Assumed]" <i>annotation</i>
 in square brackets
-that tell the plan checker that it need not expect a task frame
+that tell the plan checker that it need not expect a goal frame
 for those preconditions. 
 (The plan checker is a component in the programmer's assistant 
 [in the interactive development environment, or IDE].)  
 Listing <a href="#assumed">(below)</a> <!--assumed--> shows a precondition that is marked [Assumed].
-This indicates that no task frame is required to define that precondition.
-Since the task frame has no other preconditions, 
+This indicates that no goal frame is required to define that precondition.
+Since the goal frame has no other preconditions, 
 the action statement can run immediately when the plan is executed.
 
 </p><p>
 
-<listingcaption>This task frame shows a single precondition. The annotation, [Assumed], tells us that the precondition has no prerequisite.
+<listingcaption>This goal frame shows a single precondition. The annotation, [Assumed], tells us that the precondition has no prerequisite.
 The action statement can execute immediately when the plan is started</listingcaption> 
 <a name="assumed"/>
 <pre class="EXAMPLE">
-Task: Mix the ingredients according to the recipe.
-Post-Condition: The recipe's batter is in the mixing bowl.
+Goal: The recipe's batter is in the mixing bowl.
 Preconditions:
 . The ingredients required by the recipe are on hand. [Assumed.]
 Action:
@@ -334,7 +329,7 @@ Action:
 In a natural language, nouns represent variables.
 People assign objects in the environment to the nouns 
 when they interpret a natural language statement.
-Similarly, the nouns in the task-frame statements indicate the input 
+Similarly, the nouns in the goal-frame statements indicate the input 
 that will be needed when the system executes the plan.
    The system's pretty printer furnishes hyperlinks for those nouns.
    The links connect each noun to its definition and where-used list.
@@ -345,7 +340,7 @@ The system learns which words are nouns by reading
 <i>dictionary frames</i>.
 The dictionary frame in Listing <a href="#dictionary">(below)</a> <!--dictionary--> 
 defines most of the nouns identified 
-in the task frames shown here. 
+in the goal frames shown here. 
 The nouns are defined in terms of their supertypes.
 The base vocabulary provides a foundation of supertypes
 that identify basic business process concepts including
@@ -398,14 +393,14 @@ for both the baker and "fetch and put" roles.
 Therefore, not only can the robot mix the batter and pour it into a cake pan,
 the same robot can also move the cake pan into the oven.
 
-</p><p>
+</p>
 
  <!-- .................................................................... -->
 <h3>Actors and Agencies</h3>
 
-</p><p>
+<p>
 
-The task frames in Listings (below) <!--goal-->, (below) <!--next-layer-->, and (below) <!--assumed--> mention two roles: the baker and the timer.
+The goal frames in Listings (below) <!--goal-->, (below) <!--next-layer-->, and (below) <!--assumed--> mention two roles: the baker and the timer.
 In <i>real mode</i>, a role can be performed by a human or a robot.
 In <i>simulation mode</i>, both roles would be performed by a sim-bot.
 I have coined the term <i>sim-bot</i> to describe a software actor 
@@ -421,11 +416,9 @@ an entire year of activity to be simulated in less than one hour.
 </p><p>
 
 When the time comes to run an action,
-a resource manager (or a team of resource managers)
+the Resource Manager 
 assigns an actor to fill the role specified for the action statement.
-You can think of a resource manager as an agency. 
-An actor may come from a pool of actors that advertise
-the capability to fill the role.
+You can think of the Resource Manager as an agency. 
 Listing <a href="#baker">(below)</a> <!--baker--> shows an <i>action frame</i> that defines the capabilities of the baker role. 
 
 </p><p>
@@ -528,7 +521,9 @@ To: Send string with return. ("String" is a primitive data type.)
 . IP: Send string with end-of-line.
 </pre> 
 
-</p><p>
+</p>
+<!--
+<p>
 
 We communicate to external actors 
 by translating our statements into the command language of the actor
@@ -538,19 +533,22 @@ We've built an adapter for the "oven" role
 that translates from our natural language statements
 into the machine's command language.
 
-</p><p>
+</p>
+<p>
 
 Actually, the entire run-time system works like that. 
 Each actor has a network address (an IP address or DNS name).
 Requests flow through a <i>messenger service</i> 
 that guarantees sequential delivery, privacy, and an audit trail.
 
-</p><p>
+</p>
+-->
+
 
  <!-- .................................................................... -->
 <h3>Job Tickets and Resource Accounting</h3>
 
-</p><p>
+<p>
 
 When a client requests a goal or action,
 the system generates a job ticket.
@@ -559,7 +557,7 @@ and provides an electronic turn-around document
 that records the resources consumed and utilized.  
 The job ticket goes to the Coordinator.
 The Coordinator is an actor that monitors the progress of a plan.
-A plan is a set of task frames.
+A plan is a set of Goal frames.
 When the time comes to request an action,
 the Coordinator sends the job ticket to a resource manager 
 along with the requested role and action.
@@ -570,7 +568,8 @@ it sends a (subordinate) job ticket to its resource manager
 along with the requested role and action.  
 That resource manager may dispatch the work to another actor. 
 If the same actor can perform that role, 
-it may dispatch the task back to the actor that attempted to delegate the task.   
+it may dispatch the action back to the actor that attempted to delegate the action.   
+(We may simply build self-delegation into the Actor`s standard framework.)
 
 </p><p>
 
@@ -957,8 +956,8 @@ to an appropriate date and time.
 
 </p><p>
 
-When all actions in a task frame run to completion,
-the post-condition in the task frame has, by definition, come true. 
+When all actions in a goal frame run to completion,
+the post-condition in the goal frame has, by definition, come true. 
 This is a business event worth recording.
 We populate the post-condition statement with noun-values 
 and send it to the world-base "for the record."  
@@ -1163,7 +1162,7 @@ That means that we need social systems, not just software systems<a href="#Bazaa
 Consider the question of source code control.
 What is the appropriate unit for check-out and check-in?
 The most obvious choice would be the role-action frame (or frame set).
-A less obvious choice would be a subtree of the task frames.
+A less obvious choice would be a subtree of the Goal frames.
 
 </p><p>
 
@@ -1212,9 +1211,9 @@ I have been studying and experimenting with automated persistence ever since.
 
 </p><p>
 
-Ideas behind the task frames come from state-transition diagram techniques
+Ideas behind the Goal frames come from state-transition diagram techniques
 and an analysis technique called "disassembly."
-The task-frame implementation owes a little something to 
+The goal-frame implementation owes a little something to 
 Prolog
 <a href="#Prolog">[_]</a> 
 although there is no "cut," and the back-chaining idea
@@ -1593,7 +1592,7 @@ From Wikipedia, the free encyclopedia
                     <li>Dialog-frame instructions</li>
                     <li>View-frame instructions</li>
                     <li>"For each", "If-else" in action frames</li>
-                    <li>Task-frame action statements ("role: action" pattern).</li>
+                    <li>Goal-frame action statements ("role: action" pattern).</li>
                  </ul>
               </li>
            </ul>
@@ -1619,7 +1618,7 @@ From Wikipedia, the free encyclopedia
                <li>Identify data-flow questions. (missing input.)</li>
                <li>Suggest near-match statement that might be intended.</li>
                <li>Nag when a procedure looks overly long.</li>
-               <li>Warn when task frame has more than one action statement.</li>
+               <li>Warn when goal frame has more than one action statement.</li>
             </ul>
          </li>    
        </ul>
