@@ -1,0 +1,369 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+	<title>Evolving Beyond Function, Class, Pattern, Service, Constraint Satisfaction, Self-Assembly</title>
+	<style>
+	   chapter heading { font-size: xx-large; font-weight: bold; }
+	   chapter p {margin-left: 2em;}
+	   
+	   chapter section heading {margin-left: 1em; font-size: x-large; font-weight: bold;}
+	   chapter section p {margin-left: 3em;}
+	   chapter section ul {margin-left: 3em;}
+	
+	   chapter section subsection heading {margin-left: 2em; font-size: large; font-weight: bold;}
+	   chapter section subsection p {margin-left: 4em;}
+	
+	   chapter section subsection subsubsection heading {margin-left: 3em; font-size: medium; font-style: italic;}
+	   chapter section subsection subsubsection p {margin-left: 5em;}
+	</style>
+
+</head>
+<body>
+<chapter>
+<heading>Evolving Beyond Function, Class, Pattern, Service, Constraint Satisfaction, Self-Assembly</heading>
+<section>
+<heading>Dimensions of Programming Knowledge Representation</heading>
+
+  <p>Existing programming artifacts represent different aspects of engineering knowledge.</p>
+  <ul>
+	<li>Algorithm: Published algorithms represent computational knowledge.</li>
+	<li>Function: Published functions define interface and contract.</li>
+	<li>Class: Cluster methods (functions) around a state representation.</li>
+	<li>Service: Represent (business) process packaging.</li>
+	<li>Constraint: Test First Development frameworks implement a programmer-driven  constraint-satisfaction system.</li>
+	<li>Component Assembly: "Make tools" (Make, Ant, Maven, Dependency Injection) represent static assembly knowledge. </li>
+	<li>Broker: Message brokers dispatch messages to subscribers and assigned actors.</li>
+	<li>Pattern: Templates represent partially implemented production rules.</li>
+	<li>Synthesis: Production rules (e.g. code generators) transform one representation to another.</li>
+	<li>Self Assembly: Message brokers provide a crude form of self-assembly.
+	       Some experiments indicate that genetic algorithms and other search and optimization
+			schemes are capable of assembling components into working systems.  
+			</li>
+  </ul>
+
+  <a name="Algorithm"></a>
+  <subsection><heading>Algorithm</heading></subsection>
+  <p>When a programming guru (e.g. Knuth) publishes an algorithm,
+	  they are providing a representation of computing knowledge.
+	 The publication may be in the form of executable code
+		or in the form of pseudo-code.
+	 Pseudo-code is a kind of pattern language. 
+     </p>
+
+  </subsection>
+  <a name="Function"></a>
+  <subsection><heading>Function</heading>
+  <p>When a function interface is published,
+		the interface specification defines a communication pattern
+		in the form of the function's calling signature
+		and a set of constraints in the form of the function's contracts.
+     </p>
+  </subsection>
+  <a name="Class"></a>
+  <subsection><heading>Class</heading>
+  <p>A class definition generally includes a cluster of functions.
+	 When the class is representing an object with state,
+		the state is typically represented by instance variables.
+     </p>
+  </subsection>
+  <a name="Service"></a>
+  <subsection><heading>Actor</heading>
+  <p>A service or actor or agent typically has an interface definition
+		that is very similar to a class definition.
+	 The additional aspect is that the run-time components
+		tend to have a location attribute (a network address [URI])
+		and an asynchronous communication pattern.	
+     </p>
+  </subsection>
+  <a name="Constraint"></a>
+  <subsection><heading>Constraint</heading>
+  <p>Test oriented methodologies (Test Driven, Behavior Driven, Unit Test)
+		implement a kind of constraint satisfaction framework
+		where the constraints are represented by the test cases.
+	 An automated test can be viewed as a crude theorem proof.	 
+     </p>
+  </subsection>
+  <a name="Assembly"></a>
+  <subsection><heading>Component Assembly</heading>
+  <p>Tools such as Make, Ant, Maven interpret component assembly knowledge representations.
+	 We can distinguish component assembly frameworks by their binding time.
+	 A class definition binds at compile time.
+	 A make file binds at packaging time.
+	 A dependency injection framework (e.g. Spring) binds at load time.
+	 A broker (see next) binds at call (send) time.
+     </p>
+  </subsection>
+  <a name="Broker"></a>
+  <subsection><heading>Broker</heading>
+  <p>A message broker dispatches (routes) messages at the time that they are sent
+		to one or more actors that advertise matching capabilities or subscriptions.
+	 Some versions of this concept include a bidding or load-leveling protocol 
+		where an actor's "bid" indicates the resource (time, space, processing capacity, money) required in exchange.
+     </p>
+  </subsection>
+  <a name="Pattern"></a>
+  <subsection><heading>Pattern</heading>
+  <p>Basically a design pattern is implemented as a template or code generator
+	 	which generates code.
+	 It enables semi-custom products.
+	 The earliest examples of this concept defined "user exits" (call backs).
+	 Existing systems allow the programmer to define a function or class
+		that participates in a procedure.
+	 For example, a component that sorts or sequences objects 
+		typically provides a way for the caller to reference
+		their own object comparison function. 
+     </p>
+  </subsection>
+  <a name="Synthesis"></a>
+  <subsection><heading>Synthesis</heading>
+  <p>Code generators interpret an input representation of desired behavior,
+		and produce as output another representation designed to be interpreted
+		by a downstream component that may generate still another representation.
+	 Eventually the resulting implementation is interpreted or executed at run-time
+		to produce the actual behavior.	
+     </p>
+  </subsection>
+  <a name="Self Assembly"></a>
+  <subsection><heading>Self Assembly</heading>
+  <p>JINI and UDDI broker-dispatchers may be viewed as assembling appropriate components
+		at run-time.
+	 These implement a form of constraint satisfaction with relatively simple search
+		and optimization procedures.
+	 They assume an inventory of components (actors) containing at least one bidder 
+		that implements a given interface protocol and satisfies additional constraints.
+	 Those additional constraints might, in some cases, be defined at run-time.
+	 In addition, some experiments indicate that genetic algorithms 
+		and other search and optimization schemes 
+		are capable of assembling components into working systems.
+     </p>
+  </subsection>
+  <a name=""></a>
+  <subsection><heading></heading>
+  <p>
+     </p>
+
+  <a name=""></a>
+  <subsection><heading></heading></subsection>
+  <p>
+     </p>
+
+</section><!-- End: Dimensions of Programming Knowledge Representation -->
+
+<section>
+<heading>Vision</heading>
+  <p>
+     </p>
+
+  <a name="Imagine"></a>
+  <subsection><heading>Just Imagine</heading>
+  <p>Imagine a synthesizer where the programmer merely specifies the desired behavior,
+		and an automated synthesizer produces a compliant solution.
+	 For example, the programmer could specify one of the many goals or constraints using
+	  	the "Given When Then" style of specification currently used to write test cases.	
+     </p>
+	<pre>
+	Given: &lt; a system condition &gt;
+	 When: &lt; a system event or parameter &gt;
+	 Then: &lt; a system condition &gt;
+	</pre>
+
+  <a name="How?"></a>
+  <subsection><heading>How might we achieve this vision?</heading></subsection>
+  <p>The "Given When Then" pattern above is only suggestive.
+	 <br/>We also need a notation that describes 
+		<br/>"<code>&lt; a system condition &gt;</code>"
+		<br/>in a way that the synthesizer can use to generate solutions.
+	<br/>Similarly, we also need a notation that describes
+		<br/>"<code>&lt; a system event or parameter &gt;</code>".
+     </p>
+  <p>With notations that describe a system state in adequate detail,
+		the system can generate code that provides representations of those states.
+	 In addition, the "When Then" part of the specification indicates a straight-forward
+		state transition.
+	 If there were no side-effects, the state-transition code would be simple translation
+		from the "When Then" code to the target code.	
+     </p>
+	 <p>
+	 However, fully specifying the "Given" condition is likely to be problematic.
+	 Also, the event indicated in the "When" condition will typically come 
+		from a user interface, system interface, or a sensor.
+	Indicating the context and interactions leading to an event
+		that is captured by a user interface is also problematic 
+		in this specification environment.
+     </p>
+  <p>Moreover, there is an additional ergonomic problem. 
+	 The "Given When Then" framework is a procedural approach.
+	 It assumes that the plan for the solution has already been worked out 
+		in some detail and therefore that plan exists externally.
+	 While this notation could, in principle, be used to build a plan tree, 
+		it is awkward for that purpose.	
+	 The "Given When Then" notation makes the specification work unnecessarily difficult 
+		and actually obscures the plan.
+	 The plan fragment is easier to understand if we invert the sequence:
+     </p>
+	<pre>
+	Goal: &lt; a system condition &gt;    ( The goal is a post condition. )
+	Preconditions:                        ( The preconditions are the "Given" in this frame. )
+	. &lt; a system condition &gt;  
+	. &lt; a system condition &gt; [Assumed.]  (This condition is a "leaf" in the plan tree.) 
+	Action:
+	. &lt; Role &gt;: &lt; action statement &gt;  ( Cause the transition. )
+	</pre>
+	
+  <p>A set of goal frames like that above form a plan tree.
+	 While this notation makes the plan tree more apparent,
+		the details are in the implementation of the role's action statements.
+	 We also have no clue about how the goal might be invoked.
+	 Therefore, we need an additional notation for the action 
+		and for the interaction (world interface) that leads to invoking the goal.
+	 We can indicate real-world interactions using a kind of chat-bot notation:
+     </p>
+	<pre>
+	User: [user] presents valid [certificate].
+	System: Welcome [user first-name]. What can we do for you?
+	. Show menu.
+	
+	User: &lt; menu choice &gt;
+	System: An excellent choice!
+	. Goal: &lt; Reference a goal. Provide contextual parameter data. &gt;
+	</pre>
+
+  <p>We can specify procedures and real-world effects using a fairly obvious notation:
+     </p>
+  <pre>
+	Role: Coffee mixer.
+	Action: Make <u>size</u> <u>flavor</u> latte.  (This statement is the role's public interface.)
+	. Steam milk for <u>size</u> latte.
+	. Make expresso for <u>size</u> latte.
+	. Combine milk and expresso in <u>size</u> serving container.
+	. Add <u>size</u> measure of <u>flavor</u> syrup to serving container.
+	. Move serving container to serving counter.
+	
+	To: Steam milk for <u>size</u> latte.  (This is a private method.)
+	. &lt; statements that the eventual actor can interpret &gt;
+	
+	To: Make expresso for <u>size</u> latte.
+	. &lt; statements that the eventual actor can interpret &gt;
+	
+	et cetera.
+	</pre>
+  <p>The parameter above is the word "size". 
+	 The parameter can take on the values small, medium, and large.
+	 The statements above could be checked for continuity 
+		if we had a way to indicate that "size" is a parameter (method argument)
+		and that it is a kind of enum.
+	 Natural statements are easily translated to almost any programming language
+		once we know which words represent variables 
+		and the range of values that can be assigned to the variable.
+	 The following dictionary frame indicates how we might inform the translator.
+     </p>
+  <pre>
+	Dictionary: Coffee-maker nouns.
+	. Coffee-drink attributes include drink-type, flavor, and size.
+	. Size categories include small, medium, large. 
+	. Flavor categories include mocha, vanilla, hazelnut, and raspberry. 
+	. (A category becomes an "enum" in Java.)
+  </pre>
+  <p>The dictionary frames can be implemented with a DSL (Domain Specific Language)
+		that may be translated to variable declarations in some target language.
+	 This may be easier than you think. 
+	 While our computing machine may have a large number of operand types,
+		the business world has a small number of entity types.
+	 You only need to implement four scalars types (String, Date-Time, Measurement, ID)
+		  and three collection types (Set, List, Dictionary).
+     </p>
+  <p>Note: There is no such thing as an abstract number in the business world.
+	 Every number is a measurement. 
+	 If we encounter a number in text,
+		we can require that the next token will name a unit-of-measure.	
+	 In addition, measurements have a known (knowable or assumed) precision.
+	 As a consequence, arithmetic performed on measurement quantities should also
+		calculate the precision of the resulting quantity.
+	 For example, 
+		if your flavor dispenser has an precision of plus or minus one milliliter per squirt,
+		after 1000 squirts the total amount dispensed 
+		may have a spread of of plus or minus 1000 milliliters (a bottle).	
+     </p>
+
+  </subsection>
+
+  <a name="How close?"></a>
+  <subsection><heading>How close are we to automating programming?</heading>
+  <p>I believe that we are very close to automating all programming
+		that pertains to <i>data handling.</i>
+	 Solutions to data handling problems are well understood.
+	 They can be built into the run-time system and removed from the programmer's workload.
+     </p>
+  <p>However, while the interface to the data processing machinery can be submerged, 
+		we are a very long way from being able to automate programming
+		that pertains to the interface with the real world.
+	 For example, the procedure shown above for producing a latte cannot be proven
+		as usable or even correct by any kind of theorem-proving program.
+     It can only be proven by running it in the real world.
+	 In the form that it is written, it is a style of Standard Work Instruction (SWI).
+	 My own experience is that work instructions need to be field tested.
+	 The author and most readers may think they are correct, 
+		but that does not prove	that they are unambiguous or user-friendly.
+	 If the role were to be assigned to a purpose-built coffee robot,
+		the instructions shown might be sufficient.
+	 But, if the instructions were to be performed by a general purpose robot arm,
+		a considerable amount of additional detail would have to be provided.
+	 The point is: Real world interfaces are complex and cannot be automatically written
+		with our current state of the art.	
+     </p>
+  <p>Programming robot movements can certainly be automated
+		once we have some declaration of what the robot's degrees of freedom
+		mean in terms of the spatial environment
+		and a description of the constraints and target locations present in that environment.
+	 I don't do robotics myself.
+	 But, I am told that interpreting the data received from sensors
+		typically requires a significant amount of experimentation
+		because the data often contains noise
+		which must be filtered out by heuristic (and empirically tested) rules.
+	 The implication is that those heuristic rules will continue to require human input
+	    for some time.	
+     </p>
+  <p>Programming the persistence layer and the inter-actor message layer
+		will be automated soon.
+	 The required design patterns are well understood 
+		and include variations to sub-optimize service level requirements.
+	 The are that will resist automation is the human interface.
+	 While fill-in-the-blank forms and simple reports and displays
+		can be programmed automatically,
+	 	the resulting products are inevitably lacking in esthetics.			
+	 </p>
+
+  </subsection>
+
+  <a name="Esthetics"></a>
+  <subsection><heading>Esthetics, the last domain.</heading>
+  <p>Although ink may become digital ink,
+		the printed word, graph, and chart are not about to go of style.
+	 Book and magazine writers and, especially, editors are experts 
+		on usability, style, and matters of print-media esthetics.	
+	 Alas, the average programmer is not!	
+	 And inserting a data element into a print document
+		is as simple as inserting a pattern like this: "[[data reference]]"
+		into the document in the proper place.
+	 Writers and editors can learn how to do that.
+	 They only need to see a few examples.	
+	 They might need a little more training to specify a statistical displays.
+	 But the pattern could be as simple as
+	 <br/> 
+	 "[[Pie of workers median income by job-category located at (32,64) extent (200,300)]]"
+	 <br/>which would be easily learned by anyone who understood the meaning of the chart.
+     </p>
+  <p>
+     </p>
+
+
+  </subsection>
+
+
+
+
+</section>
+</chapter>
+</body>
+</html>
