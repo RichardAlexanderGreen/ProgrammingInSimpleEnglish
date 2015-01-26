@@ -1,0 +1,516 @@
+===
+Goal: Customer is served.
+Preconditions: 
+. Customer has entered an order.     
+. Customer has paid for order.        
+Actions:
+. Coffee-Mixer: Prepare the coffee-items in the order.    
+. Donut-Fetcher: Fetch the donut-items in the order.      
+. Order-Assembler: Assemble order-items into carriers.    
+. Order-Checker: Give carriers to the customer.              
+===
+Dictionary: Items.
+. Coffee-item is an order-item.
+. Conut-item is an order-item.
+. Order-item is a product.
+. Carrier is a part.
+. Carrier is a container.
+. Order is a transaction. (We don't need to say this because an order is a primitive.)
+===
+Goal:  Customer has entered an order.
+Preconditions: 
+. Customer is at front of order-entry-queue. [Signal from queue.]
+. (The goal is: "Serve the customer.")
+Actions:
+. Order-Taker: Get the order.
+===
+Dictionary: Queue.
+. An order-entry-queue is a queue. (for "Customer arrives through front door" events.)
+. (This queue concept is primarily of use in a simulation.)
+. A queue is a workspace.  (Workspace is a primitive.)
+. A workspace is a location.
+. Customer is user.
+===
+Context: Take an order.
+U: [Customer] presents [order].
+S: Thank you for your order.
+   Your tray will be delivered at the delivery counter.
+. Goal: Customer is served.
+. Assert: Customer has entered an order.
+. Assert: Customer has paid for order. (Ignore payment process for now.)
+===
+Role: Order-Taker.
+Action: Get the order.
+. Speaker: Show menu-form.
+. Validate menu-form.
+. Translate menu-form to customer order.
+
+Action: Provide customer with menu-form. 
+. Speaker: Show menu-form. [2 seconds]
+
+Action: Validate menu-form. 
+. (It must have at least one item selected.)
+
+Action: Translate menu-form to customer order.
+. (Is this needed?)
+===
+Role: Customer. (Simulation timing.)
+Action: Fill in the menu-form.			
+. Read the menu-form.		[8 seconds]
+. Decide what is wanted.	[8 seconds]
+. Fill in the menu-form.	[8 seconds]
+
+Action: Submit menu-form to order-taker. 	
+. Give the menu-form to the order-taker.	[3 seconds]
+
+Action: Present credit card.
+. Fish in pocket or purse for wallet. 		[5 seconds]
+. Search through cards for the right card. 	[5 seconds]
+. Hand the card to the cashier. 		[2 seconds]
+===               
+Goal: Customer has paid for order.
+Preconditions: Customer has entered an order.
+Actions: 
+. Cashier: Prepare bill.                       
+. Speaker: Explain bill to customer.                       
+. Cashier: Accept payment from customer.    
+. (Note: The actions in this task frame assume a sequence.) 
+===
+Role: Cashier.         
+Action: Prepare bill.                        
+. Sum prices of order-items into order-total.	[native]
+. Subtract any discounts from order-total to get taxable-subtotal.
+. Add any taxes to taxable-subtotal to get bill-total.
+
+Action: Explain bill. 
+. Speaker: Explain bill to customer.	[9 seconds]
+
+Action: Accept payment from customer.
+. Speaker: Accept payment.	[9 seconds]
+
+To: Add any amount to total.
+. Add amount to total. 	[1 second]
+
+To: Subtract any amount from total.
+. Subtract amount from total.	[1 second]
+
+Action: Accept cash and make change.
+. Accept cash, make change. [15 seconds]
+
+Action: Give cash-receipt to the customer.
+. Print cash-receipt.			[5 seconds]
+. Give cash-receipt to the customer.	[3 seconds]
+
+Action: Give credit-receipt to the customer.
+. Print credit-receipt.			[5 seconds]
+. Give credit-receipt to the customer.	[3 seconds]
+
+Action: Run card through reader and validate.
+. Run card through reader.	[3 seconds]
+. Wait for validation signal.	[5 seconds]
+. Return card to customer.	[2 seconds]
+
+===
+Dictionary: Derived items. (temporary stub)
+. Order is derived from menu-form.
+. Bill is derived from order.
+. Order-item is derived from order.
+. Coffee-item is derived from order-item.
+. 
+===
+Dictionary: Calculated items. (temporary stub)
+. Total is calculated.
+. Discount is calculated.
+. Order-total is calculated.
+. Taxable-subtotal is calculated.
+. Price is calculated.
+. Bill-total is calculated.
+. Tax is calculated.
+===
+Role: Speaker.
+Action: Show menu-form.
+. Ask. [Menu-form.]
+. (STUB - until we implement blackboard and smarter speaker.)
+
+Action: Explain bill and accept payment.
+. Explain bill.
+. Accept payment.
+
+Action: Explain bill to customer.
+. Show. [Bill.]
+
+Action: Request payment.
+. Dialog. [Explain payment.]
+
+Action: Accept payment.
+. Dialog. [Explain payment.]
+
+To: Show view.
+. Show view named in annotation. [native]
+
+Action: Show document.
+. Show document view. 	[native]
+
+Action: Deliver order.
+. Dialog. [Deliver order.]
+===
+Dictionary: Coffee and Donuts.
+. A donut is a product.
+. A beverage is a product.
+. A donut is a part.
+. A donut-item is an order-item.
+. A coffee-item is an order-item.
+. A carrier is a container.
+. A carrier is a part.
+. A customer is a person.
+. An order-item is an item.
+. A menu is a catalog.
+. A menu-form is a form.
+===
+Role: Coffee-Mixer.    (Coffee-Mixer is the name of a role.)
+Action: Prepare the coffee-items in the order.  
+. Get a coffee-tray from the coffee-tray-stacker. [7 seconds native]
+. For each coffee-item in order:
+. . Prepare the coffee-item.       		[distribution: 5,25,50 seconds ]          
+. . Add coffee-item to coffee-tray.		[5 seconds]
+. Move coffee-tray to outgoing-coffee-queue.	[4 seconds]
+
+To: Prepare the coffee-item.                  
+. Fetch recipe's cup from cup-dispenser. 
+. Add flavors shown in coffee-item's recipe.
+. Add coffee amount shown in coffee-item's recipe.
+. Move cup to coffee-staging-area. 
+. Book-keeper: Transfer coffee-item's materials from coffee-maker's material-inventory to coffee-tray.
+
+To: Get container from stacker.
+. Move to stacker's location.
+. Remove container from stacker. [native]
+
+===
+Dictionary: Equipment.
+. A stacker is equipment.
+. Equipment attributes include location, asset-number.
+. An outgoing-coffee-queue is a queue.
+. Coffee-staging-area is a workspace.
+===
+Role: Mobile-Agent.
+Action: Move thing to location.
+. Move to location.
+. Place thing at location. [native]
+
+Action: Get thing from location.
+. Move to location.
+. Get thing from location. [native]
+. (Is "native" a safe assumption?)
+
+Action: Move to location.
+. Move self to location. [native]
+
+Action: Move to equipment's location.
+. Move to location.
+
+===
+Dictionary: Various containers.
+. A tray is a container.
+. A tray is equipment.
+. A coffee-tray is a tray.
+. A donut-tray is a tray.
+. A stacker is equipment.
+. A stacker is a container.
+. A cup-dispenser is a container.
+. A cup-dispenser is equipment.
+. A donut-rack is equipment.
+. A cup is a part.
+. A recipe is a bill-of-material.
+. A coffee-staging-area is a workspace.
+. Outgoing-coffee-queue is a workspace.
+. Outgoing-donut-queue is a workspace.
+. Order-out-queue is a workspace.
+. Coffee-staging-area is a workspace.
+. A workspace is a location.
+. Flavor is a material.
+. Coffee-tray-stacker is a stacker.
+. Donut-tray-stacker is a stacker.
+. A container is a thing.
+. A part is a thing.
+===
+Role: Donut-Fetcher.
+Action: Fetch the donut-items in the order.   
+. Get a donut-tray from donut-tray-stacker. [native]
+. For each donut in the order:
+. . Fetch the donut from the donut-rack.    
+. . Add the donut to the donut-tray.
+. . (Book-keeper: Transfer donut's cost from donut-inventory to donut-tray.)
+. Move tray to outgoing-donut-queue.
+
+To: Fetch the donut from the donut-rack.    
+. Move to donut-rack.
+. Take donut from the donut-rack. 
+(Is this needed? Does the system already know how to do this?) 
+
+To: Move carrier to location.
+. Move to location.
+. Place carrier at location.	[native]
+
+To: Move to container.
+. Move self to container's location. [native]
+
+To: Move to location.
+. Move self to location.	[native]
+
+To: Take item from container.
+. Get item from container.
+
+To: Get item from container.
+. Move to container.
+. Remove item from container.	[native]
+
+To: Add item to container.
+. Move to container.
+. Put item into container.	[native]
+===
+Dictionary: Stackers, racks, trays.
+. A stacker is a container.
+. A rack is a container.
+. A donut-tray is a tray.
+. A donut-rack is a rack.
+. An outgoing-donut-queue is a location.
+. A donut-inventory is an inventory.
+. A material-inventory is an inventory.
+===
+Role: Order-Assembler.
+Action: Assemble order-items into carriers.  
+. Bag or box donuts as appropriate.                
+. Assemble beverages and donuts into appropriate carriers.    
+. Move carriers to order-out-queue.
+
+To: Bag or box donuts as appropriate.     
+. If the order has more than six donuts:
+. . Fetch a box from box-stacker.
+. . Erect the box.
+. Else:
+. . Fetch a bag from the bag-dispenser.
+. . Pop the bag.
+
+To: Assemble beverages and donuts into appropriate carriers.   	
+. If order has less than two beverages:  (How will this work? Is there a sensor?)
+. . Select no carrier.
+. ElseIf order has less than five beverages: 
+. . Select 4-pack-carrier.
+. ElseIf order has less than seven beverages: 
+. . Select 6-pack-carrier.
+. ElseIf order has more than six beverages: 
+. . Select 12-pack-carrier.
+. Distribute beverages and donuts on carrier.
+. (This does not cover really large orders with more than 12 beverages.)
+
+To: Select carrier. (Note use of super-type.)
+. Pull given type of carrier from associated stack.
+. Bookkeeper: Transfer carrier part from stack to work-in-progress.
+
+===
+Dictionary: A coffee-drink is a drink, etc.
+. A coffee-drink is a beverage.
+. A drink is a beverage.
+. A beverage is a product.
+. A coffee is a coffee-drink.
+. A drink is a product.
+. A coffee-drink has a recipe.
+. An order-out-queue is a location. 
+. A 4-pack-carrier is a carrier.
+. A 6-pack-carrier is a carrier.
+. A 12-pack-carrier is a carrier.
+. A carrier is a container.
+===
+Role: Order-Checker.
+Action: Give carriers to the customer.     	
+. Match carrier to order.
+. Move matched carrier to scale.
+. (This catches most errors with carrier sequencing.)
+. If scale weight matches order's expected weight:
+. . Release carriers to customer.		[native]
+. . (Book-Keeper: Transfer order's cost to cost-of-goods-sold.) 
+. . (Book-Keeper: Transfer order's price to sales-revenue.)      
+. Else:
+. . (Most likely error is that carrier is out of sequence.)
+. . Check for carrier-sequence-error.
+. Speaker: Deliver order.
+===
+Role: Book-keeper.                        
+
+Action: Transfer order's amount to account.
+. Add amount to account.		[native]
+
+Action: Transfer resource from this-pool to that-pool.
+. Get cost of resource.
+. Transfer cost from this-pool's asset-account to that-pool's asset-account.
+
+Action: Transfer product's cost from this-inventory to that-inventory.
+. Transfer cost from this-inventory's cost-account to that-inventory's cost-account.
+. (Expect critique to complain about line above.)
+
+To: Transfer amount from this-thing's this-account to that-thing's that-account.
+. Transfer amount from this-account to that-account.
+
+To: Transfer amount from this-account to that-account.
+. Subtract amount from this-account.	[native]
+. Add amount to that-account.		[native]
+
+To: Get cost of resource.
+. Resource-Manager: Get bid for resource.	[native]
+===
+Dictionary: Inventory accounting.
+. An asset-account is an account.
+. this-account is an account.
+. that-account is an account.
+. this-pool is a resource-pool.
+. that-pool is a resource-pool.
+. Cost-of-goods-sold is an account.
+. Sales-revenue is an account.
+. Cost is an amount.
+. Price is an amount.
+. Tax is an amount.
+. Discount is an amount.
+. A total is an amount.
+===
+Context: Explaining bill, no discounts.
+S: Here is your bill.
+   Your drinks and donuts are listed separately.
+   Your total is [bill total] including tax.
+. Accept payment. 
+=== 
+Context: Explaining bill, with discounts.  
+S: Here is your bill.
+   Your drinks and donuts are listed separately.
+   You have earned [bill discount-total] in discounts.
+   Your total is [bill total] after discounts and tax.    
+. Accept payment.
+===
+Context: Explain payment.
+S: Would you like to pay by cash? Or, by credit card?
+U: * cash *.
+S: Excellent!  
+. Avatar:  Smile.
+   That will be [bill total] please.  
+
+U: * money *.
+S: Thank you. 
+. Cashier: Accept cash and make change.
+   Here is your receipt.
+. Cashier: Give cash-receipt to the customer.
+   Your order should be up any second now.  
+
+U: Thank you *.
+S: You are most welcome.  
+. Avatar:  Smile.
+   We are pleased to have your business.
+
+U: * credit *.
+U: * plastic *.
+S: Plastic! Okay. 
+. Avatar:  Raise eye-brow.
+  Your card please? 
+
+U: * card *.
+S: Thank you.  
+. Cashier: Run card through reader and validate.
+   Would you sign here please?
+
+U: * signature *.
+S: Thank you. 
+   You have an very interesting signature.
+   Your order should be up any second now.  
+. Cashier: Give credit-receipt to the customer.
+. Deliver order.
+===
+Context: Deliver order.
+S: Here is your order.
+   Have a good day.  
+
+U: * okay *.
+S: Live long and prosper.
+
+U: Thank you *.
+S: You are most welcome.  
+. Avatar:  Smile.
+   We are pleased to have your business.
+
+U: * bye *.
+S: Good bye.
+   We hope to see you again soon.
+. Done.
+===
+Dictionary: Various documents.
+. A menu-form is a form.
+. A bill is a document.
+. An order is a transaction.
+. A receipt is a document.
+. A cash-receipt is a receipt.
+. A credit-receipt is a receipt.
+. Plastic is synonym for credit-card.
+===
+View: Menu-Form.
+! Happy Hour Kaffee Klub Menu.
+!! Coffee Drinks.
+                    Mixed Drinks are $2.00 .
+  [1] Kapa Chino  
+  [2] X Press O
+  [3] Mocha
+  [4] Milkee
+                    Plain Drinks are $1.00 .
+  [5] _Plain_ Coffee
+  [6] Plain Milk
+  [7] *Fresh* Orange Juice
+
+!! Donuts.
+  Enter quantity of donuts desired:
+
+  [qPlain] Plain
+  [qJelly] Jelly
+  [qChoc ] Chocolate Glaze
+  [qOat  ] Oat Meal
+                    Donuts are $0.50 each.
+===
+View: Bill.
+!! Happy Hour Kaffee Klub - Invoice.
+  [drink total] Total for Drinks.
+  [donut total] Total for Donuts.
+  ============-
+  [order total] Subtotal.
+  [discounts  ] ~less discounts.~
+  ============-
+  [taxable    ] Taxable Amount.
+  [sales taxes] Sales Taxes.
+  ============-
+  [total owed ] Total Due.
+===-
+View: Cash-Receipt.
+!! Happy Hour Kaffee Klub - Cash Reciept.
+  [drink total] Total for Drinks.
+  [donut total] Total for Donuts.
+  ============-
+  [order total] Subtotal.
+  [discounts  ] ~less discounts.~
+  ============-
+  [taxable    ] Taxable Amount.
+  [sales taxes] Sales Taxes.
+  ============-
+  [total owed ] Total Paid (Cash).  
+===-
+View: Credit-Receipt.
+!! Happy Hour Kaffee Klub - Cash Reciept.
+  [drink total] Total for Drinks.
+  [donut total] Total for Donuts.
+  ============-
+  [order total] Subtotal.
+  [discounts  ] ~less discounts.~
+  ============-
+  [taxable    ] Taxable Amount.
+  [sales taxes] Sales Taxes.
+  ============-
+  [total owed ] Total Paid (Card: [credit-card-ref]).  
+===-
+View: Payment Options.
+!! Here are your payment options.
+ (1) Cash   (2) Credit Card   (3) Happy Hour Coupon.
+===

@@ -14,9 +14,9 @@ Context: Start.
 U: Enter.
 S: Club Mech is a test bed for Hum dialogs.
 
-U: My name is [user-name].
-U: Authenticated as [user-name].
-S: Hello [user-name].
+U: My name is [user name].
+U: Authenticated as [user name].
+S: Hello [user name].
    Please select an activity.
 . Push context "Select an activity.".
 

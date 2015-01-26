@@ -1,0 +1,108 @@
+===
+Comment: Imagine this scenario.
+. The Barista is automated (robotic).
+. Orders are entered via a touch screen.
+. Each drink is a separate order.
+. The order-entry kiosk uses an avatar for some communications.
+. Payment is always via credit card.
+. Club members pay via a club card and get a discount.
+===
+Context: Start.
+
+U: Authenticated [customer id].  
+S: Welcome [customer name].
+   Please enter your order.
+. Ask order.
+. Goal: Serve customer order.
+===
+Goal: Serve customer order.
+Preconditions:
+. Drink is prepared per order.
+. Pastry is prepared per order.
+Action:
+. Server: Deliver drink and pastry per order.
+===
+Goal: Drink is prepared per order.
+Action:
+. Barista: Prepare drink per order.
+===
+Goal: Pastry is prepared per order.
+Action:
+. Server: Place order pastry on tray. 
+===
+View: Order.
+
+! Happy Kaffee Cafe
+
+!! Drink - One per order.
+
+ [1] Coffee 
+      [a] Cream  [b] Double Cream         
+      [c] Sugar  [d] Double Sugar 
+
+ [2] Latte
+
+ [3] Mocha    
+     [f] Raspberry  
+
+ [4] Cappuccino
+     [x] Decaffe [z] skim-milk
+
+!! Pastry - One per order.
+
+ [6] Donut
+     [j] Plain  [k] Chocolate  [l] Sour Cream
+
+ [7] Danish
+     [m] cheese [n] pineapple [o] almond
+
+ [8] Croissant 
+     [p] Plain  [q] Chocolate  [r] Cheese
+
+===
+Dictionary: Kaffee Order Vocabulary.
+. Order attributes include drink, pastry.
+. Drink subtypes include coffee, latte, mocha, cappuccino.
+. Pastry subtypes include donut, danish, croissant.
+. Food subtypes include drink, pastry.
+. Food attributes include flavor.
+. Coffee-flavor categories include black, cream, sugar, double-cream, double-sugar.
+. Mocha-flavor categories include chocolate, raspberry, white-chocolate, hazelnut.
+. Donut-flavor categories include plain, chocolate, sour cream.
+. Croissant-flavor categories include plain, chocolate, cheese.
+. Pastry attributes include flavor.
+===
+Role: Barista.
+Action: Prepare cappuccino per order. (This specializes ‘Prepare drink per order.’)
+. (TODO: Correct this procedure.)
+. Steam milk per order.     (skim or regular milk)
+. Draw expresso per order.  (decade or regular coffee)
+. Pour expresso into cappuccino-cup.
+. Pour steamed-milk into cappuccino-cup.
+. Stir mixture in cappuccino-cup.
+
+To: Steam milk per order.
+. Fill jug to mark with milk-flavor specified by order.
+. Apply steam to milk in jug.
+
+To: Draw expresso per order.
+. Pack __ with coffee per order.
+. Install __ under spigot.
+. Press button.
+===
+Role: Barista.
+Action: Prepare drink per order.
+. Follow recipe for drink.
+===
+Role: Server.
+Action: Deliver drink and pastry per order.
+. Place drink on tray.
+. Place order pastry on tray.
+. Move tray to customer table per order.
+
+Action: Place order pastry on tray.
+. Pull order pastry from shelf.
+. Place order pasty on pastry dish.
+. Place pastry dish on tray.
+===
+
