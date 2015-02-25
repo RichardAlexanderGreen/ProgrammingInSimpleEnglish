@@ -29,9 +29,12 @@ S: Welcome to Club Mech.
 ===
 Context: Select an activity.
 
-U: Enter a topic.
-U: Propose a topic.
+U: Enter * topic.
+U: Propose * topic.
+U: Enter * talk.
+U: Propose * talk.
 S: Please enter a description of the talk you are offering.
+. Clear topic. (Force new instance when needed.)
 . Ask topic.
 
 U: Vote *.
