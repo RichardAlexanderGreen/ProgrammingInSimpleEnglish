@@ -1,4 +1,4 @@
-===
+======
 Comment: Experiment - Club Mech.
 Question: Is Hum notation suitable for a typical web application?
 Question: Does Hum reduces the lines-of-code for Club Mech views / dialogs?
@@ -50,7 +50,7 @@ S: Here is the scoreboard for the current ballot.
 ===
 View: Topic.
 
- Speaker: [speaker]
+ Speaker: [speaker`s name]
  Topic: [title]
  Description:
     [description 5]
@@ -143,8 +143,8 @@ View: Proposal score history.
 
 . (Note: The proposal title is treated as a natural key.)
 . (If the title of a proposal is changed, it is treated as a different proposal.)
-___
-Dialog: Greetings.
+===
+Context: Greetings.
 . (We only require a cookie for authentication.)
 . (Option: Use openID before depositing the cookie.)
 
@@ -184,7 +184,7 @@ Pane: members.
 !!! Members
 . Table of members:
 | portrait | name | [pop-up: bio] |
-___
+===
 Dictionary: Club, members, and meetings.
 . Club attributes include title, purpose, meeting-pattern, meeting-location, meetings, members.
 . Location attributes include address, GPS, map-url.

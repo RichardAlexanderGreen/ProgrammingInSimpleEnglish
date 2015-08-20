@@ -1,0 +1,280 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>Representing Process Knowledge</title>
+  	<style>     
+     table { background: CYAN; page-break-inside:avoid; }
+     
+     body  { background: LIGHTYELLOW;}
+     
+     code  { background: LIGHTBLUE;   padding:0 } 
+     
+     form  { background: LIGHTYELLOW; padding:9 }
+  
+     pre         { background:LIGHTPINK;   
+                   margin-left: 5em; 
+                   padding:9px; 
+                   border:3px DOUBLE RED; 
+                   page-break-inside:avoid;
+                 }
+     pre.toc     { background:LIGHTYELLOW; border:3px DOUBLE GREY;}
+     pre.show    { background:LIGHTYELLOW; padding:9px; border:3px DOUBLE GREY;}    
+     pre.syntax  { background:LIGHTGREEN;  padding:9px; border:3px DOUBLE GREEN;}
+     pre.example { background:LIGHTBLUE;   border:3px DOUBLE BLUE;}
+     pre.bad     { background:CYAN;        padding:9px; border:3px BOLD CYAN;}
+
+	p { margin-left: 5em; }
+  
+     p.advice { color: BLACK;   background:YELLOW; padding:9; border:5px DOUBLE YELLOW; }
+     p.AUTHOR { color: DARKRED; background:LIGHTGREY; font-style:ITALIC; padding:9; border:5px DOUBLE DARKRED; }
+     p.EDITOR { color:BLACK;    background:LIGHTPINK; font-style:ITALIC; padding:9; border:5px DOUBLE BLACK;}   
+  
+  <!-- Intended Usage:
+       p.advice ... Paragraph gives advice to reader.
+       p.AUTHOR ... Author is noting a problem with text that needs to be resolved.
+       p.EDITOR ...	Editor is noting problem or asking question of the author.
+  -->
+  
+    h1 {page-break-before: always; }
+    h2 {page-break-after: avoid; margin-left: 1em; }    
+    h3 {page-break-after: avoid; margin-left: 2em; }    
+    h4 {page-break-after: avoid; margin-left: 3em; }
+    h5 {page-break-after: avoid; margin-left: 4em; }
+    
+    hr {page-break-before: always; }
+
+	cr {color: RED; }
+	cb {color: BLUE; }
+	cg {color: DARKGREEN; }
+	
+	n, noun {color: PURPLE;}	k, keyword {font-weight: BOLD;}	r, role {font-style: ITALIC;}
+	h, highlight {background: YELLOW; }
+	</style>
+</head>
+<body>
+<h1>Representing Procedural Knowledge</h1>
+
+<h2>Overview</h2>
+  <p>Procedural knowledge can be presented as plan-trees, protocols (modal message exchanges), or as sequences of instructions. 
+	It is not always obvious which is the "best" representation.
+	We examine the alternatives for a simple case.
+     </p>
+
+<h2>Example: Bake a cake.</h2>
+  <p>Consider the case where we want to represent the process knowledge involved when we back a cake. Typically, the first instruction in the <n>recipe</n> will be "Preheat the oven to 350 degrees (Fahrenheit). While the oven is heating, we can grease the cake pan and mix the ingredients. This is a case where parallel processing is enabled. 
+<br/>We can represent such knowledge using a <i>plan tree</i>.
+     </p>
+<h3>Plan Frames</h3>
+
+<pre class="example" >
+<k>Goal:</k> Bake a cake per <n>recipe</n>.
+<k>Preconditions:</k>
+. Oven is preheated to <n>oven-temperature</n> specified in <n>recipe</n>. 
+. Cake <n>batter</n>, prepared per <n>recipe</n>, is in greased cake-pan.
+<k>Action:</k>
+. <r>Arm:</r> Place cake-pan in oven for time given in <n>recipe</n>.
+
+<k>Goal:</k> Cake <n>batter</n>, prepared per <n>recipe</n>, is in greased cake-pan.
+<k>Preconditions:</k>
+. <h>Cake-pan is greased.</h>             
+. <n>Batter</n> is prepared per <n>recipe</n>.   
+<k>Action:</k>
+. <r>Arm:</r> Pour <n>batter</n> from mixing-bowl into cake-pan.
+
+<k>Goal:</k> Oven is preheated to <n>oven-temperature</n> specified in <n>recipe</n>.
+<k>Preconditions:</k>
+. <h>Oven heat is on.</h>
+. <h>Oven thermostat is set to <n>oven-temperature</n>.</h>
+<k>Action:</k>
+. Oven: Signal when <n>oven-temperature</n> settles.
+
+<k>Goal:</k> <n>Batter</n> is prepared per <n>recipe</n>.
+<k>Preconditions:</k>
+. <h>Cake <n>ingredients</n> required by <n>recipe</n> are assembled on mixing-counter.</h>
+. <h>mixing-equipment clean and ready.</h>
+<k>Action:</k>
+. Mixer: Blend <n>ingredients</n>, giving <n>batter</n>.
+</pre>
+  <p>In the example above, the highlighted statements
+      indicate goals that have no preconditions 
+      and the subgoal can be achieved by executing an equivalent action statement.
+     We could make this more concise by adapting the convention
+	 that preconditions can be stated as actions. 
+	<br/>(Actions are indicated by the role-prefix pattern: <code>&lt;role&gt;: &lt;action&gt;.</code>)
+	 <br/>With that convention, the goal frames above become . . .
+     </p>
+
+<pre class="example" >
+<k>Goal:</k> Bake a cake per <n>recipe</n>.
+<k>Preconditions:</k>
+. <h><r>Oven:</r> Preheat to <n>oven-temperature</n> specified in <n>recipe</n>.</h> 
+. Cake <n>batter</n>, prepared per <n>recipe</n>, is in greased cake-pan.
+<k>Action:</k>
+. <r>Arm:</r> Place cake-pan in oven for time given in <n>recipe</n>.
+
+<k>Goal:</k> Cake <n>batter</n>, prepared per <n>recipe</n>, is in greased cake-pan.
+<k>Preconditions:</k>
+. <h><r>Helper:</r> Grease cake-pan.</h>
+. <n>Batter</n> is prepared per <n>recipe</n>. 
+<k>Action:</k>
+. <r>Arm:</r> Pour <n>batter</n> from mixing-bowl into cake-pan.
+
+<k>Goal:</k> Oven is preheated to <n>oven-temperature</n> specified in <n>recipe</n>.
+<k>Preconditions:</k>
+. <h>Oven: Turn heat on.</h>
+. <h>Oven: Set thermostat to <n>oven-temperature</n>.</h>
+<k>Action:</k>
+. Oven: Signal when <n>oven-temperature</n> settles.
+
+<k>Goal:</k> <n>Batter</n> is prepared per <n>recipe</n>.
+<k>Preconditions:</k>
+. <h>Mixer: Assemble <n>ingredients</n> required by <n>recipe</n>.</h>
+. <h>Mixer: Stage mixing-equipment.</h>
+<k>Action:</k>
+. Mixer: Blend <n>ingredients</n>, giving <n>batter</n>.
+</pre>
+  <p>I perceive three problems with this kind of condensation:
+ <br/>1. It may encourage premature pruning of the plan tree -- enabling bad habits.
+ <br/>2. It mixes assertion statements with action statements -- reducing readability.
+ <br/>3. <h>Removing assertions disables certain kinds of reasoning and logic tools.</h>
+     </p>
+
+
+<h3>Action Frames</h3>
+  <p>We can also represent this process knowledge as a sequence of instructions.
+	But instructions in a sequence are implicitly blocking. 
+	By representing the process in a sequence, we obscure the information that some things can happen in parallel. 
+	Of course, an experienced human cook would know this and compensate. 
+	But, what if our agent is a robot rather than a human cook? 
+     </p>
+<pre class="example">
+<k>Role:</k> <r>Baker.</r>
+<k>Action:</k> Bake a cake per <n>recipe</n>.
+. <r>Oven:</r> Preheat to <n>oven-temperature</n> per <n>recipe</n>.
+. <r>Helper:</r> Grease cake-pan.
+. <r>Mixer:</r> Prepare <n>batter</n> per <n>recipe</n>.
+. <r>Arm:</r> Pour <n>batter</n> into <n>cake-pan</n>.
+. <r>Arm:</r> Place <n>cake-pan</n> in <n>oven</n> for time given in <n>recipe</n>.
+
+(Example does not include stages beyond baking the cake.)
+</pre>
+  <p>We could use some convention to indicate "futures" . . .
+	<br/>In the following, the "<b>giving</b> . . ." clause indicates a future.
+	<br/>The compiler can furnish the needed semaphores for coordination.
+     </p>
+<pre class="example">
+<k>Role:</k> <r>Baker.</r>
+<k>Action:</k> Bake a cake per <n>recipe</n>.
+. <r>Oven:</r> Preheat to <n>oven-temperature</n> per <n>recipe</n> <b>giving</b> preheated-oven.
+. <r>Helper:</r> Grease cake-pan <b>giving</b> greased-cake-pan.
+. <r>Mixer:</r> Mix ingredients per <n>recipe</n> <b>giving</b> <n>batter</n> .
+. <r>Arm:</r> Pour <n>batter</n> into <n>cake-pan</n>.
+. <r>Arm:</r> Place <n>cake-pan</n> in <n>oven</n> for time given in <n>recipe</n>
+          <b>giving</b> baked-cake-in-pan.
+
+(Example does not include stages beyond baking the cake.)
+</pre>
+  <p>The compiler could also analyze the statements (without the "giving" clauses)
+		to infer that instructions delegated to different roles
+		may be performed in parallel;
+		but, instructions delegated to the same role must be performed in sequence.
+	 The IDE might also analyze noun usage to provide hints about where giving clauses
+	    might be appropriate.
+     </p>
+  <p>However, 
+      I regard such ideas as "work-arounds" 
+        that pollute the original semantic intent.
+      Such ideas add still more ways to express the same process structure.
+      Having more than one way to express a process makes a program harder to maintain 
+		because the maintenance programmer may have to look in more than one place 
+		to find the relevant code.
+	  It also enables a situation where multiple programmers working in a major codebase
+		may create confusion and entropy with a mix of programming styles and structures.
+     </p>
+
+
+<h3>Dialogs</h3>
+  <p>Imagine a future where we script interactions between users and VR avatars.
+     The notation below resembles that for a stage play.
+	"U:" is shorthand for "User:" and shows patterns indicating user requests.
+	"S:" is shorthand for "System:" and shows the system response.
+	The system response may include setting plans in motion.
+	Where an avatar may be available, avatar gestures may be indicated with annotation.
+     </p>
+  <p class="AUTHOR">
+	Perhaps "Q:" and "A:" would be more evocative of request-response.
+     </p>
+  <p>Real-life dialogs are context-sensitive. 
+     The dialog partner remembers what has been said before
+       and responses are prioritized to match the most recently "pushed" context.
+     </p>
+
+<pre class="example">
+Context: Guest at reception.           [Gesture: Watch guest.]
+
+U: Hello.
+U: Hi.
+S: Hello. Welcome to Club Mech.  [Gesture: Smile.]
+
+Context: Member at reception.
+
+U: Hello.
+U: Hi.
+S: Hello [member name]. How may I help you?  [Gesture: Expecting answer.]
+. Push context 'Member request'.
+
+Context: Member request.
+
+U: * account *.
+S: Here is your current account statement. 
+   All charges are up-to-date. Payments are posted when they are received.
+. Show 'Member Account' view.
+</pre>
+
+  <p>Many user interfaces are based on paper document conventions.
+	In the frame below we use show a view that uses a wiki-like mark-up
+	  to indicate data slots and font emphasis.
+     </p>
+
+<pre class="example">
+View: Member Account.
+!! Account Statement for member: [member`s name] as of: [clock`s date-time] 
+
+  Prior period balance: [prior-period`s balance]
+     Payments received: [prior-period`s payment-total]
+Current period balance: [current-period`s balance]
+
+!!! Current Period Charges
+. Table of member`s outstanding-charges:
+| date-and-time | description | price |
+. Subtotal price.
+
+</pre>
+
+
+
+<h2>Who is speaking to whom?</h2>
+  <p>In traditional programming, 
+       the programmer writes instruction sequences to be interpreted
+       by a computer (a programmable calculator).
+     The speaker (sender) is the programmer. 
+     The listener (receiver) is the computer.
+     User interfaces involve the programmer instructing the computer 
+       about how to exchange messages with a human user.
+     But the point-of-view still tends to be that of the programmer.
+     "When user says this, do that."
+     </p>
+  <p>But in an enterprise context or in the internet of things (IoT),
+      we may need to rethink the nature of programs.
+     Instead of programmers speaking to computers,
+       the more common mode is robots speaking to robots.
+     The new point-of-view for the programmer
+       is to write the scripts for those robot-to-robot communications.
+     This requires changing the programmers point-of-view 
+        to that of one of the robot actors.
+   </p>
+
+
+
+</body>
+</html>

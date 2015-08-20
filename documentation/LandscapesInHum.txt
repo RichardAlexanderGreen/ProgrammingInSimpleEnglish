@@ -1,0 +1,100 @@
+===
+Comment: Landscapes in Hum.
+
+. Experiment: Use Hum action language to produce architecture.
+
+. Conjecture: The “Builder” role might be implemented Croquet.
+===
+Role: Builder.
+
+Action: Layout 4 bedroom house.
+. Create a room 7 wide 4 long giving dining-room.
+. Create a room 1 wide 12 long giving aisle.
+. Center aisle on North side of dining-room.
+. Create a room 3 wide 2 long giving galley.
+. Position galley North of dining-room, West of aisle.
+. Create a room 3 wide 2 long giving stairwell.
+. Position stairwell North of dining-room, East of aisle.
+
+. Create a room 3 wide 3 long giving SW-bedroom.
+. Position SW-bedroom North of galley, West of aisle.
+. Create a closet 3 wide 1 long giving SW-closet.
+. Position closet North of SW-bedroom, West of aisle.
+. Create a bathroom 3 wide 2 long giving SW-bath.
+. Position SW-bath North of SW-closet, West of aisle.
+
+. (Repeat above for each bedroom - but put bathrooms back to back for plumbing convenience.)
+
+===
+Comment: Action language is flexible but slightly verbose.
+. This is a flexible language that can express almost any idea. 
+. But it is slightly verbose.
+. The following demonstrates a mark-up notation that is not as flexible, but less verbose.
+===
+Layout: 4 bedroom house. 
+
+(convention is that layout maps North-to-South into top-to-bottom and West-to-East into left-to-right)
+
+[North-porch: 7 by 3]
+[North-room: 7 by 4]
+
+[NW-bedroom: 3 by 3] [aisle: 1 by 12] [NE-bedroom: 3 by 3] 
+[NW-closet: 3 by 1]  [aisle] [NE-closet: 3 by 1]
+[NW-bath: 3 by 2]    [aisle] [NE-bath: 3 by 2]
+[SW-bath: 3 by 2]    [aisle] [SE-bath: 3 by 2]
+[SW-closet: 3 by 1]  [aisle] [SE-closet: 3 by 1]
+[SW-bedroom: 3 by 3] [aisle] [SE-bedroom: 3 by 3]
+
+[galley: 3 by 2]     [entry: 1 by 2] [stairwell: 3 by 2] 
+
+[dining-room: 7 by 4]
+[South-porch: 7 by 3]
+
+(Following actions are directed to Builder role.)
+. Place skylight over aisle.
+. Place windows on external walls.
+. Remove windows from closets.
+. Remove windows from stairwell. 
+. Place hatch over stairwell.
+(Entry is extends aisle; but it has no skylight because to avoid complicating stair exit.)
+
+
+(This notation only works well for rectilinear case where corners tend to line up nicely.)
+(Nevertheless, it should work for a large number of simple layouts.)
+(Imagine an interpreter that makes semi-smart decisions based on keywords such as ‘bath’ ‘closet’ ‘stair’ ‘bedroom’ ‘porch’ ‘hall’ ‘aisle’.)
+
+(House is 3+4+14+4+3 = 28 meters by 7 meters (roughly 93’ by 24’) - or using 4’ units ==> 112’ by 28’)
+===
+Layout: Typical closet wall. 
+. (Closet layout includes door to bath, desk, clothing hanging, dresser, bathroom storage.)
+. (This is layout for SW-closet.)
+
+
+[desk: 1 by 1][aisle-to-bath: 1 by 1] [bath-storage: 1 by 0.5]
+[desk]        [aisle-to-bath]         [bedroom-storage: 1 by 0.5]
+
+. (Place desk on outside to use natural light.)
+. (Note: Bath tub also goes on outside, so that side of closet-wall is not accessible from bath side.)
+===
+Layout: Typical bedroom-storage. 
+
+[tall-hanging: 0.5 by 0.5 ][dresser: 0.5 by 0.5 by 1.0; short-hanging: height 1.0 ] 
+. (Convention is to stack elements bottom-up with a semi-colon to separate them. [ <bottom-element> ; <stacked-element>] )
+===
+Layout: Typical bedroom.
+. (Bedroom has sofa that converts to bed and two side tables.)
+. (This is layout for SW-bedroom.)
+
+[North-walkway: 3 by 1]
+[West-walkway: 0.7 by 1.5]    [bed-space: 1.6 by 2] [East-walkway: 0.7 by 1.5]
+[West-side-table: 0.7 by 0.5] [bed-space]           [East-side-table: 0.7 by 0.5]
+===
+Layout: Typical bath.
+. (This is layout for SE-bath.)
+
+[tub: 1 by 2][space: 1.5 by 2] [WC: 0.5 by 0.8]
+[tub]        [space]           [sink: 0.5 by 1.2]
+
+. (Tub is on aisle-side wall. This puts weight close to center of buoyancy.)
+. (WC is on outside wall. This enables sewer-lines to run in amas.)
+===

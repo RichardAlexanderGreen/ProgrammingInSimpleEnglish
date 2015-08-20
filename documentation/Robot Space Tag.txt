@@ -1,0 +1,6 @@
+===
+Comment: Robot Space Tag.
+. The delta-V between Earth and Mars is at least 5.68 kilometer per second (Holman transfer)
+. The energy per kilogram of payload is: 16131200 Joule.  (4480 watt-hours)
+. The trip time is 0.71 Earth-year ==> minimum propulsion power required is 0.72 watts/kg.
+. 

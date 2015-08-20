@@ -1,0 +1,175 @@
+===
+Comment: Scripting AA.
+!! Scripting autonomous agents in Hum.
+
+Motivation: Game code (e.g. Unity 3D) looks excessively verbose and arcane to me.
+I think that scenes can be described with much less code.
+I think that active game-object behavior can be described with much less code.
+
+Two extensions seem to be consistent with prior Hum syntax and semantics.
+1. Extend the Dialog notation to enable a more complex environment response to user events and gestures.
+2. Extend the Role notation to include “When: <condition-statement>” to trigger robot (AA) actions.
+
+The following scenario and code
+provides some experiments / demonstrations of these ideas.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Scenario: Inter-planetary laser-tag hockey.
+
+This is a cross between hockey and laser-tag.
+The goal of the game is to laser-tag the opponent`s flag-ship.
+A team that scores the largest number of watt-seconds on its opponent`s flag-ship wins. 
+
+The flag-ship is the player`s location.
+It is the origin of tactical instructions to robot flyers.
+
+Each team designs a fleet of robot flyers.
+Flyers are assembled from standard components. 
+Flyer components include:
+. Shields. 
+	Shields are spherical balloons that reflect laser light. They require no energy. 
+ 	Shields also reflect sunlight. They are easily detected when deployed.
+. Lasers. 
+	Lasers units are rated in watts (watts projected).
+	Laser units all have the same divergence.
+. Energy Storage.
+	Energy storage units are rated in watt-seconds.
+. Energy Generation.
+	Energy generation units are rated in watts.
+. Thrustors.
+	Thrustor units consumes energy - rated in watts. Conversion to kinetic energy is 90% efficient.
+. Sensors. 
+	Flyers can detect other flyers by their albedo and waste heat emissions.
+	Flyers can deploy sensors to cover some amount of spherical angle. (More angle means more mass.)  
+	Flyers can focus more sensors on the same spherical angle to increase signal to noise ratio.         
+
+Constraints:
+. Each side has a equal quantity of propulsion, laser, energy-storage, energy-generation, and shield modules. 
+. Detection is limited by light-speed, square-law attenuation, and the number of sensors a scout carries. Sensors have mass. 
+. Flyers all originate from the flag at the beginning of the game. 
+	Hence their position and velocity provide clues about the flag`s trajectory.
+	Beginner play: Flags are fixed. Coordinate system (r,alpha,beta) is based on line between flags. 
+. Shields reflect sunlight and are easily detected.
+. Flags are spherical and equal in area. 
+	Flags have no shields attached. 
+	But flags may be protected by flyers with shields flying nearby.
+
+Game Play Rules:
+. Players pre-program flyers before the game starts so that they can act autonomously without guidance from their flag.
+. Players may re-program flyers during the game but there will be light-speed delays between the flag and the flyers. 
+. Component and game code is frozen. Players can only program flyers.
+. During each step of the game (each simulated-second), each flyer can induce some amount of delta-V.
+. Delta-V capability depends on the mass and the number of propulsion-modules carried by the flyer.
+. All energy-storage units are full at start.
+. Collision with a flag is a game-over foul.
+. Collisions between flyers destroy both flyers and are game-over because they produce space junk, both sides lose.
+. There is no way to capture or eliminate an opponent flyer.
+
+Strategy:
+. There is a trade-off between energy allocated to movement and energy available for lighting.
+. Shield balloons may mask satellites and flyers from detection and from laser lighting.
+  However, they also mask message beams.
+. Units may send messages to each other via line-of-sight low-powered beams. 
+  	But opponent sensors can detect those beams under certain conditions.
+	Messages are encrypted and cannot be hacked.
+. There is a trade-off between the protective value of shields and the fact they are easily detected.
+
+Visualization:
+. Visualization is from the point-of-view of the flag ships. 
+	The data is delayed by light-speed and may be blocked by shield balloons.
+	Display includes six pentagrams facing forward and six pentagrams facing rear.
+	At the beginning of play, most of the action will be in the pentagram (or circle) facing directly forward.
+. Time may be speeded-up to allow the game to be played in a some number of hours.
+. The players may “freeze” play by mutual agreement so that they may deal with real-life. (Not allowed in tournaments.)
+
+Simplifications:
+. The gravitational effects of the flyers and flag-ships are ignorable.
+. Shields are spherical balloons. Perfect coverage of the flag is not possible.
+. Module mass is fixed. Propulsion does not deplete a fuel. 
+. Propulsion produces no blast - so maneuvers are not affected.
+. Components may not be jettisoned. So thruster-staging is not allowed.
+. Nothing is relativistic. Newton`s laws are sufficient.
+. All attributes other than position, velocity, and stored-energy are fixed.
+. Beginner play: Shields are inflated at beginning of play and may not be deflated.
+. Beginner play: Messages are all received. (Shields do not block messages.)
+. Beginner play: Is on flat field (no gravity wells; equal sunlight).
+. Beginner play: Flag-ships have fixed coordinates and do not maneuver. 
+. Beginner play: All flyers originate from their flag-ship. They are not on-patrol.
+
+===
+Dictionary: Components.
+. Component-unit attributes include mass, volume, leakage-power.
+. Component-unit types include energy-store, energy-generator, laser, thrustor, sensor, shield. 
+. Power is a measure.  (watts)
+. Energy is a measure. (watt-seconds)
+. Energy-store attributes include max-energy, stored-energy.
+. Energy-generator attributes include generated-power.
+. Laser attributes include consumed-power, projected-power, divergence.
+. Solid-angle is a measure. (square-radians)
+. Divergence is a solid-angle.
+. Thruster attributes include consumed-power, kinetic-power. (kinetic-power is increment added to flyer kinetic energy)
+. Flyer attributes include radius, components, thrust-vector, total-mass, total-kinetic-power, total-projected-power, total-stored-energy, total-max-energy.
+. Flag-ship attributes include radius. (1000 meters)
+. Shield attributes include radius.    (~100 meters)
+. Sensor attributes include cone-angle, cone-vector, detection-threshold. 
+. Cone-angle is a solid-angle.
+. Detection-power is a measure. (watts per square-radian.)
+===
+Dictionary: Game.
+. Game attributes include players, elapsed-simulation-time, run-state.
+. Run-state categories include pending, paused, running, finished, terminated. (Terminated due to collision)
+. Player attributes include  game-position, games-won, games-lost, fouls, game-terminated.
+. Game-position attributes include components, flyers, scored-energy, net-scored-energy. 
+. (If net-scored-energy is positive, the player is ahead.)
+===
+Role: Sensor.
+
+Action: Scan spherical-angle.
+. (Flyers that are within the detection-cone will be detected if the energy-leakage projected to the sensor exceeds the threshold.)
+
+When: Flyer detected.
+. Report flyer details. (location, velocity)
+
+===
+Role: Laser module.
+
+Action: Illuminate opponent flag-ship.
+. (Range is measured in light-seconds [1 microsecond = 300.0 meters, 1 millisecond = 300 kilometers]).
+. Illuminate opponent flag-ship.
+. (Compute watt-seconds received by flag - depending on divergence, range, any intervening shields.)
+===
+Role: Thrustor.
+
+Action: Accelerate flyer with KE-increment on thrust-vector giving new-velocity. 
+. Calculate the delta-V from the flyer`s mass and the KE-increment.
+. Update the flyer`s velocity-vector from the thrust-vector, and the delta-V.
+
+To: Calculate the delta-V from the flyer`s mass and the KE-increment.
+. Calculator: Divide KE-increment by mass, giving KE-mass-ratio.
+. Calculator: Divide KE-mass-ratio by 2, giving V-squared.
+. Calculator: Take square-root of V-squared, giving delta-V.
+
+To: Update the flyer`s velocity-vector from the thrust-vector, and the delta-V.
+. Calculator: Multiply the thrust-vector (assumed to be a unit-vector) by the delta-V giving delta-vector.
+. Calculator: Add delta-vector to flyer`s velocity-vector, giving the new-velocity.
+. Flyer: Set velocity-vector to new-velocity.
+===
+Role: Energy-generator.
+
+Action: Route power to power-consumer.
+==
+Role: Shield.
+
+Action: Deflect laser-energy.
+. (This is only effective when flyer is close to the line between laser and flag.)
+===
+
+
+
+
+
+
+
+
+
+
+

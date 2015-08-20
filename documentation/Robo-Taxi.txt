@@ -1,0 +1,67 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Robo-Taxi Scenario:
+Normal:
+- Customer enters destination and number of passengers. 
+- Taxi is assigned and routed to origin.
+- Taxi takes passengers to destination.
+Variations:
+- Assign more than one taxi if passenger load cannot be handled quickly otherwise.
+- Passengers may change destination or get out early.
+
+
+Use Cases:
+- System assigns a taxi with that number of seats, and best ETA to origin.
+. . Available (TBD) taxies bid giving capacity and ETA (duration) to origin.
+. . System assigns taxi that gave the best bid.
+- Taxi navigates given route. 
+- If duration significantly exceeds plan, the taxi asks system for help (new route?, inform customer).
+- The customer may modify the route, but must pay a surcharge (to cover resulting rescheduling costs).
+- The customer may request stop (and get out) at any time — no surcharge but no discount.
+Assumptions:
+- The taxi is autonomous - This system is not responsible for driving it.
+- The routing is delegated to another system (Router) - This system only requests the route.
+- For first approximation, ignore fuel constraints.
+- For first approximation, ignore passenger needing bio-break.
+===
+Dialog: Bidding. (The dispatcher is the client. The taxi is the system.)
+
+Dispatcher: Please bid on trip. (origin, destination, number-of-passengers, preferred-start)
+Taxi: 
+
+. Router: Plan path from my-location to origin giving dispatch-route, dispatch-duration.
+. Router: Plan path from origin to destination giving trip-route, trip-duration. 
+. Coster: Price the trip with dispatch-route, trip-route, current-date-time giving bid-price.
+
+ Here is bid. (dispatch-duration, trip-duration, bid-price).
+
+(TODO: Add variants for fueling, required maintenance.)
+===
+Dialog: Between taxi and passengers. (Customer must be present, passenger count must match request.)
+
+Customer: Here is my customer identification.
+Taxi: Welcome [customer`s name]. 
+      I am expecting [trip`s passenger-count] going to [trip`s destination].
+
+Sensors: Passengers are all loaded. Doors are all latched.
+Taxi: Here we go.
+. Calculator: Add trip-duration to current-time giving trip-ETA.
+	Estimated trip-time is [trip-duration] arriving at [trip-ETA].
+. Goal: Taxi travels from start-location to finish-location.
+===
+Goal: Taxi travels from start-location to finish-location.
+Preconditions:
+. Taxi is at start-location.
+. Taxi has trip-plan (route) for trip from start-location to finish-location.
+. Taxi has sufficient fuel for trip from start-location to finish-location.
+Action:
+. Taxi: Follow trip-plan.
+===
+Role: Taxi.
+
+Action: Follow trip-plan.
+. For each segment of trip-plan:
+. . Drive segment.
+
+To: Drive segment.
+. (This is native to the taxi-bot.)
+===
