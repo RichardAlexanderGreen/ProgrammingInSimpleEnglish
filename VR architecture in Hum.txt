@@ -1,0 +1,171 @@
+===
+Comment: VR makes me re-think aspects of the Hum design.
+. The nature of sensors in VR creates some important questions.
+
+===
+Role: Scene.  (We speak to Scene when positioning shapes.)
+
+(*** What if these positions / rotations cause collisions? ***)
+Action: Add shape at position with orientation. (Note: Shape might be an avatar.)
+Action: Move shape to position.  		(What if this causes collision?)
+Action: Rotate shape to direction.	(What if this causes collision?)
+
+===
+Role: World. (VR world)
+
+Action: Add scene. (a world may have multiple scenes)
+Action: Start stepping.
+Action: Stop stepping.
+Action: Open the ports.
+Action: Close the ports.
+
+===
+Role: Shape.  
+
+Action: Set shape costume.
+
+Action: Attach sensor.	(Does the scene get involved?)
+
+===
+Dictionary: VR nouns.  (Every entity is assumed to have a name, and an identifier.)
+. Shape attributes include costume, position, velocity, orientation, rotation, mass, material.
+. (Rotation is the rate of change of orientation.)
+. Vector subtypes include position, velocity, pivot.
+. Vector attributes include x, y, z.
+. Coordinate subtypes include x, y, z.
+. Direction subtypes include orientation, rotation.
+. Direction attributes include pitch, roll, yaw.
+. Angle subtypes include pitch, roll, yaw.
+
+. Assembly attributes include parts.
+. Part is a shape.
+. Bone is a part.
+. Bone attributes include pivot.
+
+. Scene is an assembly.
+. Scene attributes include set-shapes, moving-shapes.
+. Assembly subtypes include set-shape, moving-shape.
+. Moving-shape is an actor. 
+. Moving-shape attributes include acceleration, velocity-limit. (standard/simple movement)
+. (In simple cases, the acceleration and velocity-limit will be same number.)
+. (Example: 5 ft/sec^2 and 5 ft/sec for a walking avatar)
+. (Acceleration direction is defined by path-segment.)
+. World attributes include scenes.
+
+. Sensor is an actor.
+. Sensor attributes include subscriptions, event-prototypes.
+. Subscription attributes include actor, event-prototypes. (Note: Moving-shapes are actors.)
+. Event-prototype attributes include statement, noun-values. (These noun values indicate trigger parameters.)
+
+. (The event-prototype may populate zero or more noun values.)
+. (Note: The event parameters are given as values rather than conditions. Keep it simple for now.)
+. (Sensor events are interpreted by dialog vignettes.)
+. (When an actor [e.g. shape] receives an event, it interprets it via vignettes. See: “Smart Door” dialog.)
+===
+Dictionary: Hum nouns.
+. Event attributes include statement, noun-values, w5.
+. Noun-value attributes include noun, value. (These are the run-time noun-values of the event`s statement.)
+. Actor attributes include message-queue, roles.
+. Role attributes include actions. (Public API.)
+. Action is a statement.
+===
+Dictionary: W5. (W5 describes the context of a business event.)
+. W5 attributes include who, what, when, where, why.
+. (Who said/saw what, when, where, why.)
+. Who is an actor.
+. What is a statement.	(assertion)
+. When is a timestamp.	(world time or host time?)
+. Where is a frame.  	(NOTE: Assume we are interpreting frame at run-time.)
+. Why is a job-ticket.	(Job-ticket identifies a plan = a run-time goal.)
+===
+Note: Automatic events.
+. Plan start or finish 		==> where is goal frame.
+. Goal satisfied 			==> where is goal frame.
+. Preconditions satisfied 	==> where is goal frame.
+. Action started or finished 	==> where is role-action frame.
+. Entity updated 	==> where is vignette frame (maybe view frame. WHAT ABOUT SENSOR?)
+. Entity created	==> where is vignette frame.
+. *** Why/How are entities created? ***
+. *** The dialog vignette defines the context or reason for creating an entity. ***
+. *** IMPLIES THAT WE NEED A DIALOG-AGENT STATEMENT TO CREATE AN ENTITY INSTANCE. ***
+=== 
+Role: Avatar.
+
+Action: Say speech-text.
+
+Action: Smile.
+Action: Focus eyes in direction.
+Action: Face body in direction.
+Action: Point hand at shape. 
+
+Action: Walk to location. (Roll at a walking pace.)
+Action: Walk path. (Path is a sequence of locations.)
+===
+Dictionary: Doormat.
+. Door attributes include outer-space, inner-space.
+. Doormat attributes include door, next-space.
+. Space attributes include authorized-persons.
+===
+Context: Smart Door. (*** THESE VIGNETTES HAVE SEVERAL NEW FEATURES - CONNECTING SENSOR TO ACTOR ***)
+
+Doormat: Person in on the doormat.	(Doormat is a sensor. Door is a subscriber. Where/How configured?)
+Door:
+	Does doormat`s next-space authorize person to enter?  			(Add new style of conditional block.)
+	If not:
+		Say to person “Passage is limited to authorized personnel”.  	(Add new dialog-agent statement.)
+	If so:
+		Open door.		(Door might open/close by sliding, rotating, disappearing, changing material/costume.)
+
+Doormat: Doormat cleared.
+Door:
+	If door is open:
+		Close door.
+===
+Comment: ADD NEW FORMS TO ACTION-DSL.
+. <role>: <yes-no-question>?
+. . Return <boolean>.
+. If not:
+. If so:
+===
+Role: Room.
+
+Action: Authorize person giving ascent.
+	(Delegate to Building-Security.)
+	Building-Security: Authorize person to enter room - giving ascent.
+===
+Role: Building-Security.
+
+Action: Authorize person to enter room - giving ascent.
+	Calculator: Append person to room giving room-person-list. (List is a primitive in Hum.)
+	If room-person-list is in room-access-list:   
+		Give true.
+	Else:
+		Give false.
+===
+Role: Sensor.
+
+Action: Inform actor (client/scene/shape) when event-prototype is matched.
+. (This is how we wire it up.)
+. (But where is this action invoked?  Where/How do we configure sensors and subscribers?)
+. (I propose that virtual world is constructed via a plan-tree with various Builder roles creating scenes.) 
+
+To: Send event to subscribers. (Private, but visible to test and scene.)
+
+===
+
+===
+Goal: Game is operating. 
+Preconditions:
+. Landscape is laid.
+. Castles are built.
+. Roads are laid.
+. Village is built.
+Action:
+. World: Start the game. (Activate UI server.)
+===
+Goal: Landscape is laid.
+. Kraigland is a mountainous forested island 100 kilometers in extent.
+. Shining-Castle is on a small island in a 1 kilometer lake in the center of Kraigland.
+. etc
+===
+
