@@ -1,0 +1,171 @@
+<html>
+<head>
+	<title>2015 Programmers Journal</title>
+	
+	<style>
+	body { background: lightyellow }
+	h2 { margin-left: 1em }
+	h3 { margin-left: 2em }
+	h4 { margin-left: 3em }
+	h5 { margin-left: 4em; font-size: 12pt }
+	p { margin-left: 5em; }
+	pre {margin-left: 6em; padding: 6px }
+	
+	</style>
+</head>
+<body>
+<h1>2015 Programmers Journal</h1>
+
+<h2>Thoughts about Hum`s User Interface Architecture</h2>
+  <p>Designing and Constructing the Hum user interface architecture
+	has been the most challenging task in creating the Hum run-time infrastructure.
+	The problem is made more difficult due to the lack of separation between model and presentation that we currently see in the (non-Hum) programming frameworks.
+     </p>
+  <p>The basic strategy behind the Hum user interface architecture
+	is that it should be technology independent at the level of the dialog vignette.
+	This allows vignettes to be expressed as English-like dialogs 
+	(stimulus-response scripts)
+	that do not need to reference sensors.
+	
+     </p>
+  <p>User dialogs are managed by a Dialog Agent.
+	The Dialog Agent remembers the context and initiates requested actions.
+	Sensors are managed by a "Scribe".
+	The Dialog Agent interacts with a "Scribe" actor. 
+	A Scribe implementation mediates a specific user interface technology
+	and translates user interface (sensor) inputs
+	into sentences that match vignette patterns.
+     </p>
+<h3>What does a scribe do?</h3>
+  <p>
+	A Scribe listens to the user interface "sensorium" and translates user inputs
+	into dialog-vignette sentences.
+	With an conventional (HTML) user interface, 
+		this means that a keyboard entry may be translated directly
+		while a mouse click may be translated into a sentence.
+	In an virtual reality (VR) or augmented reality (AR) user interface,
+		the Scribe might translate position sensor input into text 
+		such as "Approaching ..." or "Facing ..."
+     </p>
+
+<h3>How are scribes implemented?</h3>
+	  <p>
+	While a Scribe might be implemented from scratch in some programming language,
+	it seems easier to create gesture-recognizers in the user interface framework`s primary programming language. 
+	In HTML, this implies that the Scribe`s gesture-recognizers will be written largely in JavaScript because they are client-side.
+	The server-side language can be any language with a <i>Hum binding</i>.
+	The Hum binding implements Hum`s actor framework.
+	Hum`s actor framework is a relatively simple asynchronous messaging protocol.
+     </p>
+<pre style="background: cyan">User Intent
+==> User Gesture . . . . . . . . . . . . Keyboard, mouse, touch, location, . . .
+==> UI Client Sensor Framework . . . . . Capture sensor input. 
+==> Scribe client-side interpreter . . . Translate sensor input into text. 
+==> client-server connection protocol  . Examples: HTTP with JSON content 
+==> Scribe server-side adapter . . . . . Translate connection protocol to Hum message. 
+==> Hum Messenger  . . . . . . . . . . . Transport message from Scribe to Dialog Agent.
+==> Dialog Agent . . . . . . . . . . . . Match user text to dialog vignette. 
+==> Hum Messenger  . . . . . . . . . . . Transport message from Dialog Agent to Scribe.
+==> Scribe server-side adapter . . . . . Translate Hum response to HTTP, HTML, JSON.
+==> client-server connection protocol  . Transport HTTP response to client.
+==> Browser with Scribe client-side  . . Interpret/Display client-state update.
+</pre>
+
+<h4>Is a dialog vignette just a design notation?</h4>
+  <p>
+	A contemporary (2015) programmer will tend to think of the vignette notation 
+	as a kind of <i>design notation</i>.
+	The user interface still needs to be programmed in detail.
+	There is an incomplete code generator that generates an HTML form code-fragment,
+	but that is the only tool. 
+	For Hum to be taken seriously, 
+	 it needs a competent user interface in at least one popular UI framework. 
+     </p>
+<h5>Programmer`s Tools - Code Generators and API</h5>
+  <p>
+	An API of some sort is always present in the user interface framework.
+	The API may implement a DSL (design-specific language) for the user-interface directly
+	or a separate DSL may be interpreted or translated to produce the user-interface.
+	Code generators (DSL translators) are almost always coupled to a specific API.
+	 </p>
+
+
+<h3>Why do I get stuck on the user interface? </h3>
+  <p>
+	I keep getting stuck in the vicinity of the user interface.
+	I've implemented a crude and incomplete Hum View to HTML form translator.
+	But, I have not implemented a complete HTML Scribe 
+	... mainly because I do not like programming in JavaScript.
+     </p>
+<hr/>
+Following added 30-Aug-2016:
+  <p style="color:RED">
+	 I need to produce a reasonably complete Scribe in order to provide a proof-of-concept
+		for myself and any readers.
+	<br/>- One of the missing features is the dialog connection. This resembles a chat-bot interface and could be built using an HTML form or an AJAX component.
+	<br/>- The existing HTML generator needs to be refactored into a Scribe API.	
+     </p>
+<h2>Thoughts added after seeing a Ruby lecture</h2>
+  <p>I go to such lectures to keep in touch with the problem-sets 
+	that real-life programmers need to handle.
+     </p>
+
+<h3>Demo: a ToDo List - proof-of-concept</h3>
+	  <p>This is a simple application with an interactive table.
+		It should be a kind of "hello world" for every framework.
+		The user needs C.R.U.D. capability for each todo-list entry.
+		I need to set up a proof-of-concept implementation 
+		that 
+		<br/>(1) provides a usable interface 
+		and 
+		<br/>(2) updates a world-base.
+     </p>
+<h3>How might special HTML code be represented in View markup?</h3>
+	  <p>There are three problems:
+		<br/>(1) adding links to &lt;head&gt; section.
+		<br/>(2) embedding special attributes in Hum-generated HTML tags.
+		<br/>(3) embedding icons and such in otherwise innocent text.
+     </p>
+	  <p style="color:blue">
+		I should also ask myself if this is a case of the <u>tail wagging the dog</u>.
+		<br/>The problem with code-generators is that they seem to need to know too much.
+		<br/>Perhaps this is a problem I should simply ignore. I could provide one good-enough code-generator and leave it to user-programmers to extend the generator for special cases. Of course, they would only have an incentive where the "special cases" were re-usable.
+     </p>
+	
+
+<h3>Think: Who does world-base trust? and why?</h3>
+	 <p>Who does an actor trust to invoke its methods?
+		<br/>Should that be delegated to a dispatcher?
+		<br/>In some cases a client may be invalidated (e.g. late payments).
+     </p>
+	 <p>The world-base is intended to be the source of truth.
+		<br/>That implies a circle of trust.
+		<br/>Since new data values come from DialogAgents,
+		we need rules and/or processes for validating (authenticating and authorizing) DialogAgent actors.
+		(We might also need to validate Scribes.)
+     </p>
+     <p>But Dialog Agents are proxies for Clients.
+		So the question becomes the usual one about how do you validate a client.
+		That means we can delegate the question of client trust to the UI and network framework (e.g. certificates, et cetera) as we would for any HTTP application.
+     </p>
+
+<h3>Who does the Dispatcher trust? and why?</h3>
+  	<p>Agents "check-in" with the dispatcher and identify the roles they "know".
+	<br/>In Erlang OTP, there is no built-in authentication. 
+		Perhaps, we need an authentication option in Hum 
+			that is independent of the backend implementation.
+		The check-in protocol could be extended to provide a signature or something.
+		We could copy the signature ideas used in SOAP framework.
+		(avoid re-inventing this)
+     </p>
+
+
+
+
+
+
+
+
+
+</body>
+</html>
