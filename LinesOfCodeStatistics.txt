@@ -1,0 +1,8 @@
+12-October-2015
+Hum package count = 9. Hum-FileIn. Hum-Graph. Hum-RunTime. Hum-X. Hum-Language. Hum-Seaside. Hum-IDE. Hum-UI. Hum-TestsHum class count = 152Hum package-class-tree count = 152Hum package-Class-Method count = 2263Hum test-method count = 641Hum long method count = 493 with more than 20 lines of codeHum long method count = 72 with more than 50 lines of codeHum lines of code = 31410Average method length = 14Hum TODO lines count = 303Hum comment lines count = 4913Hum assert lines count = 2625
+
+14-Sept-2016
+Hum package count = 7Hum class count = 143Hum package-class-tree count = 143Hum package-Class-Method count = 2151Hum test-method count = 641Hum long method count = 477 with more than 20 lines of codeHum long method count = 66 with more than 50 lines of codeHum lines of code = 30126Average method length = 14Hum TODO lines count = 301Hum comment lines count = 4720Hum assert lines count = 2621
+
+08-August-2016
+ Hum package count = 7Hum class count = 143Hum package-class-tree count = 143Hum package-Class-Method count = 2140Hum test-method count = 638Hum long method count = 476 with more than 20 lines of codeHum long method count = 66 with more than 50 lines of codeHum lines of code = 29953Average method length = 14Hum TODO lines count = 297Hum comment lines count = 4692Hum assert lines count = 2601

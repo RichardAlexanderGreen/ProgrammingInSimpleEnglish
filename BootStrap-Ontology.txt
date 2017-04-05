@@ -1,0 +1,109 @@
+===
+Comment: Boot-Strap Ontology.
+. This ontology is meant to capture concepts related to the Hum Language and Hum Framework.
+===
+Dictionary: Vignette Vocabulary.
+. Context attributes include context-name, vignettes.
+. Vignette attributes include patterns, response-lines.
+. Response-mark-up-line is a response-line.
+. Response-mark-up-line attributes include source, text-mark-up-line.
+. Dialog-instruction-line is a instruction-line. (See Action Vocabulary)
+. Dialog-instruction-line is a response-line. (Note: Multiple-Supertypes)
+===
+Dictionary: Action Vocabulary.
+. Role attributes include actions.
+. Action attributes include action-statement, action-block.
+. Action-statement is a statement.
+. Public-action is an action.
+. Action-block attributes include instruction-lines.
+. Instruction-line attributes include role, statement, comment, annotation.
+===
+Dictionary: View Vocabulary.
+. View attributes include view-name, view-lines.
+. View-markup-line is a view-line.
+. View-instruction-line is a view-line.
+===
+Dictionary: Mark-Up Vocabulary.
+. (Some mark-up is only valid in view-frame context.)
+. Mark-up-line attributes include source, mark-up-tokens.
+. View-mark-up-line is a mark-up-line.
+. Response-mark-up-line is a mark-up-line.
+. Comment-mark-up-line is a text-mark-up-line.
+. (I am trying to express a constraint: Comment-mark-up should not include widgets.)
+===
+Dictionary: Widget Vocabulary.
+. Widget attributes include widget-type, widget-tokens.
+. Token attributes include token-type, token-value.
+. Token-type categories include colon, label, noun.
+===
+Role: Dialog.
+
+Action: Ask view-name.
+. (Show the view identified by view-name in update mode.)
+
+Action: Show view-name.
+. (Show the view identified by view-name in read-only mode.)
+
+Action: Push context-name.
+. (Push the context onto the context-stack.)
+===
+Role: Blackboard.
+
+Action: Update attached-world-base.
+. (Send the data which has been changed on the blackboard to the attached world-base, if any.)
+
+Action: Set entity attribute noun-value.
+. Store the noun-value in the entity-attribute-dictionary.
+. Mark the noun-value as changed.
+. Update the attached-world-base.
+
+To: Store the noun-value in the entity-attribute-dictionary.
+. (Internal action.)
+
+To: Update the attached-world-base.
+. (Internal action.)
+
+To: Mark the noun-value as changed.
+. (Internal action.)
+===
+Dictionary: Noun vocabulary.
+. Entity is a noun.
+. Attribute is a noun.
+. Noun attributes include noun-name, value-type, noun-value.
+. Value-type categories include string, text, measure, identifier. 
+===
+Dictionary: Blackboard vocabulary.
+. Blackboard attributes include entity-attribute-dictionary, attached-world-base.
+===
+Dictionary: Frame vocabulary.
+. Frame attributes include title, frame-lines.
+. Frame subtypes include role-action-frame, action-subframe, dictionary-frame, context-frame, vignette-subframe, view-frame, plan-frame.
+. Plan-frame attributes include goal-statement, precondition-statements, action-statements.
+. Role-Action-frame includes a set of action-subframes. (sequence does not matter)
+. Action-subframe attributes include action-statement.
+. Context-frame includes a list of vignette-subframes. (sequence does matter)
+. Vignette-subframe attributes include pattern-lines, response-lines.
+===
+Dictionary: Frame-line Types.
+. Frame-line attributes include source, leader, comment, annotation.
+. (Comments are enclosed in parentheses.)
+. (Annotations are enclosed in brackets.)
+. (Comments and annotation are empty in mark-up-lines.)
+. (Unused comments and annotations will be empty strings.)
+. Frame-line subtypes include action-line, instruction-line, mark-up-line, pattern-line, response-line, comment-line, view-line.
+. Instruction-line attributes include role, statement.
+. Dictionary-line attributes include statement.
+. Pattern-line attributes include pattern.
+. Response-line subtypes include mark-up-line, response-instruction-line.
+. View-line subtypes include mark-up-line, view-instruction-line.
+===
+Dictionary: Instruction vocabulary.
+. Instruction-line is a frame-line.
+. Instruction-line attributes include role, statement.
+. Statement attributes include source, nouns.
+. Statement subtypes include action-statement, conditional-statement, dictionary-statement, plan-action-statement.
+. (These statement types vary mainly in terms of context. i.e. the default role)
+. Conditional-statement attributes include initial-keyword.
+. Conditional-statement subtypes include if-statement, else-statement, for-statement, unless-statement.
+===
+

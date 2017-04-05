@@ -1,0 +1,56 @@
+===
+Comment: eGov ontology.
+===
+Comment: Ballots and Referendums.
+
+. Every tax-payer gets a ballot in the mail for each election.
+. Tax-payer approval must be obtained for every new tax.
+. Tax-payer approval must be obtained for every new government service.
+. Every service is funded with an ear-marked tax.
+. Tax-payer approval must be obtained for every new law.
+
+===
+View: Ballot for approval of new taxes and laws.
+! Ballot.
+ Identifier: [ballot-identifier]
+ Date: [election-date]
+
+.Table of election-taxes.
+| tax—id | what-is-taxed | who-is-taxed | tax-rate | effective-date | expiration-date | service-funded | tax-vote |
+
+.Table of election-laws.
+| law-id | affected-parties | effective-date | expiration-date | what-behavior-is-required | enforcement-agency | law-vote |
+
+===
+Dictionary: Ballot Vocabulary.
+. Tax attributes include what-is-taxed, who-is-taxed, tax-rate, service-funded, effective-date, expiration-date, election, votes-approving, votes-rejecting.
+. Election attributes include election-date, election-taxes, election-laws.
+. Law attributes include affected-parties, what-behavior-is-required, enforcement-agency, effective-date, expiration-date, election, votes-approving, votes-rejecting.
+. Tax-payer is a party. (Party is base vocabulary.)
+. Tax-payer attributes include who-is-taxed (category), representative.
+. Representative is a person. (Person is base vocabulary.)
+. What-is-taxed categories include property, sales, equity, loan, through-put, head (head-tax), activity.
+. Property categories include land, building, vehicle.
+. Activities categories include vehicle-milage, vehicle-ton-miles, building-permit, garbage-pick-up, snow-removal, sidewalk-sweeping.
+. Who-is-taxed categories include seller, manufacturer, farmer, people, owner, renter, employer, worker, operator, industry-member.
+===  
+View: Proposal.
+
+! Proposal.
+ Identifier: [goal title] 
+             [proposal-identifier] [proposal-version]
+ Provider: [party-name] 
+           [party-id]
+
+!!! List instances where this provider has provided the same or similar service.
+. Table of references.
+| goal | 
+===
+Dictionary: Service Vocabulary.
+. Service attributes include goal, beneficiaries, subgoals, constraints, products, provider, administrator. 
+. (Service provider is open until council selects.)
+. (Product is base vocabulary.)
+. Beneficiary is a who-is-taxed (category).
+. Provider is a party. (private or public agency)
+. Administrator is a party. (perhaps it should be a person - more specific accountability)
+===

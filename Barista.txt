@@ -72,6 +72,9 @@ Dictionary: Kaffee Order Vocabulary.
 . Croissant-flavor categories include plain, chocolate, cheese.
 . Pastry attributes include flavor.
 ===
+Dictionary: Customer.
+. Customer attributes include id, name.
+===
 Role: Barista.
 Action: Prepare cappuccino per order. (This specializes ‘Prepare drink per order.’)
 . (TODO: Correct this procedure.)

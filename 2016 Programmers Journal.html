@@ -10,6 +10,7 @@
 	h5 { margin-left: 4em; font-size: 12pt }
 	p { margin-left: 5em; }
 	pre {margin-left: 6em; padding: 6px }
+	highlight { background-color: Yellow }
 	
 	</style>
 </head>
@@ -17,7 +18,7 @@
 <h1>2015 Programmers Journal</h1>
 
 <h2>Thoughts about Hum`s User Interface Architecture</h2>
-  <p>Designing and Constructing the Hum user interface architecture
+  <p>Designing and Constructing the Hum user interface (UI) architecture
 	has been the most challenging task in creating the Hum run-time infrastructure.
 	The problem is made more difficult due to the lack of separation between model and presentation that we currently see in the (non-Hum) programming frameworks.
      </p>
@@ -57,18 +58,18 @@
 	The Hum binding implements Hum`s actor framework.
 	Hum`s actor framework is a relatively simple asynchronous messaging protocol.
      </p>
-<pre style="background: cyan">User Intent
+<pre style="background: cyan"><u>Flow initiated by some <b>User Intent</b></u>
 ==> User Gesture . . . . . . . . . . . . Keyboard, mouse, touch, location, . . .
 ==> UI Client Sensor Framework . . . . . Capture sensor input. 
-==> Scribe client-side interpreter . . . Translate sensor input into text. 
+==> <b>Scribe</b> client-side interpreter . . . Translate sensor input into text. 
 ==> client-server connection protocol  . Examples: HTTP with JSON content 
-==> Scribe server-side adapter . . . . . Translate connection protocol to Hum message. 
+==> <b>Scribe</b> server-side adapter . . . . . Translate connection protocol to Hum message. 
 ==> Hum Messenger  . . . . . . . . . . . Transport message from Scribe to Dialog Agent.
 ==> Dialog Agent . . . . . . . . . . . . Match user text to dialog vignette. 
 ==> Hum Messenger  . . . . . . . . . . . Transport message from Dialog Agent to Scribe.
-==> Scribe server-side adapter . . . . . Translate Hum response to HTTP, HTML, JSON.
+==> <b>Scribe</b> server-side adapter . . . . . Translate Hum response to HTTP, HTML, JSON.
 ==> client-server connection protocol  . Transport HTTP response to client.
-==> Browser with Scribe client-side  . . Interpret/Display client-state update.
+==> Browser with <b>Scribe</b> client-side  . . Interpret/Display client-state update.
 </pre>
 
 <h4>Is a dialog vignette just a design notation?</h4>
@@ -78,8 +79,10 @@
 	The user interface still needs to be programmed in detail.
 	There is an incomplete code generator that generates an HTML form code-fragment,
 	but that is the only tool. 
-	For Hum to be taken seriously, 
+	<highlight>
+    For Hum to be demonstration-able (demo-able) and taken seriously, 
 	 it needs a competent user interface in at least one popular UI framework. 
+	</highlight>
      </p>
 <h5>Programmer`s Tools - Code Generators and API</h5>
   <p>
@@ -103,15 +106,18 @@ Following added 30-Aug-2016:
 	 I need to produce a reasonably complete Scribe in order to provide a proof-of-concept
 		for myself and any readers.
 	<br/>- One of the missing features is the dialog connection. This resembles a chat-bot interface and could be built using an HTML form or an AJAX component.
-	<br/>- The existing HTML generator needs to be refactored into a Scribe API.	
+	<highlight>
+   	<br/>- The existing HTML generator needs to be refactored into a Scribe API.	
+	</highlight>
+    
      </p>
 <h2>Thoughts added after seeing a Ruby lecture</h2>
   <p>I go to such lectures to keep in touch with the problem-sets 
 	that real-life programmers need to handle.
      </p>
 
-<h3>Demo: a ToDo List - proof-of-concept</h3>
-	  <p>This is a simple application with an interactive table.
+<h3>Demo: ToDo List application - proof-of-concept</h3>
+	  <p>A "ToDo List" is a simple application with an interactive table.
 		It should be a kind of "hello world" for every framework.
 		The user needs C.R.U.D. capability for each todo-list entry.
 		I need to set up a proof-of-concept implementation 
@@ -124,6 +130,10 @@ Following added 30-Aug-2016:
 	  <p>There are three problems:
 		<br/>(1) adding links to &lt;head&gt; section.
 		<br/>(2) embedding special attributes in Hum-generated HTML tags.
+		<br/> . . Of course, programmers can augment the existing HTML code generator.
+		<br/> . . Consider this extension to markup syntax: [pane: heading; (attributes)]
+		<br/> . . . Programmers would place tag attributes after semi-colon.
+		<br/> . . . Special case: <code>class="formatClass"</code> would be merged into HUM class attribute value.
 		<br/>(3) embedding icons and such in otherwise innocent text.
      </p>
 	  <p style="color:blue">
@@ -159,6 +169,10 @@ Following added 30-Aug-2016:
 		(avoid re-inventing this)
      </p>
 
+<hr/>
+2016-09-27
+  <p>Think about use cases for "broadcast" publish (unknown subscribers).
+     </p>
 
 
 

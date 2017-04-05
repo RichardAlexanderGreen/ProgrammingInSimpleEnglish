@@ -1,0 +1,136 @@
+===
+Comment: A *to-do list* demonstration and proof-of-concept.
+. A *to-do list* is a minimal interactive application - a kind of *Hello World*.
+. Goal: The user should be able to create, update, read, and delete to-do list items.
+. Simplification: There is just one to-do list. (This is a personal to-do list.)
+===
+View: To-Do-List.
+!! To Do List
+
+. Table of to-do-items:
+| ID | title | priority | status | description | 
+
+. (This is a static display in the current implementation.)
+. (But we could have a scribe that understands a click on a ID to mean “Update item [ID]”)
+===
+Dictionary: ToDo-Items.
+. ToDo-Item attributes include ID, title, description, priority, status.
+. Priority categories include critical, soon, someday.
+. Status categories include pending, in-progress, done.
+. Description is a text.
+===
+Dictionary: Dialog.
+. Context attributes include vignettes.
+. Vignette attributes include patterns, response-lines.
+===
+Dictionary: Form Scribe.
+. Form is a view.
+. View attributes include title, view-lines.
+===
+View: To-Do-Item.
+
+!!! To Do Item.
+
+       ID: [ID]
+    title: [title]
+ priority: [priority]
+   status: [status]
+description: [description]
+
+action: [action]
+. (Action is new, update, exit, delete.)
+. (This is for illustration.)
+. (The action choices should be part of the *form widget*.)
+. (Action choices are interpreted by the Scribe component.)
+===
+Context: Commands.
+
+U: * new * item *.
+S: Enter the new item on the form below.
+. Ask To-Do-Item.
+. Show To-Do-List.
+
+U: * show * list *.
+S: The list is shown in priority order.
+
+U: Update item [ID].
+S: Enter the updates in the form below.
+. (The item ID is populated in the pattern.)
+. Ask To-Do-Item.
+. Show To-Do-List.
+===
+Context: Form commands.
+
+U: Exit requested and data has not been changed.
+S: No data was changed. Exiting.
+. Exit form. (Note: There may be more than one form.)
+
+U: Exit requested but form data was changed but not saved.
+S: Are you sure you want to exit without saving changes?
+. Push context Exit-commands. (Assumes a specific UI framework.)
+
+U: Please update this item.
+S: Item is updated and saved.
+. Stay on the form. (until the user says ‘exit’)
+
+U: Please delete this item.
+S: Are you sure you want to delete this item?
+. Push context Delete-commands.
+===
+Comment: Form commands contains framework-specific vignettes.
+. The *Form Commands* context frame is based on assumptions related to a somewhat specific UI framework.
+. My belief is that vignettes should not be tied to a framework.
+. However, the Fill-In-The-Blanks design pattern is ubiquitous. 
+. Perhaps this paradox is *inevitable* because vignettes are speaking to the User via the Scribe.
+. I could *resolve* the question with a WYSIWYG policy. 
+. Then the UI would not need _Do you really want to_ interactions.
+=== 
+Comment: Text-mark-up would be nice-to-have in comments.
+. It would be nice to have text-mark-up enabled in Comment frames.
+. The text-mark-up should be limited to emphasis, heading, and lists.
+. Text-mark-up does not include nouns or widgets.
+===
+Context: Exit-commands.
+. (When changes have been made and user says Exit.)
+. (We ask: Are you sure you want to exit without saving changes?)
+. (TODO: Refactor to be WYSIWYG . . . User has no Un-Do capability.)
+
+U: Yes.
+S: The changes are forgotten.
+. Scribe: Exit form.
+
+U: No *.
+U: Please save * changes.
+S: Your changes are saved.
+. Blackboard: Save changes.
+. Scribe: Exit form.
+
+U: Cancel.
+S: No action yet.
+. Scribe: Stay on the form.
+===
+Context: Delete-commands.
+. (Are you sure you want to delete this item?)
+
+U: Yes.
+S: The item has been removed from the To Do List.
+. Blackboard: Delete item with identifier = ID.
+. Exit form. 
+
+U: No.
+S: The item stays in the To Do List.
+. Scribe: Stay on the form.
+===
+Role: Scribe. 
+
+Action: Exit form.
+. (The form will disappear from the UI window.)
+
+Action: Stay on the form.
+. (The form remains where it is and as it is.)
+. (This action does not change the data displayed or data on the blackboard.)
+
+Action: Save changes.
+. (The attributes that were changed in the form are changed on the blackboard.)
+. (The blackboard will update the world-base.)
+===

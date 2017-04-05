@@ -1,0 +1,190 @@
+===
+Comment: VR-Ontology flow of control.
+. (All of this is implemented in Hum Run-time - currently built in Smalltalk.)
+. (This ontology is pseudo-code documentation of intent. The implementation may vary slightly.)
+. Scribe: Translate user-gesture into dialog-input.
+. Dialog: Match dialog-input to vignette and execute the vignette-response.
+. Vignette Response: Invoke role-action statement(s).
+. Avatar Role: (Actor) Execute action statement. Generate limb and facial move events.
+. VR-Controller: (Actor) Synchronize events - send events to Scene.
+. Scene: (Actor) Move scene objects per event. (Change visual object state attributes)
+. Scene: (Actor) Inform Camera - Scene changed.
+. Camera: (Actor?) Inform attached ViewPorts.
+. ViewPort: (UI) Display view of changed scene. (Generate triangles or primitive objects, texture)
+. Display: (UI) Display view of changed scene. (GPU: generate tessellation, map texture)
+===
+Role: Scribe.
+
+Action: Translate user-gesture into dialog-input.
+. (TBD: The dialog input is a sentence.)
+. Dialog: User says sentence.
+===
+Role: Dialog. (Dialog is implemented in Hum run-time.)
+
+Action: User says sentence.
+. Match sentence to vignettes in context-stack giving response-statements.
+. Execute vignette response-statements.
+
+To: Match sentence to vignettes in context-stack giving response.
+. (Make the nature of the stack explicit.)
+. For each context in context-stack ordered by entry-time descending:
+. . Find first vignette where sentence matches pattern:
+. . . Fill vignette`s response-template giving response-statements. (Instantiate noun values)
+
+To: Fill template giving response-statements.
+. Calculator: Parse template keeping delimiters and white-space giving tokens.
+. (Calculator implements string utilities, arithmetic, etc.)
+. For each token in template:
+. . If token is a noun:
+. . . Blackboard: Lookup noun giving noun-value.
+. . . Append noun-value to response-tokens. 
+. . Else:
+. . . Append token to response-tokens. 
+. Calculator: Concatenate response-tokens giving response-statements.
+
+To: Execute vignette response-statements.
+. For each statement in response-statements:
+. . Execute statement. (PRIMITIVE)
+===
+Dictionary: Vignette structure.
+. Context-stack contains a list of contexts.
+. Context contains a list of vignettes.
+. Vignette contains a list of patterns.
+. Vignette attributes include pattern-lines, response-lines.
+. Line contains a list of tokens.
+. Line subtypes include pattern-line, response-line.
+. Response-line subtypes include mark-up-line, instruction-line.
+===
+Dictionary: VR structure.
+. (Some of these entities are also roles.)
+. Simulation attributes include clock, event-queue.
+. Virtual-Reality is a simulation.
+. Virtual-Reality attributes include scenes.
+. Scene attributes include set of virtual-objects, scene-name, layer-number.
+. (Scenes are processed in ascending order by layer-number - thus overlay each other.)
+. Virtual-Object is a role. 
+. Virtual-Object attributes include id, triangles, position, velocity, orientation, rotation, parts, mass.
+. Part is a virtual-object.
+. Triangle attributes include points, texture.
+. Vector attributes include x,y,z. (In this context, x,y,z values are relative to container origin.)
+. Measure subtypes include x,y,z.
+. Vector subtypes include point, position, force, acceleration, velocity, torque, moment-of-inertia.
+. Angle-vector attributes include pitch, roll, yaw. (Rotation around x, y, z.)
+. Angle-vector subtypes include orientation, rotation.
+. Moment-of-inertia is an angle-vector. 
+. Avatar is a virtual-object.
+. User-Avatar attributes include user-scribe, cameras.
+. (The user-avatar cameras are attached to the user and provide user point of view.) 
+. Camera is a virtual-object.
+. Camera attributes include width, height, depth. (These dimensions affect field of view, scale, etc.)
+. Viewport attributes include camera, display-window.
+===
+Role: Avatar. (An avatar has a personality. It typically represents a user or a simulated being.)
+
+Action: Speak text.
+. (Ordinary objects may "Emit sound", but do not "Speak text".)
+. (Sound is directional - normal to avatar`s mouth / speaker-cone / speaker-grill.)
+. Calculator: Translate text to phonemes giving speech-sound.
+. Emit speech-sound. 
+
+Action: Look at object.
+. (Move eyes so that observers might assume focus of attention.)
+
+Action: Smile.
+.
+Action: Express surprise / amusement / concern / doubt / fear / rage / sleep / pain.
+. 
+===
+Role: User-Avatar. (A user-avatar is connected to a user-scribe and zero or more cameras.)
+
+Action: Look at object. (Extends avatar to also move attached camera.)
+. (Move eye/s so that observers might assume focus of attention.)
+. (Also move camera/s attached to eye/s.)
+
+Action: Hear sound from virtual-object. 
+. (Presume sound will be sent to user`s sound system.)
+
+===
+Role: Virtual-object.
+
+Action: Appear in scene at position, orientation. 
+. (Initialize position and orientation within the scene/layer.)
+. (For most objects, the position and orientation are static.)
+
+Action: Remove from scene.
+. (Disappear from the given scene.)
+. (e.g. Disappear due to teleport, disintegration.)
+. (Remove from the scene`s set of objects.)
+
+Action: Apply force for time. 
+. (Acceleration = force divided by mass.)
+. (Effect is to increment the object`s relative velocity. For simplicity, this does not affect orientation.)
+. (The object`s velocity affects its position vector - which is not necessarily the center-of-mass.)
+. (This generates a series of events that depend on the simulated-clock-rate?)
+
+Action: Apply torque for time.
+. (The effect depends on the moment-of-inertia.)
+. (Effect is to increment the object`s rate-of-rotation.)
+
+Action: Emit sound.
+. (This sound is emitted with equal amplitude in all directions.)
+
+Action: Generate triangles from geometry and texture specifications.
+. (Generate triangles in local / container coordinates.)
+. Generate surface from dimensions, position, and orientation - giving triangles.
+. (Assign color / texture-spec to triangles per coloring spec/algorithm.)
+ 
+===
+Role: Scene. (Actions build the scene and effect movement.)
+
+Action: Place virtual-object at position. 
+.
+Action: Place virtual-object at position with orientation.
+.
+Action: Place place virtual-object on top of other-object.
+.
+Action: Place place virtual-object North of other-object.
+.
+Action: Place place virtual-object South of other-object.
+.
+Action: Place place virtual-object East of other-object.
+.
+Action: Place place virtual-object West of other-object.
+.
+
+===
+Role: Virtual-Reality.
+
+Action: Add scene to scenes.
+. (Add a scene to the VR`s set of scenes.)
+
+Action: Add event to event-queue.
+. (Insert event into the VR`s event queue.)
+
+Action: Step to head-event in event-queue. 
+. Remove head-event in event-queue.
+. For each scene in scenes:
+. . Messenger: Send head-event to scene.
+. (Thus, VR is a dispatcher.)
+
+===
+Dictionary: Event structure.
+. Event attributes include assigned-actor, action-statement, scheduled-clock-time, source-actor, job-ticket.
+. (Event is like a "standard" delegation message [sent after actor is assigned] except it has a scheduled-clock-time.)
+. (TODO: Add a scheduled-clock-time to the delegation message?)
+. (The scheduled-clock-time might be ASAP or some future real or simulated clock-time.)
+===
+Comment: In VR, job-ticket accounting may be turned-off to remove overhead.
+. Messaging overhead includes one message to Bookkeeper for every action-statement execution.
+. That Bookkeeper message is currently sent from Dispatcher.
+. Note: Complex virtual objects may also contain dispatchers to order consequent-events (e.g. events sent to parts).
+. . Design choice: 
+. . . Object State and events are distributed to all players. 
+. . . -OR- 
+. . . Only the costumes (geometry and texture parameters) are distributed.
+. . . -OR-
+. . . Only the tessellation (resulting display pixels) are distributed.
+. Is there an equivalent or specialized Dispatcher in the VR context?
+. The job-ticket accounting might be used to charge for virtual-property display costs.
+. The job-ticket accounting might be used to charge for user-avatar display costs.
+===

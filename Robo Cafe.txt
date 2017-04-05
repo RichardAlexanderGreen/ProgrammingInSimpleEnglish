@@ -1,0 +1,112 @@
+===
+Comment: Overview of process.
+. Customer places drink-order using touch screen / web page / paper ballot / cup ballot.
+. Defer payment detail.
+. Drink-bot adds flavor, milk, expresso, coffee as indicated by order.
+. Transport-bot (a kind of overhead-crane) moves cup to customer`s table.
+===
+Goal: Deliver requested drink to customer at table-location.
+Preconditions:
+. Requested drink prepared.
+. Customer is seated at table-location.
+Action:
+. Transporter: Move drink-cup from ready-station to table-location.
+===
+Goal: Requested drink prepared.
+Preconditions:
+. Drink-order entered by customer.
+. Drink-order payment received. 
+Action:
+. Drink-bot: Add flavor, milk, expresso, coffee as indicated by cup ballot-marks.
+===
+Role: Drink-bot.
+
+Action: Add flavor, milk, expresso, coffee to cup per order.
+. If drink-order includes flavor-order-item:
+. . Move cup to flavor-station.
+. . Add flavor per flavor-order-item.
+. If drink-order includes milk-order-item:
+. . Move cup to milk-station.
+. . Milk-bot: Add milk per milk-order-item.
+. If drink-order includes expresso-shot-item:
+. . Move cup to expresso-station.
+. . Shot-bot: Add expresso-shot per expresso-shot-item.
+. If drink-order includes coffee-item:
+. . Move cup to coffee-station.
+. . Add coffee, if any, per order.
+. Move cup to stir-station.
+. Stir well.
+. Move cup to ready-station.
+
+To: Move container to station.
+. Arm: Move container from container-location to station-location.
+
+To: Add flavor per flavor-order-item.
+. Arm: Move flavor-container from flavor-container-location to flavor-squirt-station.
+. If cup-size is small:
+. . Arm: Press squirt 2 times.
+. If cup-size is medium:
+. . Arm: Press squirt 3 times.
+. If cup-size is large:
+. . Arm: Press squirt 4 times.
+
+To: Press squirt N times.
+. Press squirt once.
+. If N > 0:
+. . Calc: Subtract one from N giving N-minus-one.
+. . Press squirt N-minus-one times. (recursive)
+
+===
+Role: Milk-bot.
+
+Action: Add milk per milk-order-item.
+. Measure milk-type per milk-order-item into milk-cup.
+. Heat per milk-order-item milk-style.
+. Froth per milk-order-item milk-style.
+. Pour milk from milk-cup into drink-cup.
+
+To: Measure milk-type per milk-order-item into milk-cup.
+.
+To: Heat per milk-order-item milk-style.
+.
+To: Froth per milk-order-item milk-style.
+.
+To: Pour milk from milk-cup into drink-cup.
+.
+===
+Role: Shot-bot.
+
+Action: Add expresso-shot per expresso-shot-item.
+.
+===
+Role: Arm.
+
+Action: Move container from container-location to station-location.
+. Open grasp.
+. Move to container-location.
+. Close grasp.
+. Move to neutral-location.
+. Move to station-location.
+. Finish.
+
+To: Finish.
+. Open grasp.
+. Move to neutral-location. 
+
+To: Move to location. 
+. (Complete this depending on arm`s degrees of freedom and mechanical quirks.)
+. 
+===
+Dictionary: Drink drink-order vocabulary.
+. Drink-order attributes include flavor-order-item, milk-order-item, expresso-shot-item, coffee-item, cup-size.
+. Cup-size categories include small, medium, large.
+. Flavor-order-item attributes include flavor.
+. Milk-order-item attributes include milk-type, milk-style.
+. Expresso-shot-item attributes include number-of-shots, decaf.
+. Coffee-item attributes include bean-type, decaf.
+===
+Dictionary: Arm vocabulary.
+. Location attributes include x, y, z.
+. Grasp-state categories includes open, closed.
+. Arm attributes include arm-location, grasp-state. 
+===

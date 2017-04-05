@@ -1,4 +1,4 @@
-======
+---
 Comment: Experiment - Club Mech.
 Question: Is Hum notation suitable for a typical web application?
 Question: Does Hum reduces the lines-of-code for Club Mech views / dialogs?
@@ -8,34 +8,14 @@ Question: Does Hum reduces the lines-of-code for Club Mech views / dialogs?
 . . Voter votes for proposal and can vote for more than one.
 . . Voter votes for proposal in reduced list, but can only vote for one.
 . . The home screen shows club title, purpose, meetings, and members.
-===
-Context: Start.
+---
+Dialog: Select activity.
 
-U: Enter.
-S: Club Mech is a test bed for Hum dialogs.
-
-U: My name is [user name].
-U: Authenticated as [user name].
-S: Hello [user name].
-   Please select an activity.
-. Push context "Select an activity.".
-
-U: I am a member.
-S: What is your name?
-
-U: *.
-S: Welcome to Club Mech.
-   Are you a member? 
-===
 Context: Select an activity.
 
 U: Enter * topic.
 U: Propose * topic.
-U: Enter * talk.
-U: Propose * talk.
 S: Please enter a description of the talk you are offering.
-. (Force a new instance.)
-. New topic. (Force new instance when needed.)
 . Ask topic.
 
 U: Vote *.
@@ -48,17 +28,14 @@ S: Here is the scoreboard for the current ballot.
 . Show scoreboard.
 . (Also assumes a ballot is available / usable.)
 . (A ballot is available if there are one or more proposals where ready-for-ballot = 'include on ballots'.)
-===
+---
 View: Topic.
 
- Speaker: [speaker`s name]
- Topic: [title]
+ Speaker: [user name]
+ Topic: [topic title]
  Description:
-    [description 5]
-===
-Dictionary: Topic vocabulary.
-. Topic attributes include speaker, title, description.
-===
+    [topic description]
+---
 Dictionary: Proposals and Ballots.
 . Document attributes include authors, title, abstract-text, full-text, authored-when.
 . Document-version is a document.
@@ -77,7 +54,7 @@ Dictionary: Proposals and Ballots.
 . Proposal-score attributes include title, score, when-scored.
 . Score is a measure. 
 . Scoreboard attributes include scored-when, proposal-scores.
-===
+---
 Dictionary: People we know. (Should be in base vocabulary.)
 . Party attributes include name, mailing-address, business-phone.
 . A person is a party.
@@ -85,12 +62,12 @@ Dictionary: People we know. (Should be in base vocabulary.)
 . A user is a person.
 . User attributes include e-mail-address, portrait.
 . (We currently use openID for authentication.)
-===
+---
 View: Current-Ballot Proposals.
 
   Ballot as of: [ballot finalized-when]
   
-. For each proposal in ballot-proposals = proposals where proposal is ready-for-ballot:
+. For each proposal in ballot-proposals = proposals where proposal is ready-for-ballot.
   [title]
   authored by: [author] sponsored by: [sponsored-by-member] 
            on: [authored-when]   on: [sponsored-when]
@@ -99,13 +76,13 @@ View: Current-Ballot Proposals.
   description: [full-text 3]
 
 . (Note: We do not define eligible voters here.)
-===
+---
 View: Voter-Ballot.
  Voter: [voter name] id: [vote id]
  You are allowed [vote-share quantity] [vote-share units].
  You may change your votes until the voting is closed. 
 
-. Table of proposal-scores where current-ballot proposals include proposal:
+. Table of proposal-scores where current-ballot proposals include proposal.
 | shares | title |
 . (The score shown on this ballot view only includes the voter`s contribution to the total.)
 . (The total score is shown on the scoreboard view.)
@@ -116,7 +93,7 @@ View: Voter-Ballot.
 
  [[Submit]]
 . (The scoreboard is not updated until the ballot is submitted.)
-===
+---
 View: Current-Ballot Scoreboard.
 . (The context for a scoreboard is the current ballot.)
 
@@ -124,12 +101,13 @@ View: Current-Ballot Scoreboard.
  Scores as-of: [scored-when].
  Voting will be closed by: [voting-closed-when].
  All ballots were finalized at: [finalized-when].
-. (This time-stamp is either the time when all the submitted voter-ballots are finalized,  or, it is the voting-closed-when.)
+. (This time-stamp is either the time when all the submitted voter-ballots are finalized,
+.   or, it is the voting-closed-when.)
 
 . Table of proposal-scores where proposal is in current-ballot ballot-proposals.
 | score | title |
 . (The score could be total shares voted, percentage of shares voted, some other scheme.)
-=== 
+--- 
 View: Proposal score history.
 
  This view shows the history of the shares allocated to this proposal on various ballots.
@@ -139,13 +117,13 @@ View: Proposal score history.
  History as of: [ran-when].
  Minimum required: [proposal shares-required]
 
-.Table of proposal-scores where proposal-score title matches proposal title:
+.Table of proposal-scores where proposal-score title matches proposal title.
 | score | scored-when | percent-of-requirement = 100 * score / shares-required |
 
 . (Note: The proposal title is treated as a natural key.)
 . (If the title of a proposal is changed, it is treated as a different proposal.)
-===
-Context: Greetings.
+___
+Dialog: Greetings.
 . (We only require a cookie for authentication.)
 . (Option: Use openID before depositing the cookie.)
 
@@ -158,7 +136,7 @@ U: I am [user]. (Scribe has authenticated user.)
 S: Hello [user first-name]. What do you want to do?
 . Ask activity.
 
-===
+---
 View: Welcome.
 . (Home screen)
 
@@ -171,7 +149,7 @@ View: Welcome.
  [club purpose-text 7]
 
  [pane: meetings] [pane: members]
-===
+---
 Pane: meetings.
 . (This view pane includes past meetings and future meetings.)
 !!! Meetings
@@ -180,12 +158,12 @@ Pane: meetings.
  [topic description 3]
 
 . (The meeting-when attribute is a time-stamp. But we only want to show the date part here.)
-===
+---
 Pane: members.
 !!! Members
-. Table of members:
+. Table of members.
 | portrait | name | [pop-up: bio] |
-===
+___
 Dictionary: Club, members, and meetings.
 . Club attributes include title, purpose, meeting-pattern, meeting-location, meetings, members.
 . Location attributes include address, GPS, map-url.
@@ -196,7 +174,7 @@ Dictionary: Club, members, and meetings.
 . Speaker attributes include bio.
 . A member is a user. 
 . (See: 'People we know')
-===
+---
 Comment: Analysis of lines-of-code.
 
 Hum reduces the number of lines-of-code because:
@@ -207,5 +185,5 @@ Hum reduces the number of lines-of-code because:
 - User-interface details are hidden in the scribe.
 	- Scribe performs openID authentication.
 	- 
-===
-===
+---
+---

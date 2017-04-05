@@ -1,0 +1,247 @@
+===
+Context: Ordering Pizza.
+
+U: * pizza *.
+S: Please fill-in the pizza order blank.
+. Ask pizza-order.
+. Ask delivery-address.
+. Goal: Deliver pizza-order to delivery-address.
+
+===
+View: pizza-order.
+!Pizza Order
+
+!! Foundation
+
+!!! Size 
+ (1) Large Size - 12 inch square (16 pieces) - Price starts at 6 dollars.
+ (2) Medium Size - 9 inch square (9 pieces)  - Price starts at 5 dollars.
+ (3) Small Size  - 6 inch square (4 pieces)  - Price starts at 4 dollars.
+
+!!! Crust
+ (4) Regular Crust
+ (5) Thin Crust  - Add 1 dollar to price.
+ (6) Thick Crust - Add 2 dollars to price.
+
+!!! Sauce
+ (7) Regular Tomato Sauce
+ (8) Barbecue Sauce
+ (9) Honey Mustard Sauce
+ (a) Apple Butter Sauce
+ (b) mayonnaise 
+
+!!! _Toppings - Add 1 dollar to the price for each topping._
+
+!!! Meats
+ [A] Pepperoni [B] Italian Sausage [C] Ham [D] Ground Beef [E] Bacon [F] Popcorn Shrimp
+
+!!! Spices
+ [G] Green Pepper [H] Sweet Red Pepper [I] Jalapeño Pepper
+ [K] Pearl Onion [L] Chopped Raw Sweet Onion [M] Sliced Grilled Onion [N] Chopped Garlic 
+ [O] Oregano
+
+!!! Vegetables
+ [S] Carrot Coins [T] Broccoli [U] String Beans [V] Green Peas [W] Chopped Fresh Tomato
+ [X] Portobello Mushrooms
+
+!!! Fruits and Nuts
+ [f] Pineapple Bits [g] Sun-Dried Tomato [h] Dried Cherries [i] Dried Cranberries
+ [j] Sliced Fresh Apple
+ [k] Chopped Walnuts [m] Chopped Pecans [n] Peanuts [o] Almonds 
+ 
+!!! Extra Cheese 
+ [p] Blue Cheese Bits [q] Feta Cheese Bits 
+ [r] Monterey Jack [s] Sharp Cheddar [t] Mild Cheddar [u] Colby 
+===
+Comment: 
+. It should be possible for an order-scribe to interpret the order blank above once the dictionary is complete.
+===
+Dictionary: Pizza Vocabulary.
+. A pizza is a customized-product.
+. (That means the bill-of-material contains variable-parts and optional parts.)
+. Pizza attributes include pizza-size, pizza-crust, pizza-sauce, pizza-toppings.
+. Pizza-size categories include small, medium, large.
+. Pizza-crust categories include regular, thin, thick.
+. Pizza-sauce categories include regular, barbecue, honey-mustard, apple-butter, mayonnaise. 
+. T-Shirt attributes include T-shirt-size, T-shirt-color, T-shirt-printing.
+. T-shirt-size categories include small, medium, large, XL, XXL.
+. Topping is shorthand for pizza-topping.
+. Sauce is shorthand for pizza-sauce.
+. Crust is shorthand for pizza-crust.
+. A meat is a pizza-topping. (in this context)
+. Pepperoni is a meat.
+. Italian-Sausage is a meat.
+. Ham is a meat.
+. Ground-beef is a meat.
+. Bacon is a meat.
+. Popcorn-Shrimp is a meat. (In this context.)
+. Spice is a topping.
+. Green-pepper is a spice.
+. Sweet-red-pepper is a spice.
+. Jalapeño-pepper is a spice.
+. Pearl-onion is spice.
+. Chopped-raw-sweet-onion is a spice.
+. Chopped-grilled-onion is a spice.
+. Sliced-grilled-garlic is a spice.
+. Chopped-garlic is a spice.
+. A vegetable is a topping. (in this context)
+. Carrot-coin is a vegetable.
+. Broccoli  is a vegetable.
+. String-bean is a vegetable.
+. Green-Pea is a vegetable.
+. Chopped-fresh-tomato is a vegetable.
+. Portobello-mushroom is a vegetable.  (??? does it matter?)
+. A fruit is a topping.
+. Pineapple-bits is a fruit.
+. Sun-dried-tomato is a fruit.
+. Dried-Cherries is a fruit.
+. Dried-cranberries is a fruit.
+. Sliced-fresh-apple is a fruit.
+. A nut is a topping.
+. Chopped-walnut is a nut.
+. Chopped-pecan is a nut.
+. Peanut is a nut.   (for our purposes)
+. Almond is a nut.
+. An extra-cheese is a topping.
+. Blue-cheese-bits is an extra-cheese.
+. Feta-cheese-bits is an extra-cheese.
+. Monterey-jack is an extra-cheese.
+. Sharp-cheddar is an extra-cheese.
+. Mild-cheddar is an extra-cheese.
+. Colby is an extra-cheese.
+===
+View: Delivery-Address.
+! Delivery Address
+
+           Number: [place-number] 
+      Street-Name: [street-name]
+  Apartment/Suite: [apt]
+         Zip-code: [zip-code]
+
+     Phone-Number: [phone]
+===
+Dictionary: Delivery Address.
+. Delivery-address attributes include place-number, street-name, apt, zip-code, phone.
+. Apt is shorthand for apartment.
+. Suite is synonym for apartment.
+. Room is synonym for apartment. (for our purposes)
+. Zip is shorthand for zip-code.
+===
+Goal: Deliver pizza-order to delivery-address.
+Preconditions:
+. Pizza-order is packaged for delivery.
+. Delivery-vehicle is at store.
+Action:
+. Driver: Transport pizza-order-package to delivery-address.
+===
+Goal: Pizza-order is packaged for delivery.
+. Pizza in pizza-order is baked.
+. Pizza is sliced.
+. Pizza-box is assembled.
+Action:
+. Kitchen: Box, sort, stack, pizza for pizza-order. 
+===
+Goal: Pizza in pizza-order is baked.
+Preconditions:
+. Pizza-toppings are spread on pizza per pizza-order.
+. Cheese is spread over toppings per pizza-order.
+Action:
+. Baker: Bake the pizza for finish-time at finish-temperature.
+===
+Goal: Cheese is spread over toppings per pizza-order.
+Preconditions:
+. Pizza toppings are spread on pizza per pizza-order.
+Action:
+. Prep: Grate the cheese per pizza-order over the pizza.
+===
+Goal: Pizza toppings are spread on pizza per pizza-order.
+Preconditions:
+. Pizza sauce is painted on pre-baked crust per pizza-order.
+Action:
+. Prep: Spread the toppings in standard-sequence per pizza-order.
+===
+Goal: Pizza sauce is painted on pre-baked crust per pizza-order.
+Preconditions:
+. Pizza crust is pre-baked per pizza-order.
+Action:
+. Prep: Paint sauce on pizza per pizza-order.
+===
+Goal: Pizza crust is pre-baked per pizza-order.
+Preconditions:
+. Crust for pizza-order is ready for pre-bake.
+Action:
+. Baker: Bake the crust per pizza-order for pre-bake-time at pre-bake-temperature.
+===
+Role: Prep.
+
+Action: Spread the toppings in standard-sequence per pizza-order.
+. (Best order is determined by experience and chef`s preference.)
+. (At this time, we just add them in the order seen on the order.)
+. For each topping in pizza-order:
+. . Spread topping over pizza.
+
+To: Spread the topping over the pizza.
+. Grab the topping-tool from the tool-shelf.
+. Move the topping-tool to orbit-center.
+. Orbit the topping-tool over the pizza.
+. Move the topping-tool back to orbit-center.
+. Return the topping-tool to the tool-shelf.
+
+To: Orbit topping-tool over pizza.
+. Move topping-tool to orbit-center.
+. Energize the topping-tool.  
+. Orbit the topping-tool in spiral pattern.
+. Return the topping-tool to orbit-center.
+. De-energize the topping-tool.
+
+To: Energize the topping-tool. 
+. (Each tool has a shaft to operate chopper/slicer/grater.)
+. (The prep robot`s grabber engages the shaft when it grabs the tool.)
+. Energize power-take-off-shaft motor in the grabber with the torque required by the topping-tool.
+===
+Comment:
+. How does the topping-tool get loaded? 
+. How and when does it get cleaned? (probably part of loading)
+===
+Role: Prep.
+
+Action: Load all topping tools. (Invoked by kitchen-start-up ?)
+. For each topping-tool on tool-shelf:
+. . Load the topping-tool with its intended-topping.
+
+To: Load the topping-tool with its intended-topping.
+. (This private action may use subtypes to handle-special cases.)
+. TBD.
+
+To: Load the green-pepper-tool with green-pepper.
+. Chef: Please load the green-pepper-tool with chopped green-pepper.
+
+To: Load the sweet-red-pepper-tool with green-pepper.
+. Chef: Please load the sweet-red-pepper-tool with chopped sweet-red-pepper.
+
+===
+Role: Chef.
+
+Action: Please load the green-pepper-tool with chopped green-pepper.
+. Get whole-green-pepper from refrigerator.
+. Cut the whole-green-pepper into quarters given quarter-peppers.
+. For each quarter of the quarter-peppers:
+. . Remove the seeds from the green-pepper hull.
+. . Slice the hull giving green-pepper-hull-slices.
+. . For each slice of green-pepper-hull-slices:
+. . Chop the green-pepper-hull-slice giving chopped-green-pepper.
+. Load chopped-green-pepper into green-pepper-tool.
+
+To: Load ingredient into topping-tool.
+. TBD.
+
+===
+Comment: The coffee-shop was easier to automate.
+. The coffee-tools are somewhat simpler to operate and maintain.
+. The coffee-shop products have fewer ingredients.
+===
+
+
+
+
+
